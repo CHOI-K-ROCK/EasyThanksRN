@@ -1,14 +1,17 @@
 import React from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-import { Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, ViewStyle } from 'react-native';
+import PushAnimatedPressable from '../common/PushAnimatedPressable';
+
 import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
+
+import { useNavigation } from '@react-navigation/native';
 
 type Props = {
     containerStyle?: ViewStyle;
 };
 
-const MainTabComposeThanksButton = (props: Props) => {
+const MainTabComposeButton = (props: Props) => {
     const navigation = useNavigation<RootStackNavigationProps>();
 
     const { containerStyle } = props;
@@ -18,10 +21,29 @@ const MainTabComposeThanksButton = (props: Props) => {
     };
 
     return (
-        <TouchableOpacity style={containerStyle} onPress={openComposeThanks}>
-            <Text>Add</Text>
-        </TouchableOpacity>
+        <PushAnimatedPressable
+            style={[
+                {
+                    backgroundColor: '#fcdb93',
+                },
+                styles.container,
+                containerStyle,
+            ]}
+            onPress={openComposeThanks}
+        >
+            <Text>작성하기</Text>
+        </PushAnimatedPressable>
     );
 };
 
-export default MainTabComposeThanksButton;
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 80,
+        aspectRatio: 1,
+        borderRadius: 999,
+    },
+});
+
+export default MainTabComposeButton;

@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 import PastThanksScreen from '../screens/PastThanksScreen';
 import ComposeThanksStack from './ComposeThanksStack';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainTabComposeButton from '../components/MainTab/MainTabComposeButton';
 
 const Tab = createBottomTabNavigator();
@@ -17,14 +17,25 @@ const ComposeThanks = () => {
 };
 
 const renderCustomButton = () => {
-    return <MainTabComposeButton containerStyle={{ marginBottom: 20 }} />;
+    return <MainTabComposeButton containerStyle={{ top: -30 }} />;
 };
 
 const MainTab = () => {
     return (
         <Tab.Navigator
             initialRouteName="WelcomeScreen"
-            screenOptions={{ headerShown: false, tabBarStyle: { height: 80 } }}
+            screenOptions={{
+                headerShown: false,
+                tabBarStyle: {
+                    height: 90,
+                    bottom: 25,
+                    left: 25,
+                    right: 25,
+                    position: 'absolute',
+                    borderRadius: 15,
+                    elevation: 0,
+                },
+            }}
         >
             <Tab.Screen component={WelcomeScreen} name="WelcomeScreen" />
             <Tab.Screen
