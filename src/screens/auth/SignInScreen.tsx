@@ -1,15 +1,14 @@
 import React from 'react';
-
 import { View, Text, StyleSheet } from 'react-native';
 
-const WriteThanksScreen = () => {
+const SignInScreen = () => {
     return (
         <View>
-            <Text>WriteThanksScreen</Text>
+            <Text>SignInScreen</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({});
 
-export default WriteThanksScreen;
+export default SignInScreen;

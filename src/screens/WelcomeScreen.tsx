@@ -1,45 +1,22 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput } from 'react-native';
-import Title from '../components/Title';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import useSomething from '../hooks/useSomething';
-import { useAtom } from 'jotai';
-import { testAtom } from '../state/sample';
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { Text } from 'react-native';
+import { RootStackNavigationProps } from '../@types/navigations/rootStack';
+import SafeAreaView from '../components/common/SafeAreaView';
+
+export { useAtom } from 'jotai';
 
 const WelcomeScreen = () => {
-    const [something] = useSomething();
-    const [testAtomValue, setTestAtom] = useAtom(testAtom);
-    const [inputValue, setInputValue] = useState<string>('');
+    const navigation = useNavigation<RootStackNavigationProps>();
 
-    console.log('hook value =', something);
-
+    const onPress = () => {
+        navigation.navigate('ComposeThanksStack');
+    };
     return (
-        <SafeAreaView style={styles.safeAreaViewStyle}>
-            <View style={styles.container}>
-                <Title>WelcomeScreen</Title>
-                <Text>{testAtomValue}</Text>
-                <TextInput
-                    style={{
-                        backgroundColor: '#DDD',
-                        width: '70%',
-                        height: 40,
-                    }}
-                    onChangeText={e => setTestAtom(e)}
-                />
-            </View>
+        <SafeAreaView>
+            <Text onPress={onPress}>welcome screen</Text>
         </SafeAreaView>
     );
 };
-
-const styles = StyleSheet.create({
-    safeAreaViewStyle: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 export default WelcomeScreen;

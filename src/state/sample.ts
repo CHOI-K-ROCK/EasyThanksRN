@@ -1,3 +1,3 @@
 import { atom } from 'jotai';
 
-export const testAtom = atom<string | null>('');
+export const testAtom = atom<string[]>([]);

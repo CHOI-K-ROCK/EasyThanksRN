@@ -1,15 +1,14 @@
 import React from 'react';
-
 import { View, Text, StyleSheet } from 'react-native';
 
-const PastThanksScreen = () => {
+const LoginScreen = () => {
     return (
-        <View style={StyleSheet.absoluteFill}>
-            <Text>PastThanksScreen</Text>
+        <View>
+            <Text>LoginScreen</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({});
 
-export default PastThanksScreen;
+export default LoginScreen;
