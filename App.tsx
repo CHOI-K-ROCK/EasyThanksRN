@@ -1,25 +1,21 @@
 import React from 'react';
 
-import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as JotaiProvider } from 'jotai';
 
 import RootStack from './src/navigation/RootStack';
+import useCustomTheme from './src/hooks/useCustomTheme';
 
 function App(): React.JSX.Element {
-    const isDarkMode = useColorScheme() === 'dark';
-
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? '#000' : '#FFF',
-    };
+    const { isDark } = useCustomTheme();
 
     return (
         <JotaiProvider>
             <NavigationContainer>
-                {/* <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={backgroundStyle.backgroundColor}
-            /> */}
+                <StatusBar
+                    barStyle={isDark ? 'light-content' : 'dark-content'}
+                />
                 <RootStack />
             </NavigationContainer>
         </JotaiProvider>

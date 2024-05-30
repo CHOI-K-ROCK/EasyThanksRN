@@ -1,12 +1,24 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+
 import { SafeAreaView as RNSafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaViewProps } from 'react-native-safe-area-context';
 
-type Props = { children: ReactNode };
+import useCustomTheme from '../../hooks/useCustomTheme';
 
-const SafeAreaView = (props: Props) => {
-    const { children } = props;
+const SafeAreaView = (props: SafeAreaViewProps) => {
+    const { style, ...restProps } = props;
+    const { colors } = useCustomTheme();
 
-    return <RNSafeAreaView style={styles.safeAreaView} children={children} />;
+    return (
+        <RNSafeAreaView
+            style={[
+                { backgroundColor: colors.background },
+                styles.safeAreaView,
+                style,
+            ]}
+            {...restProps}
+        />
+    );
 };
 
 const styles = StyleSheet.create({

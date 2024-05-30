@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+
 import { GestureResponderEvent, Pressable, PressableProps } from 'react-native';
 import Animated, {
     useAnimatedStyle,

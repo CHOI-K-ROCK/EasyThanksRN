@@ -1,20 +1,39 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { RootStackNavigationProps } from '../@types/navigations/rootStack';
 import SafeAreaView from '../components/common/SafeAreaView';
+import useCustomTheme from '../hooks/useCustomTheme';
 
 export { useAtom } from 'jotai';
 
 const WelcomeScreen = () => {
     const navigation = useNavigation<RootStackNavigationProps>();
+    const { colors } = useCustomTheme();
 
     const onPress = () => {
         navigation.navigate('ComposeThanksStack');
     };
     return (
         <SafeAreaView>
-            <Text onPress={onPress}>welcome screen</Text>
+            <View
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: 24,
+                        fontWeight: 500,
+                        color: colors.text,
+                    }}
+                    onPress={onPress}
+                >
+                    welcome screen
+                </Text>
+            </View>
         </SafeAreaView>
     );
 };
