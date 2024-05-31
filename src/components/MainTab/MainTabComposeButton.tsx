@@ -1,37 +1,33 @@
 import React from 'react';
 
-import { StyleSheet, Text, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import PushAnimatedPressable from '../common/PushAnimatedPressable';
 
-import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
-
-import { useNavigation } from '@react-navigation/native';
+import useCustomTheme from '../../hooks/useCustomTheme';
+import VectorIcon from '../common/VectorIcon';
 
 type Props = {
     containerStyle?: ViewStyle;
+    onPress: () => void;
 };
 
 const MainTabComposeButton = (props: Props) => {
-    const navigation = useNavigation<RootStackNavigationProps>();
+    const { colors } = useCustomTheme();
 
-    const { containerStyle } = props;
-
-    const openComposeThanks = () => {
-        navigation.navigate('ComposeThanksStack');
-    };
+    const { containerStyle, onPress } = props;
 
     return (
         <PushAnimatedPressable
             style={[
                 {
-                    backgroundColor: '#fcdb93',
+                    backgroundColor: colors.mainColor,
                 },
                 styles.container,
                 containerStyle,
             ]}
-            onPress={openComposeThanks}
+            onPress={onPress}
         >
-            <Text>작성하기</Text>
+            <VectorIcon name={'pencil'} color={'#FFF'} size={30} />
         </PushAnimatedPressable>
     );
 };

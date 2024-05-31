@@ -1,11 +1,12 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Text, View } from 'react-native';
-import { RootStackNavigationProps } from '../@types/navigations/rootStack';
-import SafeAreaView from '../components/common/SafeAreaView';
-import useCustomTheme from '../hooks/useCustomTheme';
 
-export { useAtom } from 'jotai';
+import { Text, View } from 'react-native';
+import SafeAreaView from '../components/common/SafeAreaView';
+
+import { RootStackNavigationProps } from '../@types/navigations/rootStack';
+
+import { useNavigation } from '@react-navigation/native';
+import useCustomTheme from '../hooks/useCustomTheme';
 
 const WelcomeScreen = () => {
     const navigation = useNavigation<RootStackNavigationProps>();
