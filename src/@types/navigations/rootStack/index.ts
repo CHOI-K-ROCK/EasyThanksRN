@@ -1,18 +1,14 @@
-import {
-    NavigationProp,
-    NavigatorScreenParams,
-    RouteProp,
-} from '@react-navigation/native';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 
 // Root
 export type RootStackParamList = {
     MainTab: undefined;
-    ComposeThanksStack: undefined;
+    ComposeStack: undefined;
 };
 
 export type MainTabParamList = {
     WelcomeScreen: undefined;
-    PastThanksScreen: undefined;
+    PostArchiveScreen: undefined;
 };
 
 export type RootStackNavigationProps = NavigationProp<RootStackParamList>;
@@ -23,16 +19,16 @@ export type MainTabNavigationProps = NavigationProp<
 >;
 
 // Compose
-export type ComposeThanksStackParamList = {
-    ComposeThanksScreen: undefined;
+export type ComposeStackParamList = {
+    ComposeScreen: undefined;
     // EditLocationScreen: undefined; // 추후 추가
 };
 
-export type ComposeThanksScreenNavigationProps = NavigationProp<
-    ComposeThanksStackParamList,
-    'ComposeThanksScreen'
+export type ComposeScreenNavigationProps = NavigationProp<
+    ComposeStackParamList,
+    'ComposeScreen'
 >;
-export type ComposeThanksScreenRouteProps = RouteProp<
-    ComposeThanksStackParamList,
-    'ComposeThanksScreen'
+export type ComposeScreenRouteProps = RouteProp<
+    ComposeStackParamList,
+    'ComposeScreen'
 >;

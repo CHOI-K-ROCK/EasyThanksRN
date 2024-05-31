@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MainTabComposeButton;
+export default React.memo(MainTabComposeButton);

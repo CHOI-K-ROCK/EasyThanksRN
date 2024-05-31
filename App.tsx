@@ -6,9 +6,11 @@ import { Provider as JotaiProvider } from 'jotai';
 
 import RootStack from './src/navigation/RootStack';
 import useCustomTheme from './src/hooks/useCustomTheme';
+import AuthStack from './src/navigation/AuthStack';
 
 function App(): React.JSX.Element {
     const { isDark } = useCustomTheme();
+    const isLoggedIn = true;
 
     return (
         <JotaiProvider>
@@ -16,7 +18,7 @@ function App(): React.JSX.Element {
                 <StatusBar
                     barStyle={isDark ? 'light-content' : 'dark-content'}
                 />
-                <RootStack />
+                {isLoggedIn ? <RootStack /> : <AuthStack />}
             </NavigationContainer>
         </JotaiProvider>
     );

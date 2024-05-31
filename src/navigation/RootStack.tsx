@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import MainTabComposeButton from '../components/MainTab/MainTabComposeButton';
 import MainTabBarButton from '../components/MainTab/MainTabBarButton';
@@ -9,14 +9,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import useCustomTheme from '../hooks/useCustomTheme';
 
-import WelcomeScreen from '../screens/WelcomeScreen';
-import PastThanksScreen from '../screens/PastThanksScreen';
-import ComposeThanksStack from './ComposeThanksStack';
+import MainScreen from '../screens/MainScreen';
+import PostArchiveScreen from '../screens/PostArchiveScreen';
+import ComposeStack from './ComposeStack';
+
+import { commonStyles } from '../style';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const ComposeThanks = () => {
+const Compose = () => {
     // 커스텀 버튼을 위한 임시 컴포넌트
     return null;
 };
@@ -26,7 +28,7 @@ const MainTab = () => {
 
     return (
         <Tab.Navigator
-            initialRouteName="WelcomeScreen"
+            initialRouteName="MainScreen"
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
@@ -35,6 +37,7 @@ const MainTab = () => {
                         backgroundColor: colors.tabBarBackground,
                     },
                     styles.mainTab,
+                    commonStyles.dropShadow,
                 ],
             }}
         >
@@ -43,36 +46,34 @@ const MainTab = () => {
             {/* options 의 navigation 객체를 사용하여 onPress 이벤트로 전달하여 해결. */}
 
             <Tab.Screen
-                component={WelcomeScreen}
-                name="WelcomeScreen"
+                component={MainScreen}
+                name="MainScreen"
                 options={({ navigation }) => ({
                     tabBarIcon: ({ focused }) => (
                         <MainTabBarButton
                             tabName="메인화면"
                             iconName="home"
                             isActive={focused}
-                            onPress={() => navigation.navigate('WelcomeScreen')}
+                            onPress={() => navigation.navigate('MainScreen')}
                         />
                     ),
                 })}
             />
             <Tab.Screen
-                component={ComposeThanks}
-                name="ComposeThanks"
+                component={Compose}
+                name="Compose"
                 options={({ navigation }) => ({
                     tabBarIcon: () => (
                         <MainTabComposeButton
-                            onPress={() =>
-                                navigation.navigate('ComposeThanksStack')
-                            }
+                            onPress={() => navigation.navigate('ComposeStack')}
                             containerStyle={{ top: -20 }}
                         />
                     ),
                 })}
             />
             <Tab.Screen
-                component={PastThanksScreen}
-                name="PastThanksScreen"
+                component={PostArchiveScreen}
+                name="PostArchiveScreen"
                 options={({ navigation }) => ({
                     tabBarIcon: ({ focused }) => (
                         <MainTabBarButton
@@ -80,7 +81,7 @@ const MainTab = () => {
                             iconName="book"
                             isActive={focused}
                             onPress={() =>
-                                navigation.navigate('PastThanksScreen')
+                                navigation.navigate('PostArchiveScreen')
                             }
                         />
                     ),
@@ -96,13 +97,11 @@ const RootStack = () => {
             <Stack.Screen component={MainTab} name="MainTab" />
             <Stack.Group
                 screenOptions={{
-                    presentation: 'modal',
+                    presentation: 'fullScreenModal',
+                    animation: 'slide_from_bottom',
                 }}
             >
-                <Stack.Screen
-                    component={ComposeThanksStack}
-                    name="ComposeThanksStack"
-                />
+                <Stack.Screen component={ComposeStack} name="ComposeStack" />
             </Stack.Group>
         </Stack.Navigator>
     );
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     mainTab: {
         height: 80,
         position: 'absolute',
-        bottom: 25,
+        bottom: Platform.select({ ios: 35, android: 25 }),
         left: 20,
         right: 20,
         borderRadius: 15,

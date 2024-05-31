@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+
+import { StyleSheet } from 'react-native';
+
+import SafeAreaView from '../../components/common/SafeAreaView';
+import TempScreen from '../../components/common/TempScreen';
 
 const LoginScreen = () => {
     return (
-        <View>
-            <Text>LoginScreen</Text>
-        </View>
+        <SafeAreaView>
+            <TempScreen title="LoginScreen" />
+        </SafeAreaView>
     );
 };
 

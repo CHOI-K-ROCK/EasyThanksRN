@@ -1,5 +1,5 @@
 const commonTheme = {
-    mainColor: '#A1887F',
+    mainColor: '#D2B48C',
 };
 
 const darkTheme = {
@@ -7,7 +7,7 @@ const darkTheme = {
     text: '#FFFFFF',
     background: '#2E2E2E',
     tabBarBackground: '#383838',
-    tabBarIconActive: '#A1887F',
+    tabBarIconActive: '#D2B48C',
     tabBarIconInactive: '#B0B0B0',
 };
 
@@ -16,7 +16,7 @@ const lightTheme = {
     text: '#000000',
     background: '#FFFFFF',
     tabBarBackground: '#F8F8F8',
-    tabBarIconActive: '#A1887F',
+    tabBarIconActive: '#D2B48C',
     tabBarIconInactive: '#C4C4C4',
 };
 
