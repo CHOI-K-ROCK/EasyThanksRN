@@ -13,9 +13,6 @@ const MainScreen = () => {
     const navigation = useNavigation<RootStackNavigationProps>();
     const { colors } = useCustomTheme();
 
-    const onPress = () => {
-        navigation.navigate('ComposeStack');
-    };
     return (
         <SafeAreaView>
             <TempScreen title="MainScreen" />

@@ -7,7 +7,7 @@ export type RootStackParamList = {
 };
 
 export type MainTabParamList = {
-    WelcomeScreen: undefined;
+    MainScreen: undefined;
     PostArchiveScreen: undefined;
 };
 
