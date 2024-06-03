@@ -7,6 +7,9 @@ import { commonStyles } from '../../style';
 
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
+import { convertDateToString } from '../../utils/date';
+import { getRandomString } from '../../utils/string';
+import { emojiSet } from '../../constant/string';
 
 type Props = {
     leftComponent?: () => React.ReactNode;
@@ -34,9 +37,12 @@ const MainNavigationBar = (props: Props) => {
             <View style={{ flex: 1 }}>
                 <View style={styles.nicknameContainer}>
                     <CustomText style={styles.nickname}>KROCK</CustomText>
-                    <CustomText style={styles.sir}>님 어서오세요! 😀</CustomText>
+                    <View style={styles.welcomeWrapper}>
+                        <CustomText style={styles.welcome}>{'님 어서오세요!'}</CustomText>
+                        <CustomText style={styles.emoji}>{getRandomString(emojiSet)}</CustomText>
+                    </View>
                 </View>
-                <CustomText style={styles.currentDate}>2024. 06. 01</CustomText>
+                <CustomText style={styles.currentDate}>{convertDateToString(new Date())}</CustomText>
             </View>
 
             {leftComponent && leftComponent()}
@@ -59,8 +65,15 @@ const styles = StyleSheet.create({
         fontSize: 26,
         fontWeight: 600,
     },
-    sir: {
+    welcomeWrapper: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
+    },
+    welcome: {
         fontSize: 16,
+        marginLeft: 5,
+    },
+    emoji: {
         marginLeft: 5,
     },
     currentDate: {

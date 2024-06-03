@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import SafeAreaView from '../../components/common/SafeAreaView';
 import TempScreen from '../../components/common/TempScreen';
 import MainNavigationBar from '../../components/main/MainNavigationBar';
@@ -10,6 +10,7 @@ import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
+import { getRandomString } from '../../utils/string';
 
 const MainScreen = () => {
     const navigation = useNavigation<RootStackNavigationProps>();
@@ -33,9 +34,9 @@ const MainScreen = () => {
     return (
         <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>
             <MainNavigationBar leftComponent={renderNavigationLeftComponent} />
-            <ScrollView>
-                <TempScreen title="MainScreen" />
-            </ScrollView>
+            {/* <ScrollView> */}
+            <TempScreen title="MainScreen" />
+            {/* </ScrollView> */}
         </SafeAreaView>
     );
 };
