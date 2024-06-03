@@ -13,7 +13,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const PushAnimatedPressable = (props: Props) => {
     const {
         children,
-        duration = 150,
+        duration = 100,
         scale = 0.95,
         style,
         onPressIn,

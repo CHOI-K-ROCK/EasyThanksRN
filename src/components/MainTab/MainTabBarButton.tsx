@@ -5,7 +5,7 @@ import CustomText from '../common/CustomText';
 import VectorIcon, { iconProviderType } from '../common/VectorIcon';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
-import useDimesions from '../../hooks/useDimesions';
+import useDimensions from '../../hooks/useDimensions';
 import PushAnimatedPressable from '../common/PushAnimatedPressable';
 
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
 
 const MainTabBarButton = (props: Props) => {
     const { colors } = useCustomTheme();
-    const { wp } = useDimesions();
+    const { wp } = useDimensions();
 
     const {
         tabName,
@@ -49,6 +49,7 @@ const MainTabBarButton = (props: Props) => {
         <PushAnimatedPressable
             onPress={onPress}
             style={[styles.container, containerStyle]}
+            scale={0.97}
         >
             <VectorIcon
                 name={iconName}
