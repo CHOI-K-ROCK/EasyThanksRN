@@ -3,7 +3,10 @@ import { darkTheme, lightTheme } from '../constant/colors';
 import { useMemo } from 'react';
 
 type appThemeType = 'light' | 'dark' | 'device';
-
+/**
+ * @returns colors - 현재 테마의 색상 정보
+ * @returns isDark - 현재 다크 테마 여부
+ */
 const useCustomTheme = () => {
     // 디바이스 설정값
     const colorScheme = useColorScheme();
