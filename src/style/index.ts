@@ -4,9 +4,9 @@ export const commonStyles = StyleSheet.create({
     dropShadow: {
         ...Platform.select({
             ios: {
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2.5 },
-                shadowOpacity: 0.2,
+                shadowColor: '#000000',
+                shadowOffset: { width: 0, height: 4.5 },
+                shadowOpacity: 0.1,
                 shadowRadius: 3,
             },
             android: {

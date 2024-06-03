@@ -8,18 +8,18 @@ import { convertFontWeightToFontFamily } from '../../utils/fonts';
 type Props = TextProps;
 
 export type FontWeightType =
-    "normal" |
-    "bold" |
-    "100" |
-    "200" |
-    "300" |
-    "400" |
-    "500" |
-    "600" |
-    "700" |
-    "800" |
-    "900" |
-    undefined;
+    | 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '700'
+    | '800'
+    | '900'
+    | undefined;
 
 const CustomText = (props: Props) => {
     const { children, style, ...restProps } = props;
@@ -27,11 +27,14 @@ const CustomText = (props: Props) => {
 
     const flattenedStyle = StyleSheet.flatten(style) || {};
     const fontWeight = flattenedStyle.fontWeight as FontWeightType;
-    const fontFamilyForAndroid = useMemo(() => convertFontWeightToFontFamily(fontWeight), [fontWeight]);
+    const fontFamilyForAndroid = useMemo(
+        () => convertFontWeightToFontFamily(fontWeight),
+        [fontWeight]
+    );
 
     const fontStyleByOS = Platform.select({
-        ios: { fontFamily : "Pretendard", fontWeight },
-        android: { fontFamily: fontFamilyForAndroid }
+        ios: { fontFamily: 'Pretendard', fontWeight },
+        android: { fontFamily: fontFamilyForAndroid },
     });
 
     return (
@@ -41,7 +44,7 @@ const CustomText = (props: Props) => {
                     color: colors.text,
                 },
                 fontStyleByOS,
-                style
+                style,
             ]}
             {...restProps}
         >

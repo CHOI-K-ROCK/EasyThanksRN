@@ -4,7 +4,7 @@ module.exports = {
     plugins: ['react', '@typescript-eslint', 'prettier'],
     rules: {
         '@typescript-eslint/no-unused-vars': 'warn',
-        'prettier/prettier': ['warn', { printWidth: 'off' }],
+        'prettier/prettier': ['warn'],
         'react-native/no-inline-styles': 'off',
         'react/no-unstable-nested-components': 'off',
     },

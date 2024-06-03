@@ -1,34 +1,18 @@
-import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { NavigationProp, NavigatorScreenParams, RouteProp } from '@react-navigation/native';
+import { AppMenuStackParamList } from '../appMenuStack';
 
 // Root
 export type RootStackParamList = {
     MainTab: undefined;
     ComposeStack: undefined;
+    AppMenuStack: NavigatorScreenParams<AppMenuStackParamList>;
 };
 
 export type MainTabParamList = {
     MainScreen: undefined;
-    PostArchiveScreen: undefined;
+    PostScreen: undefined;
 };
 
 export type RootStackNavigationProps = NavigationProp<RootStackParamList>;
 
-export type MainTabNavigationProps = NavigationProp<
-    RootStackParamList,
-    'MainTab'
->;
-
-// Compose
-export type ComposeStackParamList = {
-    ComposeScreen: undefined;
-    // EditLocationScreen: undefined; // 추후 추가
-};
-
-export type ComposeScreenNavigationProps = NavigationProp<
-    ComposeStackParamList,
-    'ComposeScreen'
->;
-export type ComposeScreenRouteProps = RouteProp<
-    ComposeStackParamList,
-    'ComposeScreen'
->;
+export type MainTabNavigationProps = NavigationProp<RootStackParamList, 'MainTab'>;

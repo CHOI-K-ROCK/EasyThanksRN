@@ -1,16 +1,14 @@
 import React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-    BottomTabBarProps,
-    createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
+import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import MainTabBar from '../components/MainTab/MainTabBar';
+import MainTabBar from '../components/main/MainTabBar';
 
-import MainScreen from '../screens/MainScreen';
-import PostArchiveScreen from '../screens/PostArchiveScreen';
+import MainScreen from '../screens/main/MainScreen';
+import PostScreen from '../screens/post/PostScreen';
 import ComposeStack from './ComposeStack';
+import AppMenuStack from './AppMenuStack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,10 +28,7 @@ const MainTab = () => {
             tabBar={renderMainTabBar}
         >
             <Tab.Screen component={MainScreen} name="MainScreen" />
-            <Tab.Screen
-                component={PostArchiveScreen}
-                name="PostArchiveScreen"
-            />
+            <Tab.Screen component={PostScreen} name="PostScreen" />
         </Tab.Navigator>
     );
 };
@@ -41,15 +36,21 @@ const MainTab = () => {
 const RootStack = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {/* Main Tab */}
             <Stack.Screen component={MainTab} name="MainTab" />
-            <Stack.Group
-                screenOptions={{
+
+            {/* Compose */}
+            <Stack.Screen
+                component={ComposeStack}
+                name="ComposeStack"
+                options={{
                     presentation: 'fullScreenModal',
                     animation: 'slide_from_bottom',
                 }}
-            >
-                <Stack.Screen component={ComposeStack} name="ComposeStack" />
-            </Stack.Group>
+            />
+
+            {/* AppMenu */}
+            <Stack.Screen component={AppMenuStack} name="AppMenuStack" />
         </Stack.Navigator>
     );
 };

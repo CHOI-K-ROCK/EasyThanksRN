@@ -3,7 +3,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 
 import { commonStyles } from '../../style';
 import MainTabBarButton from './MainTabBarButton';
-import MainTabComposeButton from './MainTabComposeButton';
+import MainTabBarComposeButton from './MainTabBarComposeButton';
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
@@ -16,20 +16,14 @@ const MainTabBar = (props: BottomTabBarProps) => {
     const { index } = state;
 
     return (
-        <View
-            style={[
-                { backgroundColor: colors.tabBarBackground },
-                styles.mainTab,
-                commonStyles.dropShadow,
-            ]}
-        >
+        <View style={[{ backgroundColor: colors.tabBarBackground }, styles.mainTab, commonStyles.dropShadow]}>
             <MainTabBarButton
                 tabName="메인화면"
                 iconName="home"
                 isActive={index === 0}
                 onPress={() => navigation.navigate('MainScreen')}
             />
-            <MainTabComposeButton
+            <MainTabBarComposeButton
                 containerStyle={styles.composeButton}
                 onPress={() => navigation.navigate('ComposeStack')}
             />
@@ -37,7 +31,7 @@ const MainTabBar = (props: BottomTabBarProps) => {
                 tabName="지난감사"
                 iconName="book"
                 isActive={index === 1}
-                onPress={() => navigation.navigate('PostArchiveScreen')}
+                onPress={() => navigation.navigate('PostScreen')}
             />
         </View>
     );

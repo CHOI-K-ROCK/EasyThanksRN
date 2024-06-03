@@ -11,7 +11,7 @@ type Props = {
     onPress: () => void;
 };
 
-const MainTabComposeButton = (props: Props) => {
+const MainTabBarComposeButton = (props: Props) => {
     const { colors } = useCustomTheme();
 
     const { containerStyle, onPress } = props;
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default React.memo(MainTabComposeButton);
+export default React.memo(MainTabBarComposeButton);

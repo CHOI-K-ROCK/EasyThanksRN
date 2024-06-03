@@ -9,7 +9,7 @@ import useCustomTheme from './src/hooks/useCustomTheme';
 import AuthStack from './src/navigation/AuthStack';
 
 function App(): React.JSX.Element {
-    const { isDark } = useCustomTheme();
+    const { colors, isDark } = useCustomTheme();
     const isLoggedIn = true;
 
     return (
@@ -17,6 +17,7 @@ function App(): React.JSX.Element {
             <NavigationContainer>
                 <StatusBar
                     barStyle={isDark ? 'light-content' : 'dark-content'}
+                    backgroundColor={colors.tabBarBackground}
                 />
                 {isLoggedIn ? <RootStack /> : <AuthStack />}
             </NavigationContainer>

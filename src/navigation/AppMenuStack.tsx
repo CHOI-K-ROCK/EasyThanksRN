@@ -13,28 +13,16 @@ const Stack = createNativeStackNavigator();
 const AppMenuStack = () => {
     return (
         <Stack.Navigator
-            initialRouteName="LoginScreen"
+            initialRouteName="AppMenuScreen"
             screenOptions={{
                 headerShown: false,
             }}
         >
             <Stack.Screen name="AppMenuScreen" component={AppMenuScreen} />
-            <Stack.Screen
-                name="UserProfileScreen"
-                component={UserProfileScreen}
-            />
-            <Stack.Screen
-                name="UserOptOutScreen"
-                component={UserOptOutScreen}
-            />
-            <Stack.Screen
-                name="NotificationScreen"
-                component={NotificationScreen}
-            />
-            <Stack.Screen
-                name="NotificationSettingScreen"
-                component={NotificationSettingScreen}
-            />
+            <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
+            <Stack.Screen name="UserOptOutScreen" component={UserOptOutScreen} />
+            <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+            <Stack.Screen name="NotificationSettingScreen" component={NotificationSettingScreen} />
         </Stack.Navigator>
     );
 };
