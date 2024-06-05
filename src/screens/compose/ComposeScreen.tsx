@@ -5,19 +5,16 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import SafeAreaView from '../../components/common/SafeAreaView';
 
-import {
-    ComposeScreenNavigationProps,
-    ComposeScreenRouteProps,
-} from '../../@types/navigations/rootStack';
+import {} from '../../@types/navigations/rootStack';
 import TempScreen from '../../components/common/TempScreen';
+import { ComposeScreenNavigationProps, ComposeScreenRouteProps } from '../../@types/navigations/composeStack';
 
 const ComposeScreen = () => {
-    const route = useRoute<ComposeScreenRouteProps>();
-    const navigation = useNavigation<ComposeScreenNavigationProps>();
+    const { goBack } = useNavigation<ComposeScreenNavigationProps>();
 
     return (
         <SafeAreaView>
-            <Button title="asdasd" onPress={() => navigation.goBack()} />
+            <Button title="asdasd" onPress={() => goBack()} />
             <TempScreen title={'ComposeScreen'} />
         </SafeAreaView>
     );

@@ -10,32 +10,34 @@ import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
-import { getRandomString } from '../../utils/string';
+import ScreenLayout from '../../components/common/ScreenLayout';
 
 const MainScreen = () => {
-    const navigation = useNavigation<RootStackNavigationProps>();
+    const { navigate } = useNavigation<RootStackNavigationProps>();
 
     const { colors } = useCustomTheme();
 
     const toAppMenu = useCallback(() => {
-        navigation.navigate('AppMenuStack', {
+        navigate('AppMenuStack', {
             screen: 'AppMenuScreen',
         });
-    }, [navigation]);
+    }, [navigate]);
 
-    const renderNavigationLeftComponent = () => {
+    const renderNavigationLeftComponent = useCallback(() => {
         return (
             <TouchableOpacity onPress={toAppMenu}>
                 <VectorIcon name="menu" size={30} color={colors.text} />
             </TouchableOpacity>
         );
-    };
+    }, [colors.text, toAppMenu]);
 
     return (
         <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>
             <MainNavigationBar leftComponent={renderNavigationLeftComponent} />
             {/* <ScrollView> */}
-            <TempScreen title="MainScreen" />
+            <ScreenLayout>
+                <TempScreen title="MainScreen" />
+            </ScreenLayout>
             {/* </ScrollView> */}
         </SafeAreaView>
     );

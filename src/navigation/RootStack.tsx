@@ -7,6 +7,7 @@ import MainTabBar from '../components/main/MainTabBar';
 
 import MainScreen from '../screens/main/MainScreen';
 import PostScreen from '../screens/post/PostScreen';
+
 import ComposeStack from './ComposeStack';
 import AppMenuStack from './AppMenuStack';
 
