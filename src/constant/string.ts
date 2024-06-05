@@ -1,4 +1,4 @@
-export const emojiSet = [
+export const EMOJI_SET = [
     '😊',
     '😄',
     '😁',

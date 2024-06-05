@@ -1,5 +1,5 @@
 import { useColorScheme } from 'react-native';
-import { darkTheme, lightTheme } from '../constant/colors';
+import { DARK_THEME, LIGHT_THEME } from '../constant/colors';
 import { useMemo } from 'react';
 
 type appThemeType = 'light' | 'dark' | 'device';
@@ -21,7 +21,7 @@ const useCustomTheme = () => {
         return appTheme === 'dark' ? true : false;
     }, [colorScheme, appTheme]);
 
-    const colors = useMemo(() => (isDark ? darkTheme : lightTheme), [isDark]);
+    const colors = useMemo(() => (isDark ? DARK_THEME : LIGHT_THEME), [isDark]);
 
     return { colors, isDark };
 };

@@ -14,4 +14,10 @@ export const commonStyles = StyleSheet.create({
             },
         }),
     },
+    paddingHorizontal: {
+        paddingHorizontal: 15,
+    },
+    marginHorizontal: {
+        marginHorizontal: 15,
+    },
 });

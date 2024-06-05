@@ -9,7 +9,7 @@ import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import { convertDateToString } from '../../utils/date';
 import { getRandomString } from '../../utils/string';
-import { emojiSet } from '../../constant/string';
+import { EMOJI_SET } from '../../constant/string';
 
 type Props = {
     leftComponent?: () => React.ReactNode;
@@ -39,7 +39,7 @@ const MainNavigationBar = (props: Props) => {
                     <CustomText style={styles.nickname}>KROCK</CustomText>
                     <View style={styles.welcomeWrapper}>
                         <CustomText style={styles.welcome}>{'님 어서오세요!'}</CustomText>
-                        <CustomText style={styles.emoji}>{getRandomString(emojiSet)}</CustomText>
+                        <CustomText style={styles.emoji}>{getRandomString(EMOJI_SET)}</CustomText>
                     </View>
                 </View>
                 <CustomText style={styles.currentDate}>{convertDateToString(new Date())}</CustomText>

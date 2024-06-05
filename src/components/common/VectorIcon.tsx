@@ -20,8 +20,9 @@ type Props = {
     name: string;
     size?: number;
     color?: ColorValue;
-    continerStyle?: ViewStyle;
     iconProvider?: iconProviderType;
+
+    continerStyle?: ViewStyle;
 };
 
 const VectorIcon = (props: Props) => {

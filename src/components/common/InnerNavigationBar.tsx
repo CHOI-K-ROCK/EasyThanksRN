@@ -1,28 +1,46 @@
 import React from 'react';
+
 import { StyleSheet, View } from 'react-native';
 import CustomText from './CustomText';
+import PushAnimatedPressable from './PushAnimatedPressable';
 import VectorIcon from './VectorIcon';
+
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
-import PushAnimatedPressable from './PushAnimatedPressable';
+import { HORIZONTAL_GAP } from '../../constant/style';
 
 type Props = {
+    screenTitle: string;
     goBack: () => void;
 };
 
 const InnerNavigationBar = (props: Props) => {
-    const { hp } = useDimensions();
+    const { hp, wp } = useDimensions();
     const { colors } = useCustomTheme();
-    const { goBack } = props;
+    const { screenTitle, goBack } = props;
 
     return (
-        <View style={[{ marginBottom: hp(2), backgroundColor: colors.tabBarBackground }, styles.container]}>
-            <PushAnimatedPressable onPress={goBack} style={styles.goBackBtnContainer}>
-                <VectorIcon name={'chevron-left'} size={25} color={colors.text} />
-                <CustomText style={styles.goBackBtnText}>뒤로</CustomText>
-            </PushAnimatedPressable>
+        <View style={{ marginBottom: hp(2) }}>
+            <View style={styles.container}>
+                <PushAnimatedPressable onPress={goBack} style={styles.goBackBtnContainer}>
+                    <VectorIcon name={'chevron-left'} size={20} color={colors.text} />
+                    <CustomText style={styles.goBackBtnText}>뒤로</CustomText>
+                </PushAnimatedPressable>
 
-            <CustomText style={[{ position: 'absolute', left: '50%' }, styles.screenTitle]}>메뉴</CustomText>
+                <View style={[{ width: wp(100) }, styles.screenTitleContainer]} pointerEvents="none">
+                    <CustomText style={styles.screenTitle}>{screenTitle}</CustomText>
+                </View>
+            </View>
+
+            <View
+                style={[
+                    {
+                        backgroundColor: colors.mainColor,
+                        width: wp(100) - HORIZONTAL_GAP * 2,
+                    },
+                    styles.divider,
+                ]}
+            />
         </View>
     );
 };
@@ -42,9 +60,19 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 600,
     },
+    screenTitleContainer: {
+        position: 'absolute',
+    },
     screenTitle: {
         fontSize: 19,
         fontWeight: 600,
+
+        alignItems: 'center',
+        textAlign: 'center',
+    },
+    divider: {
+        height: 1,
+        alignSelf: 'center',
     },
 });
 

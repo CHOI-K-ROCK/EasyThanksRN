@@ -26,7 +26,7 @@ const MainScreen = () => {
     const renderNavigationLeftComponent = useCallback(() => {
         return (
             <TouchableOpacity onPress={toAppMenu}>
-                <VectorIcon name="menu" size={30} color={colors.text} />
+                <VectorIcon name="cog" size={25} color={colors.text} />
             </TouchableOpacity>
         );
     }, [colors.text, toAppMenu]);
@@ -34,11 +34,9 @@ const MainScreen = () => {
     return (
         <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>
             <MainNavigationBar leftComponent={renderNavigationLeftComponent} />
-            {/* <ScrollView> */}
             <ScreenLayout>
                 <TempScreen title="MainScreen" />
             </ScreenLayout>
-            {/* </ScrollView> */}
         </SafeAreaView>
     );
 };

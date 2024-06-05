@@ -1,9 +1,9 @@
-const commonTheme = {
+const COMMON_THEME = {
     mainColor: '#D2B48C',
 };
 
-const darkTheme = {
-    ...commonTheme,
+const DARK_THEME = {
+    ...COMMON_THEME,
     text: '#FFFFFF',
     background: '#2E2E2E',
     tabBarBackground: '#383838',
@@ -11,8 +11,8 @@ const darkTheme = {
     tabBarIconInactive: '#B0B0B0',
 };
 
-const lightTheme = {
-    ...commonTheme,
+const LIGHT_THEME = {
+    ...COMMON_THEME,
     text: '#000000',
     background: '#FFFFFF',
     tabBarBackground: '#F8F8F8',
@@ -20,4 +20,4 @@ const lightTheme = {
     tabBarIconInactive: '#C4C4C4',
 };
 
-export { darkTheme, lightTheme };
+export { DARK_THEME, LIGHT_THEME };
