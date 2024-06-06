@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { ColorValue, View, ViewStyle } from 'react-native';
+import { ColorValue, Platform, StyleSheet, View, ViewStyle } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -7,6 +7,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import useCustomTheme from '../../hooks/useCustomTheme';
 
 export type iconProviderType =
     | 'MaterialCommunityIcons'
@@ -26,9 +27,11 @@ type Props = {
 };
 
 const VectorIcon = (props: Props) => {
+    const { colors } = useCustomTheme();
+
     const {
         name = 'camera',
-        color = '#F00',
+        color = colors.text,
         size = 20,
         iconProvider = 'MaterialCommunityIcons',
         continerStyle,
@@ -55,9 +58,18 @@ const VectorIcon = (props: Props) => {
 
     return (
         <View style={continerStyle}>
-            <Icon name={name} size={size} color={color} />
+            <Icon style={styles.icon} name={name} size={size} color={color} />
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    icon: {
+        marginTop: Platform.select({
+            // 안드로이드 아이콘 위치 보정
+            android: 5,
+        }),
+    },
+});
 
 export default React.memo(VectorIcon);

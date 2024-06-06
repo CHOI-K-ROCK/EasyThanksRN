@@ -16,7 +16,7 @@ const MainTabBar = (props: BottomTabBarProps) => {
     const { index } = state;
 
     return (
-        <View style={[{ backgroundColor: colors.tabBarBackground }, styles.mainTab, commonStyles.dropShadow]}>
+        <View style={[{ backgroundColor: colors.tabBarBackground }, styles.mainTab]}>
             <MainTabBarButton
                 tabName="메인화면"
                 iconName="home"
@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
+
+        ...commonStyles.dropShadow,
     },
     composeButton: { top: -20 },
 });

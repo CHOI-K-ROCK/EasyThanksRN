@@ -5,14 +5,14 @@ import TempScreen from '../../../components/common/TempScreen';
 
 type Props = {};
 
-const UserProfileScreen = (props: Props) => {
+const UserProfileEditScreen = (props: Props) => {
     const {} = props;
 
     return (
         <SafeAreaView>
-            <TempScreen title="UserProfileScreen" />
+            <TempScreen title="UserProfileEditScreen" />
         </SafeAreaView>
     );
 };
 
-export default UserProfileScreen;
+export default UserProfileEditScreen;

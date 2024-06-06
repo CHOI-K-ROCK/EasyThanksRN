@@ -19,6 +19,8 @@ const InnerNavigationBar = (props: Props) => {
     const { colors } = useCustomTheme();
     const { screenTitle, goBack } = props;
 
+    console.log(new Date());
+
     return (
         <View style={{ marginBottom: hp(2) }}>
             <View style={styles.container}>
@@ -27,7 +29,10 @@ const InnerNavigationBar = (props: Props) => {
                     <CustomText style={styles.goBackBtnText}>뒤로</CustomText>
                 </PushAnimatedPressable>
 
-                <View style={[{ width: wp(100) }, styles.screenTitleContainer]} pointerEvents="none">
+                <View
+                    style={[{ width: wp(100) }, styles.screenTitleContainer]}
+                    pointerEvents="none"
+                >
                     <CustomText style={styles.screenTitle}>{screenTitle}</CustomText>
                 </View>
             </View>
@@ -35,7 +40,7 @@ const InnerNavigationBar = (props: Props) => {
             <View
                 style={[
                     {
-                        backgroundColor: colors.mainColor,
+                        backgroundColor: colors.tabBarBackground,
                         width: wp(100) - HORIZONTAL_GAP * 2,
                     },
                     styles.divider,
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     divider: {
-        height: 1,
+        height: 2,
         alignSelf: 'center',
     },
 });

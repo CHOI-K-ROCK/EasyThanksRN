@@ -1,26 +1,36 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
-import useCustomTheme from '../../hooks/useCustomTheme';
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import CustomText from '../common/CustomText';
+import HorizontalDivider from '../common/HorizontalDivider';
 
 type Props = TouchableOpacityProps & { title: string; subtitle: string };
 
 const AppMenuListItem = (props: Props) => {
-    const { colors } = useCustomTheme();
     const { title, subtitle, ...restProps } = props;
 
     return (
-        <TouchableOpacity style={[{ backgroundColor: colors.tabBarBackground }, styles.container]} {...restProps}>
-            <CustomText>{title}</CustomText>
-            <CustomText>{subtitle}</CustomText>
-        </TouchableOpacity>
+        <View>
+            <HorizontalDivider />
+            <TouchableOpacity activeOpacity={0.8} style={[{}, styles.container]} {...restProps}>
+                <CustomText style={styles.title}>{title}</CustomText>
+                <CustomText style={styles.subtitle}>{subtitle}</CustomText>
+            </TouchableOpacity>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+        marginVertical: 12,
+        borderRadius: 10,
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 600,
         marginBottom: 5,
-        borderRadius: 15,
+    },
+    subtitle: {
+        opacity: 0.8,
     },
 });
 

@@ -31,7 +31,6 @@ const MainNavigationBar = (props: Props) => {
                     paddingBottom: hp(1.5),
                 },
                 styles.container,
-                commonStyles.dropShadow,
             ]}
         >
             <View style={{ flex: 1 }}>
@@ -42,7 +41,9 @@ const MainNavigationBar = (props: Props) => {
                         <CustomText style={styles.emoji}>{getRandomString(EMOJI_SET)}</CustomText>
                     </View>
                 </View>
-                <CustomText style={styles.currentDate}>{convertDateToString(new Date())}</CustomText>
+                <CustomText style={styles.currentDate}>
+                    {convertDateToString(new Date())}
+                </CustomText>
             </View>
 
             {leftComponent && leftComponent()}
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
+        ...commonStyles.dropShadow,
     },
     nicknameContainer: {
         flexDirection: 'row',

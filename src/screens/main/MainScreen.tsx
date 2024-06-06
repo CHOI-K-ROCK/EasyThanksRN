@@ -17,19 +17,19 @@ const MainScreen = () => {
 
     const { colors } = useCustomTheme();
 
-    const toAppMenu = useCallback(() => {
+    const toAppMenu = () => {
         navigate('AppMenuStack', {
             screen: 'AppMenuScreen',
         });
-    }, [navigate]);
+    };
 
-    const renderNavigationLeftComponent = useCallback(() => {
+    const renderNavigationLeftComponent = () => {
         return (
             <TouchableOpacity onPress={toAppMenu}>
                 <VectorIcon name="cog" size={25} color={colors.text} />
             </TouchableOpacity>
         );
-    }, [colors.text, toAppMenu]);
+    };
 
     return (
         <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>

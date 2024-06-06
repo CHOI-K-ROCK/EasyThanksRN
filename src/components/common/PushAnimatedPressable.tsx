@@ -1,10 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { GestureResponderEvent, Pressable, PressableProps } from 'react-native';
-import Animated, {
-    useAnimatedStyle,
-    withTiming,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 type Props = PressableProps & { duration?: number; scale?: number };
 
@@ -40,6 +37,9 @@ const PushAnimatedPressable = (props: Props) => {
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
+            opacity: isPressed
+                ? withTiming(0.8, { duration: 50 })
+                : withTiming(1, { duration: 50 }),
             transform: [
                 {
                     scale: isPressed
