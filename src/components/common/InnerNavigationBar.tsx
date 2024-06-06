@@ -19,8 +19,6 @@ const InnerNavigationBar = (props: Props) => {
     const { colors } = useCustomTheme();
     const { screenTitle, goBack } = props;
 
-    console.log(new Date());
-
     return (
         <View style={{ marginBottom: hp(2) }}>
             <View style={styles.container}>

@@ -1,25 +1,26 @@
 import React, { useCallback } from 'react';
 
-import { FlatList, ListRenderItem } from 'react-native';
+import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
 import SafeAreaView from '../../components/common/SafeAreaView';
 import ScreenLayout from '../../components/common/ScreenLayout';
 import InnerNavigationBar from '../../components/common/InnerNavigationBar';
-import UserProfileView from '../../components/appMenu/UserProfileView';
-import AppMenuListItem from '../../components/appMenu/AppMenuListItem';
+import UserProfileView from '../../components/setting/UserProfileView';
+import SettingListItem from '../../components/setting/SettingMenuListItem';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
 import { useNavigation } from '@react-navigation/native';
-import { AppMenuScreenNavigationProps } from '../../@types/navigations/appMenuStack';
+import { SettingScreenNavigationProps } from '../../@types/navigations/settingStack';
 import { DUMMY_PROFILE } from '../../constant/dummy';
+import SettingFooter from '../../components/setting/SettingFooter';
 
-export type AppMenuDataType = {
+export type SettingDataType = {
     title: string;
     subtitle: string;
     onPress: () => void;
 };
 
-const AppMenuScreen = () => {
-    const { navigate, goBack } = useNavigation<AppMenuScreenNavigationProps>();
+const SettingScreen = () => {
+    const { navigate, goBack } = useNavigation<SettingScreenNavigationProps>();
     const { colors } = useCustomTheme();
 
     const handleLogout = () => {
@@ -30,7 +31,11 @@ const AppMenuScreen = () => {
         navigate('UserProfileEditScreen');
     };
 
-    const menus: AppMenuDataType[] = [
+    const onPressOpenSource = () => {
+        navigate('OpenSourceScreen');
+    };
+
+    const menus: SettingDataType[] = [
         {
             title: '알림',
             subtitle: '설정한 감사 알림을 확인 할 수 있습니다.',
@@ -43,8 +48,8 @@ const AppMenuScreen = () => {
         },
     ];
 
-    const renderListItem: ListRenderItem<AppMenuDataType> = useCallback(({ item }) => {
-        return <AppMenuListItem {...item} />;
+    const renderListItem: ListRenderItem<SettingDataType> = useCallback(({ item }) => {
+        return <SettingListItem {...item} />;
     }, []);
 
     return (
@@ -53,18 +58,26 @@ const AppMenuScreen = () => {
             <ScreenLayout>
                 <FlatList
                     data={menus}
+                    renderItem={renderListItem}
+                    keyExtractor={(_, index) => index.toString()}
                     ListHeaderComponent={
                         <UserProfileView
                             userData={DUMMY_PROFILE}
                             onPressEdit={onPressEditUserProfile}
                         />
                     }
-                    renderItem={renderListItem}
-                    keyExtractor={(_, index) => index.toString()}
+                    ListFooterComponent={<SettingFooter onPressOpenSource={onPressOpenSource} />}
+                    ListFooterComponentStyle={styles.footer}
                 />
             </ScreenLayout>
         </SafeAreaView>
     );
 };
 
-export default AppMenuScreen;
+const styles = StyleSheet.create({
+    footer: {
+        marginTop: 30,
+    },
+});
+
+export default SettingScreen;

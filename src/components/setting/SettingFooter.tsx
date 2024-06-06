@@ -1,0 +1,46 @@
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import CustomText from '../common/CustomText';
+import VectorIcon from '../common/VectorIcon';
+
+const SettingFooter = (props: { onPressOpenSource: () => void }) => {
+    const { onPressOpenSource } = props;
+
+    const currentYear = new Date().getFullYear();
+
+    return (
+        <View style={styles.container}>
+            <CustomText style={styles.text}>
+                {`ⓒ ${currentYear}. KROCK All rights reserved.`}
+            </CustomText>
+            {/* 훅으로 앱 정보 가져올 수 있도록 개발 필요 */}
+            <CustomText style={styles.text}>{`ver 0.2.1`}</CustomText>
+
+            <TouchableOpacity
+                onPress={onPressOpenSource}
+                activeOpacity={0.5}
+                style={styles.openSourceContainer}
+            >
+                <CustomText style={styles.text}>{`오픈소스 라이센스`}</CustomText>
+                <VectorIcon name="chevron-right" size={14} />
+            </TouchableOpacity>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        opacity: 0.3,
+        gap: 5,
+    },
+    text: {
+        fontSize: 12,
+        fontWeight: 300,
+    },
+    openSourceContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+});
+
+export default SettingFooter;

@@ -5,7 +5,7 @@ import HorizontalDivider from '../common/HorizontalDivider';
 
 type Props = TouchableOpacityProps & { title: string; subtitle: string };
 
-const AppMenuListItem = (props: Props) => {
+const SettingMenuListItem = (props: Props) => {
     const { title, subtitle, ...restProps } = props;
 
     return (
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default React.memo(AppMenuListItem);
+export default React.memo(SettingMenuListItem);

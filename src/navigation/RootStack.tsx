@@ -9,7 +9,7 @@ import MainScreen from '../screens/main/MainScreen';
 import PostScreen from '../screens/post/PostScreen';
 
 import ComposeStack from './ComposeStack';
-import AppMenuStack from './AppMenuStack';
+import AppMenuStack from './SettingStack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

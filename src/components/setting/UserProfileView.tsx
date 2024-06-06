@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
 
         marginBottom: 10,
         marginTop: 10,
+        borderRadius: 15,
+
+        backgroundColor: '#000',
         ...commonStyles.dropShadow,
     },
     profileImage: {
