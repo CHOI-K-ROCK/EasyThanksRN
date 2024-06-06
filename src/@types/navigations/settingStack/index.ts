@@ -1,4 +1,5 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { OpenSourceDataType } from '../../openSource';
 
 // setting
 export type SettingStackParamList = {
@@ -8,6 +9,7 @@ export type SettingStackParamList = {
     NotificationScreen: undefined;
     NotificationSettingScreen: undefined;
     OpenSourceScreen: undefined;
+    OpenSourceDetailScreen: { data: OpenSourceDataType };
 };
 
 export type SettingScreenNavigationProps = NavigationProp<SettingStackParamList, 'SettingScreen'>;
@@ -51,3 +53,12 @@ export type OpenSourceScreenNavigationProps = NavigationProp<
     'OpenSourceScreen'
 >;
 export type OpenSourceScreenRouteProps = RouteProp<SettingStackParamList, 'OpenSourceScreen'>;
+
+export type OpenSourceDetailScreenNavigationProps = NavigationProp<
+    SettingStackParamList,
+    'OpenSourceDetailScreen'
+>;
+export type OpenSourceDetailScreenRouteProps = RouteProp<
+    SettingStackParamList,
+    'OpenSourceDetailScreen'
+>;

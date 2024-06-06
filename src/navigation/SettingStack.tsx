@@ -8,6 +8,7 @@ import NotificationSettingScreen from '../screens/setting/notification/Notificat
 import UserOptOutScreen from '../screens/setting/user/UserOptOutScreen';
 import UserProfileEditScreen from '../screens/setting/user/UserProfileEditScreen';
 import OpenSourceScreen from '../screens/setting/openSource/OpenSourceScreen';
+import OpenSourceDetailScreen from '../screens/setting/openSource/OpenSourceDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ const SettingStack = () => {
             <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
             <Stack.Screen name="NotificationSettingScreen" component={NotificationSettingScreen} />
             <Stack.Screen name="OpenSourceScreen" component={OpenSourceScreen} />
+            <Stack.Screen name="OpenSourceDetailScreen" component={OpenSourceDetailScreen} />
         </Stack.Navigator>
     );
 };

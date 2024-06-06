@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "license-checker --direct --customPath ./licenses/licensesFormat.json --json > ./licenses/licenses.json"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.20",
@@ -35,6 +36,7 @@
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "license-checker": "^25.0.1",
     "prettier": "2.8.8",
     "react-test-renderer": "18.2.0",
     "typescript": "5.0.4"
