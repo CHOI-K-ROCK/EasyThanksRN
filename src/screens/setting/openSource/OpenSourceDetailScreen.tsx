@@ -13,85 +13,77 @@ import {
 } from '../../../@types/navigations/settingStack';
 import HorizontalDivider from '../../../components/common/HorizontalDivider';
 import { openUrl } from '../../../utils/linking';
+import { HORIZONTAL_GAP } from '../../../constant/style';
 
 const OpenSourceDetailScreen = () => {
     const { goBack } = useNavigation<OpenSourceScreenNavigationProps>();
-    const {
-        params: {
-            data: {
-                name,
-                version,
-                publisher,
-                description,
-                repository,
-                url,
-                email,
-                licenses,
-                licenseText,
-            },
-        },
-    } = useRoute<OpenSourceDetailScreenRouteProps>();
+    const { params } = useRoute<OpenSourceDetailScreenRouteProps>();
+
+    const { name, version, publisher, description, repository, url, email, licenses, licenseText } =
+        params.data;
 
     return (
         <SafeAreaView>
             <InnerNavigationBar goBack={goBack} screenTitle={'오픈소스 세부정보'} />
-            <ScreenLayout>
-                <ScrollView style={styles.container}>
-                    <View>
-                        <CustomText style={styles.name}>{name}</CustomText>
-                        <CustomText style={styles.version}>{'v' + version}</CustomText>
-                        {publisher && <CustomText style={styles.publisher}>{publisher}</CustomText>}
+            <ScrollView style={styles.container}>
+                <View>
+                    {publisher && <CustomText style={styles.publisher}>{publisher}</CustomText>}
+                    <CustomText style={styles.name}>{name}</CustomText>
+                    <CustomText style={styles.version}>{'v' + version}</CustomText>
 
-                        {description && (
-                            <CustomText style={styles.description}>{description}</CustomText>
-                        )}
-                    </View>
-                    <HorizontalDivider style={styles.divider} />
+                    {description && (
+                        <CustomText style={styles.description}>{description}</CustomText>
+                    )}
+                </View>
+                <HorizontalDivider style={styles.divider} />
 
-                    <View style={styles.linksContainer}>
-                        {repository && (
-                            <TouchableOpacity onPress={() => openUrl(repository)}>
-                                <CustomText style={styles.link}>{repository}</CustomText>
-                            </TouchableOpacity>
-                        )}
-                        {url && (
-                            <TouchableOpacity onPress={() => openUrl(url)}>
-                                <CustomText style={styles.link}>{url}</CustomText>
-                            </TouchableOpacity>
-                        )}
-                        {email && (
-                            <TouchableOpacity onPress={() => openUrl('mailto:' + email)}>
-                                <CustomText style={styles.link}>{email}</CustomText>
-                            </TouchableOpacity>
-                        )}
-                    </View>
-                    <HorizontalDivider style={styles.divider} />
+                <View style={styles.linksContainer}>
+                    {repository && (
+                        <TouchableOpacity onPress={() => openUrl(repository)}>
+                            <CustomText style={styles.link}>{repository}</CustomText>
+                        </TouchableOpacity>
+                    )}
+                    {url && (
+                        <TouchableOpacity onPress={() => openUrl(url)}>
+                            <CustomText style={styles.link}>{url}</CustomText>
+                        </TouchableOpacity>
+                    )}
+                    {email && (
+                        <TouchableOpacity onPress={() => openUrl('mailto:' + email)}>
+                            <CustomText style={styles.link}>{email}</CustomText>
+                        </TouchableOpacity>
+                    )}
+                </View>
+                <HorizontalDivider style={styles.divider} />
 
-                    <View>
-                        {licenses && <CustomText style={styles.licenses}>{licenses}</CustomText>}
-                        {licenseText && <CustomText>{licenseText}</CustomText>}
-                    </View>
-                </ScrollView>
-            </ScreenLayout>
+                <View>
+                    {licenses && <CustomText style={styles.licenses}>{licenses}</CustomText>}
+                    {licenseText && <CustomText>{licenseText}</CustomText>}
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        paddingHorizontal: HORIZONTAL_GAP,
+    },
+    publisher: {
+        fontSize: 13,
+        fontWeight: 500,
+        opacity: 0.5,
+        marginBottom: 2,
+    },
     name: {
         fontSize: 18,
         fontWeight: 500,
         marginBottom: 5,
     },
     version: {
-        fontSize: 15,
-        opacity: 0.7,
-    },
-    publisher: {
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: 500,
-        marginTop: 3,
+        opacity: 0.5,
     },
     description: {
         marginTop: 15,

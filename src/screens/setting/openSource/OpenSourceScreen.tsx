@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 
-import { FlatList, ListRenderItem } from 'react-native';
+import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
 import SafeAreaView from '../../../components/common/SafeAreaView';
 import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
-import ScreenLayout from '../../../components/common/ScreenLayout';
 import OpenSourceListItem from '../../../components/setting/openSource/OpenSourceListItem';
 
 import { OpenSourceScreenNavigationProps } from '../../../@types/navigations/settingStack';
@@ -12,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import OPEN_SOURCE_DATA from '../../../../licenses/licenses.json';
 import { OpenSourceDataType } from '../../../@types/openSource';
+import { HORIZONTAL_GAP } from '../../../constant/style';
 
 const OpenSourceScreen = () => {
     const { navigate, goBack } = useNavigation<OpenSourceScreenNavigationProps>();
@@ -29,11 +29,21 @@ const OpenSourceScreen = () => {
     return (
         <SafeAreaView>
             <InnerNavigationBar screenTitle={'오픈소스'} goBack={goBack} />
-            <ScreenLayout>
-                <FlatList initialNumToRender={30} data={openSourceDatas} renderItem={renderItem} />
-            </ScreenLayout>
+            <FlatList
+                data={openSourceDatas}
+                renderItem={renderItem}
+                initialNumToRender={20}
+                style={styles.list}
+            />
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    list: {
+        paddingTop: 10,
+        paddingHorizontal: HORIZONTAL_GAP,
+    },
+});
 
 export default OpenSourceScreen;

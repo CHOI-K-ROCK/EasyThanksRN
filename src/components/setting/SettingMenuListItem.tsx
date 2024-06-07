@@ -11,7 +11,7 @@ const SettingMenuListItem = (props: Props) => {
     return (
         <View>
             <HorizontalDivider />
-            <TouchableOpacity activeOpacity={0.8} style={[{}, styles.container]} {...restProps}>
+            <TouchableOpacity activeOpacity={0.7} style={[{}, styles.container]} {...restProps}>
                 <CustomText style={styles.title}>{title}</CustomText>
                 <CustomText style={styles.subtitle}>{subtitle}</CustomText>
             </TouchableOpacity>

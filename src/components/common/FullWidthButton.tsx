@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { PressableProps, StyleSheet, View, ViewStyle } from 'react-native';
+import { PressableProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import PushAnimatedPressable from './PushAnimatedPressable';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
@@ -8,14 +8,15 @@ import CustomText from './CustomText';
 
 type Props = PressableProps & {
     title: string;
-    iconComponent?: any;
+    iconComponent?: ReactNode;
     iconPosition?: 'left' | 'right';
-    style?: ViewStyle;
+    style?: StyleProp<ViewStyle>;
+    titleStyle?: StyleProp<TextStyle>;
 };
 
 const FullWidthButton = (props: Props) => {
     const { colors } = useCustomTheme();
-    const { title, style, iconComponent, iconPosition = 'right', ...restProps } = props;
+    const { title, iconComponent, iconPosition = 'right', style, titleStyle, ...restProps } = props;
 
     return (
         <PushAnimatedPressable
@@ -30,11 +31,11 @@ const FullWidthButton = (props: Props) => {
             {...restProps}
         >
             {iconComponent && iconPosition === 'left' && (
-                <View style={styles.leftIconContainer}>{iconComponent()}</View>
+                <View style={styles.leftIconContainer}>{iconComponent}</View>
             )}
-            <CustomText style={styles.title}>{title}</CustomText>
+            <CustomText style={[styles.title, titleStyle]}>{title}</CustomText>
             {iconComponent && iconPosition === 'right' && (
-                <View style={styles.rightIconContainer}>{iconComponent()}</View>
+                <View style={styles.rightIconContainer}>{iconComponent}</View>
             )}
         </PushAnimatedPressable>
     );

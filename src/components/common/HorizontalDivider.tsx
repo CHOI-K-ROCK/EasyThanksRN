@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColorValue, DimensionValue, StyleSheet, View, ViewStyle } from 'react-native';
+import { ColorValue, DimensionValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
 
@@ -7,7 +7,7 @@ type Props = {
     color?: ColorValue;
     height?: DimensionValue;
     width?: DimensionValue;
-    style?: ViewStyle;
+    style?: StyleProp<ViewStyle>;
 };
 
 const HorizontalDivider = (props: Props) => {

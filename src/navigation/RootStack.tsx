@@ -9,7 +9,7 @@ import MainScreen from '../screens/main/MainScreen';
 import PostScreen from '../screens/post/PostScreen';
 
 import ComposeStack from './ComposeStack';
-import AppMenuStack from './SettingStack';
+import SettingStack from './SettingStack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -51,7 +51,7 @@ const RootStack = () => {
             />
 
             {/* AppMenu */}
-            <Stack.Screen component={AppMenuStack} name="AppMenuStack" />
+            <Stack.Screen component={SettingStack} name="SettingStack" />
         </Stack.Navigator>
     );
 };

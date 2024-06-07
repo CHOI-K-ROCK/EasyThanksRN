@@ -1,12 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import VectorIcon from '../common/VectorIcon';
 import CustomText from '../common/CustomText';
 import FullWidthButton from '../common/FullWidthButton';
-import VectorIcon from '../common/VectorIcon';
-import { OauthProviderType, UserDataType } from '../../constant/dummy';
-import { commonStyles } from '../../style';
 import UserProfileOauthIcon from './UserProfileOauthIcon';
+import ProfilePicture from '../common/ProfilePicture';
+
+import { OauthProviderType, UserDataType } from '../../constant/dummy';
 
 type Props = { userData: UserDataType; onPressEdit: () => void };
 
@@ -15,17 +16,10 @@ const UserProfileView = (props: Props) => {
 
     const { username, email, profileImage, oauthProvider } = userData;
 
-    const renderEditButtonIcon = useCallback(() => {
-        return <VectorIcon name="pencil" size={15} />;
-    }, []);
-
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
-                <View style={styles.profileImageContainer}>
-                    {/* 프로필 이미지 */}
-                    <Image style={styles.profileImage} source={{ uri: profileImage }} />
-                </View>
+                <ProfilePicture uri={profileImage} style={styles.profileImage} />
                 <View style={styles.nicknameContainer}>
                     {/* 닉네임 */}
                     <UserProfileOauthIcon
@@ -40,35 +34,20 @@ const UserProfileView = (props: Props) => {
             <FullWidthButton
                 title={'프로필 수정'}
                 onPress={onPressEdit}
-                iconComponent={renderEditButtonIcon}
+                iconComponent={<VectorIcon name="pencil" size={15} />}
             />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        marginBottom: 20,
-    },
+    container: {},
     profileContainer: {
         alignItems: 'center',
         marginBottom: 20,
     },
-    profileImageContainer: {
-        width: 100,
-        aspectRatio: 1,
-
-        marginBottom: 10,
-        marginTop: 10,
-        borderRadius: 15,
-
-        backgroundColor: '#000',
-        ...commonStyles.dropShadow,
-    },
     profileImage: {
-        borderRadius: 15,
-        width: '100%',
-        height: '100%',
+        marginBottom: 10,
     },
     nicknameContainer: {
         flexDirection: 'row',

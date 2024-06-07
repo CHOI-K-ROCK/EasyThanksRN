@@ -8,6 +8,7 @@ import VectorIcon from './VectorIcon';
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import { HORIZONTAL_GAP } from '../../constant/style';
+import HorizontalDivider from './HorizontalDivider';
 
 type Props = {
     screenTitle: string;
@@ -20,7 +21,7 @@ const InnerNavigationBar = (props: Props) => {
     const { screenTitle, goBack } = props;
 
     return (
-        <View style={{ marginBottom: hp(2) }}>
+        <View>
             <View style={styles.container}>
                 <PushAnimatedPressable onPress={goBack} style={styles.goBackBtnContainer}>
                     <VectorIcon name={'chevron-left'} size={20} color={colors.text} />
@@ -34,15 +35,11 @@ const InnerNavigationBar = (props: Props) => {
                     <CustomText style={styles.screenTitle}>{screenTitle}</CustomText>
                 </View>
             </View>
-
-            <View
-                style={[
-                    {
-                        backgroundColor: colors.tabBarBackground,
-                        width: wp(100) - HORIZONTAL_GAP * 2,
-                    },
-                    styles.divider,
-                ]}
+            <HorizontalDivider
+                style={[{ opacity: 1 }, styles.divider]}
+                color={colors.tabBarBackground}
+                width={wp(100) - HORIZONTAL_GAP * 2}
+                height={2}
             />
         </View>
     );

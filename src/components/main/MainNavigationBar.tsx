@@ -12,7 +12,7 @@ import { getRandomString } from '../../utils/string';
 import { EMOJI_SET } from '../../constant/string';
 
 type Props = {
-    leftComponent?: () => React.ReactNode;
+    leftComponent?: React.ReactNode;
 };
 
 const MainNavigationBar = (props: Props) => {
@@ -46,7 +46,7 @@ const MainNavigationBar = (props: Props) => {
                 </CustomText>
             </View>
 
-            {leftComponent && leftComponent()}
+            {leftComponent && leftComponent}
         </View>
     );
 };

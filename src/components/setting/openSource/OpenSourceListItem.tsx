@@ -18,7 +18,7 @@ const OpenSourceListItem = (props: Props) => {
 
     return (
         <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={0.7}
             style={styles.container}
             onPress={() => onPress(data)}
         >

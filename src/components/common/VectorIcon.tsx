@@ -1,5 +1,13 @@
 import React, { useCallback } from 'react';
-import { ColorValue, Platform, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+    ColorValue,
+    Platform,
+    StyleSheet,
+    TouchableOpacity,
+    TouchableOpacityProps,
+    View,
+    ViewStyle,
+} from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -17,13 +25,11 @@ export type iconProviderType =
     | 'FontAwesome6'
     | 'Ionicons';
 
-type Props = {
+type Props = TouchableOpacityProps & {
     name: string;
     size?: number;
     color?: ColorValue;
     iconProvider?: iconProviderType;
-
-    continerStyle?: ViewStyle;
 };
 
 const VectorIcon = (props: Props) => {
@@ -34,7 +40,9 @@ const VectorIcon = (props: Props) => {
         color = colors.text,
         size = 20,
         iconProvider = 'MaterialCommunityIcons',
-        continerStyle,
+        onPress,
+        activeOpacity = 0.7,
+        ...restProps
     } = props;
 
     const getIconComponent = useCallback(() => {
@@ -57,9 +65,14 @@ const VectorIcon = (props: Props) => {
     const Icon = getIconComponent();
 
     return (
-        <View style={continerStyle}>
+        <TouchableOpacity
+            onPress={onPress}
+            disabled={!onPress}
+            activeOpacity={activeOpacity}
+            {...restProps}
+        >
             <Icon style={styles.icon} name={name} size={size} color={color} />
-        </View>
+        </TouchableOpacity>
     );
 };
 

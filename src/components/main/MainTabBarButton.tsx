@@ -56,13 +56,15 @@ const MainTabBarButton = (props: Props) => {
                 color={iconColor}
                 size={size}
                 iconProvider={iconProvider}
-                continerStyle={{ marginBottom: wp(1) }}
+                style={{ marginBottom: wp(1) }}
             />
-            <CustomText style={{
-                color: textColor,
-                fontSize: 12,
-                fontWeight: isActive ? 500 : undefined
-            }}>
+            <CustomText
+                style={{
+                    color: textColor,
+                    fontSize: 12,
+                    fontWeight: isActive ? 500 : undefined,
+                }}
+            >
                 {tabName}
             </CustomText>
         </PushAnimatedPressable>

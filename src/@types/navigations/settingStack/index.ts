@@ -1,11 +1,11 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { OpenSourceDataType } from '../../openSource';
+import { UserDataType } from '../../../constant/dummy';
 
 // setting
 export type SettingStackParamList = {
     SettingScreen: undefined;
-    UserProfileEditScreen: undefined;
-    UserOptOutScreen: undefined;
+    UserProfileEditScreen: { userData: UserDataType };
     NotificationScreen: undefined;
     NotificationSettingScreen: undefined;
     OpenSourceScreen: undefined;
@@ -24,12 +24,6 @@ export type UserProfileEditScreenRouteProps = RouteProp<
     SettingStackParamList,
     'UserProfileEditScreen'
 >;
-
-export type UserOptOutScreenNavigationProps = NavigationProp<
-    SettingStackParamList,
-    'UserOptOutScreen'
->;
-export type UserOptOutScreenRouteProps = RouteProp<SettingStackParamList, 'UserOptOutScreen'>;
 
 // notification (푸시알림 설정)
 export type NotificationScreenNavigationProps = NavigationProp<

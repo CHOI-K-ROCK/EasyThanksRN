@@ -3,10 +3,10 @@ import React, { useCallback } from 'react';
 import GoogleIcon from '../../../assets/images/logos/profile_oauth_google.png';
 import NaverIcon from '../../../assets/images/logos/profile_oauth_naver.png';
 import KakaoIcon from '../../../assets/images/logos/profile_oauth_kakao.png';
-import { Image, ImageStyle } from 'react-native';
+import { Image, ImageStyle, StyleProp } from 'react-native';
 import { OauthProviderType } from '../../constant/dummy';
 
-type Props = { provider: OauthProviderType; style: ImageStyle };
+type Props = { provider: OauthProviderType; style: StyleProp<ImageStyle> };
 const UserProfileOauthIcon = (props: Props) => {
     const { provider, style } = props;
 

@@ -2,16 +2,17 @@ import React, { useCallback } from 'react';
 
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
 import SafeAreaView from '../../components/common/SafeAreaView';
-import ScreenLayout from '../../components/common/ScreenLayout';
 import InnerNavigationBar from '../../components/common/InnerNavigationBar';
 import UserProfileView from '../../components/setting/UserProfileView';
 import SettingListItem from '../../components/setting/SettingMenuListItem';
-
-import useCustomTheme from '../../hooks/useCustomTheme';
-import { useNavigation } from '@react-navigation/native';
-import { SettingScreenNavigationProps } from '../../@types/navigations/settingStack';
-import { DUMMY_PROFILE } from '../../constant/dummy';
 import SettingFooter from '../../components/setting/SettingFooter';
+
+import { SettingScreenNavigationProps } from '../../@types/navigations/settingStack';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { DUMMY_PROFILE } from '../../constant/dummy';
+import { HORIZONTAL_GAP } from '../../constant/style';
 
 export type SettingDataType = {
     title: string;
@@ -21,14 +22,13 @@ export type SettingDataType = {
 
 const SettingScreen = () => {
     const { navigate, goBack } = useNavigation<SettingScreenNavigationProps>();
-    const { colors } = useCustomTheme();
 
     const handleLogout = () => {
         console.log('logout logic excute');
     };
 
     const onPressEditUserProfile = () => {
-        navigate('UserProfileEditScreen');
+        navigate('UserProfileEditScreen', { userData: DUMMY_PROFILE });
     };
 
     const onPressOpenSource = () => {
@@ -55,26 +55,32 @@ const SettingScreen = () => {
     return (
         <SafeAreaView>
             <InnerNavigationBar screenTitle={'메뉴'} goBack={goBack} />
-            <ScreenLayout>
-                <FlatList
-                    data={menus}
-                    renderItem={renderListItem}
-                    keyExtractor={(_, index) => index.toString()}
-                    ListHeaderComponent={
-                        <UserProfileView
-                            userData={DUMMY_PROFILE}
-                            onPressEdit={onPressEditUserProfile}
-                        />
-                    }
-                    ListFooterComponent={<SettingFooter onPressOpenSource={onPressOpenSource} />}
-                    ListFooterComponentStyle={styles.footer}
-                />
-            </ScreenLayout>
+            <FlatList
+                data={menus}
+                renderItem={renderListItem}
+                keyExtractor={(_, index) => index.toString()}
+                style={styles.list}
+                ListHeaderComponent={
+                    <UserProfileView
+                        userData={DUMMY_PROFILE}
+                        onPressEdit={onPressEditUserProfile}
+                    />
+                }
+                ListHeaderComponentStyle={styles.header}
+                ListFooterComponent={<SettingFooter onPressOpenSource={onPressOpenSource} />}
+                ListFooterComponentStyle={styles.footer}
+            />
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    list: {
+        paddingHorizontal: HORIZONTAL_GAP,
+    },
+    header: {
+        marginVertical: 20,
+    },
     footer: {
         marginTop: 30,
     },
