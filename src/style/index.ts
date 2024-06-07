@@ -20,4 +20,8 @@ export const commonStyles = StyleSheet.create({
     marginHorizontal: {
         marginHorizontal: 15,
     },
+    link: {
+        color: '#828282',
+        textDecorationLine: 'underline',
+    },
 });

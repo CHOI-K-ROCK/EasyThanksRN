@@ -14,6 +14,7 @@ import {
 import HorizontalDivider from '../../../components/common/HorizontalDivider';
 import { openUrl } from '../../../utils/linking';
 import { HORIZONTAL_GAP } from '../../../constant/style';
+import { commonStyles } from '../../../style';
 
 const OpenSourceDetailScreen = () => {
     const { goBack } = useNavigation<OpenSourceScreenNavigationProps>();
@@ -40,17 +41,17 @@ const OpenSourceDetailScreen = () => {
                 <View style={styles.linksContainer}>
                     {repository && (
                         <TouchableOpacity onPress={() => openUrl(repository)}>
-                            <CustomText style={styles.link}>{repository}</CustomText>
+                            <CustomText style={commonStyles.link}>{repository}</CustomText>
                         </TouchableOpacity>
                     )}
                     {url && (
                         <TouchableOpacity onPress={() => openUrl(url)}>
-                            <CustomText style={styles.link}>{url}</CustomText>
+                            <CustomText style={commonStyles.link}>{url}</CustomText>
                         </TouchableOpacity>
                     )}
                     {email && (
                         <TouchableOpacity onPress={() => openUrl('mailto:' + email)}>
-                            <CustomText style={styles.link}>{email}</CustomText>
+                            <CustomText style={commonStyles.link}>{email}</CustomText>
                         </TouchableOpacity>
                     )}
                 </View>
@@ -68,6 +69,7 @@ const OpenSourceDetailScreen = () => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: HORIZONTAL_GAP,
+        paddingTop: 20,
     },
     publisher: {
         fontSize: 13,
@@ -95,10 +97,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 500,
         marginBottom: 10,
-    },
-    link: {
-        color: '#828282',
-        textDecorationLine: 'underline',
     },
     divider: {
         marginVertical: 20,

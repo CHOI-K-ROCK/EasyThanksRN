@@ -9,7 +9,6 @@ import {
     UserProfileEditScreenNavigationProps,
     UserProfileEditScreenRouteProps,
 } from '../../../@types/navigations/settingStack';
-import FullWidthButton from '../../../components/common/FullWidthButton';
 
 const NotificationScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
