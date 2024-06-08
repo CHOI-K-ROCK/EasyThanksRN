@@ -24,4 +24,10 @@ export const commonStyles = StyleSheet.create({
         color: '#828282',
         textDecorationLine: 'underline',
     },
+    subject: {
+        paddingLeft: 5,
+        marginBottom: 3,
+        fontWeight: 500,
+        opacity: 0.6,
+    },
 });

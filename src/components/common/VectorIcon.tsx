@@ -77,12 +77,7 @@ const VectorIcon = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
-    icon: {
-        marginTop: Platform.select({
-            // 안드로이드 아이콘 위치 보정
-            android: 5,
-        }),
-    },
+    icon: {},
 });
 
 export default React.memo(VectorIcon);

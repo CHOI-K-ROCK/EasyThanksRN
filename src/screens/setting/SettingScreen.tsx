@@ -54,7 +54,7 @@ const SettingScreen = () => {
 
     return (
         <SafeAreaView>
-            <InnerNavigationBar screenTitle={'메뉴'} goBack={goBack} />
+            <InnerNavigationBar screenTitle={'설정'} goBack={goBack} />
             <FlatList
                 data={menus}
                 renderItem={renderListItem}

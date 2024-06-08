@@ -1,17 +1,12 @@
 import React from 'react';
 
-import {
-    Keyboard,
-    StyleSheet,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
-} from 'react-native';
-import SafeAreaView from '../../../components/common/SafeAreaView';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
 import FullWidthButton from '../../../components/common/FullWidthButton';
 import ProfilePicture from '../../../components/common/ProfilePicture';
 import CustomTextInput from '../../../components/common/CustomTextInput';
+import VectorIcon from '../../../components/common/VectorIcon';
+import CustomText from '../../../components/common/CustomText';
 
 import {
     UserProfileEditScreenNavigationProps,
@@ -23,10 +18,9 @@ import useCustomTheme from '../../../hooks/useCustomTheme';
 import useInput from '../../../hooks/useInput';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
-import withKeyboardDissmiss from '../../../hoc/withKeyboardDissmiss';
-import VectorIcon from '../../../components/common/VectorIcon';
-import CustomText from '../../../components/common/CustomText';
-import PushAnimatedPressable from '../../../components/common/PushAnimatedPressable';
+import WithKeyboardSafeAreaView from '../../../components/common/WithKeyboardSafeAreaView';
+import { commonStyles } from '../../../style';
+import HorizontalDivider from '../../../components/common/HorizontalDivider';
 
 const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
@@ -43,44 +37,56 @@ const UserProfileEditScreen = () => {
     };
 
     return (
-        <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
-            <SafeAreaView>
-                <InnerNavigationBar screenTitle="프로필 수정" goBack={goBack} />
+        <WithKeyboardSafeAreaView keyboardAvoiding={false}>
+            <InnerNavigationBar screenTitle="프로필 수정" goBack={goBack} />
 
-                <View style={styles.container}>
-                    <View style={styles.editContainer}>
-                        <ProfilePicture style={styles.profile} uri={profileImage} />
-                        <TouchableOpacity
-                            style={styles.profileEditButtonContainer}
-                            onPress={onPressProfilePic}
-                        >
-                            <CustomText>이미지 변경</CustomText>
-                            <VectorIcon name={'pencil'} size={13} />
-                        </TouchableOpacity>
+            <View style={styles.container}>
+                <View style={styles.editContainer}>
+                    <ProfilePicture style={styles.profile} uri={profileImage} />
+                    <TouchableOpacity
+                        style={styles.profileEditButtonContainer}
+                        onPress={onPressProfilePic}
+                    >
+                        <CustomText>이미지 변경</CustomText>
+                        <VectorIcon name={'pencil'} size={13} />
+                    </TouchableOpacity>
 
-                        <CustomTextInput
-                            value={value}
-                            onChangeText={handleChange}
-                            clearButton
-                            onPressClear={clearValue}
-                            title="닉네임"
-                            placeholder={username}
+                    <CustomTextInput
+                        value={value}
+                        onChangeText={handleChange}
+                        clearButton
+                        onPressClear={clearValue}
+                        title="닉네임"
+                        placeholder={username}
+                    />
+                </View>
+
+                <FullWidthButton title="수정하기" />
+
+                <View style={styles.optOutContainer}>
+                    <CustomText style={styles.optOutTitle}>회원 탈퇴</CustomText>
+                    <View
+                        style={[
+                            { backgroundColor: colors.tabBarBackground },
+                            styles.optOutInnerContainer,
+                        ]}
+                    >
+                        <CustomText style={styles.optOutCaution}>
+                            회원 탈퇴 시 작성된 모든 일기 및 데이터가 초기화됩니다.
+                        </CustomText>
+                        <CustomText style={styles.optOutCaution}>
+                            회원 탈퇴 후 데이터를 복구 할 수 없습니다.
+                        </CustomText>
+                        <CustomText style={styles.optOutCaution}>신중하게 고려해주세요!</CustomText>
+                        <FullWidthButton
+                            title="회원탈퇴하기"
+                            style={[{ backgroundColor: colors.caution }, styles.optOutButton]}
+                            titleStyle={styles.optOutButtonTitle}
                         />
                     </View>
-
-                    <FullWidthButton title="수정완료" />
-                    <View style={{ flex: 1 }} />
-                    <FullWidthButton
-                        title="회원탈퇴"
-                        style={[{ backgroundColor: colors.caution }, styles.optOutButton]}
-                        titleStyle={styles.optOutTitle}
-                    />
-                    <CustomText style={styles.optOutCaution}>
-                        *회원 탈퇴 시 작성된 모든 일기 및 데이터가 초기화됩니다.
-                    </CustomText>
                 </View>
-            </SafeAreaView>
-        </TouchableWithoutFeedback>
+            </View>
+        </WithKeyboardSafeAreaView>
     );
 };
 
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     editContainer: {
-        marginBottom: 30,
+        marginBottom: 20,
     },
     profile: {
         alignSelf: 'center',
@@ -105,20 +111,27 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         gap: 3,
     },
-    buttonContainer: {
-        gap: 10,
-    },
-    optOutButton: {
-        marginBottom: 5,
+    optOutContainer: {
+        marginTop: 50,
     },
     optOutTitle: {
-        color: '#FFF',
+        ...commonStyles.subject,
+    },
+    optOutInnerContainer: {
+        borderRadius: 15,
+        padding: 20,
+        gap: 2,
     },
     optOutCaution: {
         opacity: 0.5,
         fontSize: 13,
-        textAlign: 'center',
+    },
+    optOutButton: {
+        marginTop: 15,
+    },
+    optOutButtonTitle: {
+        color: '#FFF',
     },
 });
 
-export default withKeyboardDissmiss(UserProfileEditScreen);
+export default UserProfileEditScreen;

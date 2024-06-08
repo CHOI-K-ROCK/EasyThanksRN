@@ -8,8 +8,8 @@ import { useState } from 'react';
  * @returns clearValue - value 를 "" 로 초기화합니다.
  */
 
-const useInput = (initialValue: string) => {
-    const [value, setValue] = useState<string>(initialValue);
+const useInput = (initialValue?: string) => {
+    const [value, setValue] = useState<string>(initialValue || '');
 
     const handleChange = (e: string) => {
         setValue(e);
