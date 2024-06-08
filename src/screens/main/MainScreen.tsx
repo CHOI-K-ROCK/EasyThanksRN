@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { TouchableOpacity } from 'react-native';
 import SafeAreaView from '../../components/common/SafeAreaView';
-import TempScreen from '../../components/common/TempScreen';
 import MainNavigationBar from '../../components/main/MainNavigationBar';
 import VectorIcon from '../../components/common/VectorIcon';
 
@@ -12,9 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
 
 const MainScreen = () => {
-    const { navigate } = useNavigation<RootStackNavigationProps>();
-
     const { colors } = useCustomTheme();
+    const { navigate } = useNavigation<RootStackNavigationProps>();
 
     const toAppMenu = () => {
         navigate('SettingStack', {
@@ -29,7 +26,6 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <TempScreen title="MainScreen" />
         </SafeAreaView>
     );
 };

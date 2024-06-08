@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import {
+    Platform,
     StyleProp,
     StyleSheet,
     TextInput,
@@ -13,6 +14,7 @@ import VectorIcon from './VectorIcon';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
 import CustomText from './CustomText';
+import { commonStyles } from '../../style';
 
 type Props = TextInputProps & {
     textStyle?: StyleProp<ViewStyle>;
@@ -48,6 +50,7 @@ const CustomTextInput = (props: Props) => {
             <View
                 style={[
                     {
+                        justifyContent: restProps.multiline ? 'flex-start' : 'center',
                         backgroundColor: colors.inputBackground,
                     },
                     styles.field,
@@ -56,7 +59,14 @@ const CustomTextInput = (props: Props) => {
             >
                 {iconComponent && iconComponent}
                 <TextInput
-                    style={[{ color: colors.text }, styles.text, textStyle]}
+                    style={[
+                        {
+                            color: colors.text,
+                            textAlignVertical: restProps.multiline ? 'top' : 'center',
+                        },
+                        styles.text,
+                        textStyle,
+                    ]}
                     {...restProps}
                 />
 
@@ -70,19 +80,17 @@ const CustomTextInput = (props: Props) => {
 
 const styles = StyleSheet.create({
     title: {
-        paddingLeft: 5,
-        marginBottom: 3,
-        fontWeight: 500,
-        opacity: 0.6,
+        ...commonStyles.subject,
     },
     field: {
-        justifyContent: 'center',
         minHeight: 45,
         paddingHorizontal: 15,
+        paddingVertical: Platform.select({ ios: 5, android: 0 }),
         borderRadius: 5,
     },
     text: {
         fontSize: 16,
+        textAlignVertical: 'top',
     },
     clearButton: {
         position: 'absolute',

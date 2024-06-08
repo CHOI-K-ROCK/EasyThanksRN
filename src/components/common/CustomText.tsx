@@ -27,7 +27,10 @@ const CustomText = (props: Props) => {
 
     const flattenedStyle = StyleSheet.flatten(style) || {};
     const fontWeight = flattenedStyle.fontWeight as FontWeightType;
-    const fontFamilyForAndroid = useMemo(() => convertFontWeightToFontFamily(fontWeight), [fontWeight]);
+    const fontFamilyForAndroid = useMemo(
+        () => convertFontWeightToFontFamily(fontWeight),
+        [fontWeight]
+    );
 
     const fontStyleByOS = Platform.select({
         ios: { fontFamily: 'Pretendard', fontWeight },

@@ -16,8 +16,8 @@ const NotificationScreen = () => {
 
     return (
         <SafeAreaView>
-            <InnerNavigationBar screenTitle="프로필 수정" goBack={goBack} />
-            <TempScreen title="UserProfileEditScreen" />
+            <InnerNavigationBar screenTitle="알림" goBack={goBack} />
+            <TempScreen title="noti" />
         </SafeAreaView>
     );
 };

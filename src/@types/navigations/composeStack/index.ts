@@ -2,7 +2,7 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 
 // Compose
 export type ComposeStackParamList = {
-    ComposeScreen: undefined;
+    ComposeScreen: { initialData?: any };
     // EditLocationScreen: undefined; // 추후 추가
 };
 

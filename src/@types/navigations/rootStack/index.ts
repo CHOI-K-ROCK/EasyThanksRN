@@ -1,10 +1,11 @@
 import { NavigationProp, NavigatorScreenParams, RouteProp } from '@react-navigation/native';
 import { SettingStackParamList } from '../settingStack';
+import { ComposeStackParamList } from '../composeStack';
 
 // Root
 export type RootStackParamList = {
     MainTab: undefined;
-    ComposeStack: undefined;
+    ComposeStack: NavigatorScreenParams<ComposeStackParamList>;
     SettingStack: NavigatorScreenParams<SettingStackParamList>;
 };
 

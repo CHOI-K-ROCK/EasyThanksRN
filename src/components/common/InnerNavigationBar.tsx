@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from './CustomText';
@@ -12,28 +12,38 @@ import HorizontalDivider from './HorizontalDivider';
 
 type Props = {
     screenTitle: string;
-    goBack: () => void;
+    goBack?: () => void;
+
+    leftComponent?: ReactNode;
+    rightComponent?: ReactNode;
 };
 
 const InnerNavigationBar = (props: Props) => {
     const { hp, wp } = useDimensions();
     const { colors } = useCustomTheme();
-    const { screenTitle, goBack } = props;
+    const { screenTitle, goBack, leftComponent, rightComponent } = props;
 
     return (
         <View>
             <View style={styles.container}>
-                <PushAnimatedPressable onPress={goBack} style={styles.goBackBtnContainer}>
-                    <VectorIcon name={'chevron-left'} size={20} color={colors.text} />
-                    <CustomText style={styles.goBackBtnText}>뒤로</CustomText>
-                </PushAnimatedPressable>
+                {leftComponent && <View style={{}}>{leftComponent}</View>}
 
+                {goBack && (
+                    <PushAnimatedPressable onPress={goBack} style={styles.goBackBtnContainer}>
+                        <VectorIcon name={'chevron-left'} size={20} color={colors.text} />
+                        <CustomText style={styles.goBackBtnText}>뒤로</CustomText>
+                    </PushAnimatedPressable>
+                )}
+
+                <View style={{ flex: 1 }} />
                 <View
                     style={[{ width: wp(100) }, styles.screenTitleContainer]}
                     pointerEvents="none"
                 >
                     <CustomText style={styles.screenTitle}>{screenTitle}</CustomText>
                 </View>
+
+                {rightComponent && <View style={{ alignItems: 'flex-end' }}>{rightComponent}</View>}
             </View>
             <HorizontalDivider
                 style={[{ opacity: 1 }, styles.divider]}

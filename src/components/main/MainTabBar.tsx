@@ -25,7 +25,11 @@ const MainTabBar = (props: BottomTabBarProps) => {
             />
             <MainTabBarComposeButton
                 containerStyle={styles.composeButton}
-                onPress={() => navigation.navigate('ComposeStack')}
+                onPress={() =>
+                    navigation.navigate('ComposeStack', {
+                        screen: 'ComposeScreen',
+                    })
+                }
             />
             <MainTabBarButton
                 tabName="지난감사"
