@@ -29,16 +29,22 @@ export const convertDateToString = (date: Date, format?: string) => {
     }
 };
 
+type optionsType = {
+    isPad?: boolean;
+    is12?: boolean;
+};
+
 /**
  *
  * @param initialDate - 초기값 설정 (Date)
  * @param {boolean} pad - 자리채움 여부 (boolean)
- * @param {boolean} convertDayOfWeek - 요일 변환 여부 (1 = 월)(boolean)
+ * @param {boolean} convertDayOfWeek - 요일 변환 여부 => 0, 1, 2 <-> 일, 월, 화 (boolean)
  * @returns year, month, day, hours, min, sec, dayOfWeek
  */
-export const getDateStrings = (initialDate: Date, pad: boolean, convertDayOfWeek: boolean) => {
+export const getDateStrings = (initialDate: Date, options: optionsType) => {
+    const { isPad = true, is12 = false } = options;
+
     const date = new Date(initialDate);
-    const days = ['일', '월', '화', '수', '목', '금', '토'];
 
     const dayOfWeek = date.getDay();
 
@@ -62,15 +68,24 @@ export const getDateStrings = (initialDate: Date, pad: boolean, convertDayOfWeek
     ];
     const [padMonth, padDay, padHours, padMin, padSec] = padValues;
 
+    const ampm = hours < '' + 12 ? 'am' : 'pm';
+
     const resDate = {
         year,
-        month: pad ? padMonth : month,
-        day: pad ? padDay : day,
-        hours: pad ? padHours : hours,
-        min: pad ? padMin : min,
-        sec: pad ? padSec : sec,
-        dayOfWeek: convertDayOfWeek ? days[dayOfWeek] : dayOfWeek,
+        month: isPad ? padMonth : month,
+        day: isPad ? padDay : day,
+        hours: isPad ? padHours : hours,
+        min: isPad ? padMin : min,
+        sec: isPad ? padSec : sec,
+        dayOfWeek,
+        ampm,
     };
 
     return { ...resDate };
+};
+
+export const getDayOfWeekName = (day: number) => {
+    const daysStringArr = ['일', '월', '화', '수', '목', '금', '토'];
+
+    return daysStringArr[day];
 };

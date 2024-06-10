@@ -20,6 +20,11 @@ export const commonStyles = StyleSheet.create({
     marginHorizontal: {
         marginHorizontal: 15,
     },
+    rowCenterBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
     link: {
         color: '#828282',
         textDecorationLine: 'underline',

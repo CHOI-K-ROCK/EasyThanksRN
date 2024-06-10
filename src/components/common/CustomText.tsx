@@ -13,7 +13,6 @@ const CustomText = (props: TextProps) => {
 
     const flattenedStyle = StyleSheet.flatten(style) || {};
     const fontWeight = flattenedStyle.fontWeight as FontWeightType;
-
     const fontFamilyForAndroid = useMemo(() => {
         const convertedFontWeight = typeof fontWeight === 'number' ? `${fontWeight}` : fontWeight;
 
@@ -30,14 +29,11 @@ const CustomText = (props: TextProps) => {
             style={[
                 {
                     color: colors.text,
-                    // backgroundColor: '#ffffff50',
-                    textAlignVertical: 'center',
                 },
                 fontStyleByOS,
                 style,
             ]}
             allowFontScaling={false}
-            // maxFontSizeMultiplier={0}
             {...restProps}
         >
             {children}
@@ -45,5 +41,4 @@ const CustomText = (props: TextProps) => {
     );
 };
 
-// export default React.memo(CustomText);
-export default CustomText;
+export default React.memo(CustomText);

@@ -1,9 +1,15 @@
 import React, { useCallback, useState } from 'react';
 
-import { GestureResponderEvent, Pressable, PressableProps } from 'react-native';
+import {
+    GestureResponderEvent,
+    Pressable,
+    PressableProps,
+    StyleSheet,
+    ViewStyle,
+} from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
-type Props = PressableProps & { duration?: number; scale?: number };
+type Props = PressableProps & { duration?: number; scale?: number; activeOpacity?: number };
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -12,6 +18,7 @@ const PushAnimatedPressable = (props: Props) => {
         children,
         duration = 100,
         scale = 0.95,
+        activeOpacity = 0.7,
         style,
         onPressIn,
         onPressOut,
@@ -35,11 +42,19 @@ const PushAnimatedPressable = (props: Props) => {
         [onPressOut]
     );
 
+    const flattendStyle = (StyleSheet.flatten(style) || {}) as ViewStyle;
+    const opacity = (flattendStyle.opacity || 1) as number;
+
     const animatedStyle = useAnimatedStyle(() => {
+        if (!restProps.onPress) {
+            // onPress 이벤트 없는 경우 애니메이션 X
+            return {};
+        }
+
         return {
             opacity: isPressed
-                ? withTiming(0.8, { duration: 50 })
-                : withTiming(1, { duration: 50 }),
+                ? withTiming(opacity * activeOpacity, { duration: 50 })
+                : withTiming(opacity, { duration: 50 }),
             transform: [
                 {
                     scale: isPressed
@@ -48,7 +63,7 @@ const PushAnimatedPressable = (props: Props) => {
                 },
             ],
         };
-    }, [isPressed, scale, duration]);
+    }, [isPressed, scale, duration, restProps.onPress]);
 
     return (
         <AnimatedPressable
