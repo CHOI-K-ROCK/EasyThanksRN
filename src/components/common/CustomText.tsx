@@ -1,36 +1,24 @@
 import React, { useMemo } from 'react';
-import { Text, Platform, StyleSheet, TextProps } from 'react-native';
+import { Text, Platform, StyleSheet, TextProps, TextStyle } from 'react-native';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
 
 import { convertFontWeightToFontFamily } from '../../utils/fonts';
 
-type Props = TextProps;
+type FontWeightType = TextStyle['fontWeight'];
 
-export type FontWeightType =
-    | 'normal'
-    | 'bold'
-    | '100'
-    | '200'
-    | '300'
-    | '400'
-    | '500'
-    | '600'
-    | '700'
-    | '800'
-    | '900'
-    | undefined;
-
-const CustomText = (props: Props) => {
+const CustomText = (props: TextProps) => {
     const { children, style, ...restProps } = props;
     const { colors } = useCustomTheme();
 
     const flattenedStyle = StyleSheet.flatten(style) || {};
     const fontWeight = flattenedStyle.fontWeight as FontWeightType;
-    const fontFamilyForAndroid = useMemo(
-        () => convertFontWeightToFontFamily(fontWeight),
-        [fontWeight]
-    );
+
+    const fontFamilyForAndroid = useMemo(() => {
+        const convertedFontWeight = typeof fontWeight === 'number' ? `${fontWeight}` : fontWeight;
+
+        return convertFontWeightToFontFamily(convertedFontWeight as FontWeightType);
+    }, [fontWeight]);
 
     const fontStyleByOS = Platform.select({
         ios: { fontFamily: 'Pretendard', fontWeight },
@@ -42,10 +30,14 @@ const CustomText = (props: Props) => {
             style={[
                 {
                     color: colors.text,
+                    // backgroundColor: '#ffffff50',
+                    textAlignVertical: 'center',
                 },
                 fontStyleByOS,
                 style,
             ]}
+            allowFontScaling={false}
+            // maxFontSizeMultiplier={0}
             {...restProps}
         >
             {children}
@@ -53,4 +45,5 @@ const CustomText = (props: Props) => {
     );
 };
 
-export default React.memo(CustomText);
+// export default React.memo(CustomText);
+export default CustomText;

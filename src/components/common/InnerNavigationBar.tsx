@@ -26,7 +26,7 @@ const InnerNavigationBar = (props: Props) => {
     return (
         <View>
             <View style={styles.container}>
-                {leftComponent && <View style={{}}>{leftComponent}</View>}
+                {leftComponent && <View>{leftComponent}</View>}
 
                 {goBack && (
                     <PushAnimatedPressable onPress={goBack} style={styles.goBackBtnContainer}>
