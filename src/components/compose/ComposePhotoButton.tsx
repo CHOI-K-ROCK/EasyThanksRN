@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet } from 'react-native';
+import { Image, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import PushAnimatedPressable from '../common/PushAnimatedPressable';
 import VectorIcon from '../common/VectorIcon';
 
@@ -8,13 +8,17 @@ import useCustomTheme from '../../hooks/useCustomTheme';
 
 type Props = {
     onPress: () => void;
-    imgBlob?: Blob;
+    imgBlob?: any; //! temp type be blob
+
+    style?: StyleProp<ViewStyle>;
 };
 
 const ComposePhotoButton = (props: Props) => {
     const { colors } = useCustomTheme();
 
-    const { onPress, imgBlob } = props;
+    const { onPress, imgBlob, style } = props;
+
+    console.log(imgBlob);
 
     return (
         <PushAnimatedPressable
@@ -24,9 +28,14 @@ const ComposePhotoButton = (props: Props) => {
                     backgroundColor: colors.inputBackground,
                 },
                 styles.container,
+                style,
             ]}
         >
-            <VectorIcon name="camera" size={20} style={styles.icon} />
+            {!imgBlob ? (
+                <VectorIcon name="camera" size={20} style={styles.icon} />
+            ) : (
+                <Image source={{ uri: imgBlob }} style={styles.thumbnail} />
+            )}
         </PushAnimatedPressable>
     );
 };
@@ -37,9 +46,16 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 5,
     },
     icon: {
         opacity: 0.6,
+    },
+    thumbnail: {
+        objectFit: 'cover',
+        width: '100%',
+        height: '100%',
+        borderRadius: 5,
     },
 });
 

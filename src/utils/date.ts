@@ -58,11 +58,12 @@ export const getDateStrings = (initialDate: Date, options: optionsType) => {
     ];
 
     const [year, month, day, hours, min, sec] = nonPadValues;
+    const convertedHour = is12 ? (+hours > 12 ? '' + (+hours - 12) : hours) : hours;
 
     const padValues = [
         month.padStart(2, '0'),
         day.padStart(2, '0'),
-        hours.padStart(2, '0'),
+        convertedHour.padStart(2, '0'),
         min.padStart(2, '0'),
         sec.padStart(2, '0'),
     ];

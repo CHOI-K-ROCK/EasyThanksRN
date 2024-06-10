@@ -18,7 +18,10 @@ type Props = {
 const ComposeSummaryView = (props: Props) => {
     const { date, onPressEditDate, locationString, onPressEditLocation } = props;
 
-    const { year, month, day, dayOfWeek, hours, min, ampm } = getDateStrings(date, false, true);
+    const { year, month, day, dayOfWeek, hours, min, ampm } = getDateStrings(date, {
+        is12: true,
+        isPad: true,
+    });
 
     return (
         <View style={styles.container}>
@@ -85,6 +88,7 @@ const styles = StyleSheet.create({
         fontWeight: 600,
         opacity: 0.7,
         marginRight: 4,
+        alignSelf: 'flex-end',
     },
     time: {
         fontSize: 17,

@@ -23,6 +23,11 @@ import { HORIZONTAL_GAP } from '../../constant/style';
 import { commonStyles } from '../../style';
 import { getDateStrings } from '../../utils/date';
 import useCustomTheme from '../../hooks/useCustomTheme';
+import BadgeButton from '../../components/common/BadgeButton';
+import ComposeSummaryView from '../../components/compose/ComposeSummaryView';
+import ProfilePicture from '../../components/common/ProfilePicture';
+import { SAMPLE_IMAGE } from '../../constant/dummy';
+import ComposePhotoButton from '../../components/compose/ComposePhotoButton';
 
 const ComposeScreen = () => {
     const { value: content, handleChange: setContent } = useInput();
@@ -31,17 +36,25 @@ const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
 
-    const { year, month, day, hours, min, dayOfWeek } = getDateStrings(new Date(), false, true);
-
-    const [photos, setPhotos] = useState<any[]>([]); // 사진 업로드
-    console.log(photos);
+    const [photos, setPhotos] = useState<string | undefined>(undefined); // 사진 blob
+    // const [photos, setPhotos] = useState<any[]>([]); // 사진 blob
 
     const initialData = params?.initialData;
     const isEdit = initialData !== undefined;
 
+    const handleEditDate = () => {
+        console.log('edit date');
+    };
+
+    const handleEditLocation = () => {
+        console.log('edit location');
+    };
+
+    const locationString = '인천광역시 길주로 654';
+
     const handleAddPhoto = () => {
         console.log('add Photo');
-        setPhotos(p => [...p, 'temp']);
+        setPhotos(p => SAMPLE_IMAGE);
     };
 
     return (
@@ -55,52 +68,24 @@ const ComposeScreen = () => {
                 }
             />
             <ScrollView style={styles.container} bounces={false}>
-                <CustomText style={styles.date}>
-                    {year}년 {month}월 {day}일
-                </CustomText>
-                <CustomText style={styles.dayOfWeek}>{dayOfWeek}요일</CustomText>
-
-                <View style={styles.locationContainer}>
-                    <VectorIcon name="map-marker" size={14} />
-                    <CustomText style={styles.location}>{'인천광역시 길주로 654'}</CustomText>
-                </View>
+                <ComposeSummaryView
+                    date={new Date()}
+                    onPressEditDate={handleEditDate}
+                    locationString={locationString}
+                    onPressEditLocation={handleEditLocation}
+                />
 
                 <HorizontalDivider style={styles.divider} />
 
                 <CustomText style={[commonStyles.subject, { marginBottom: 10, marginTop: 0 }]}>
-                    좋았던 순간을 올려주세요! (최대 5장)
+                    오늘 가장 감사했던 순간은 언제인가요?
                 </CustomText>
 
-                <View style={{ marginBottom: 20, flexDirection: 'row', gap: 5 }}>
-                    <PushAnimatedPressable
-                        onPress={handleAddPhoto}
-                        style={{
-                            width: 70,
-                            aspectRatio: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: colors.inputBackground,
-                        }}
-                    >
-                        <VectorIcon name="camera" size={20} style={{ opacity: 0.6 }} />
-                    </PushAnimatedPressable>
-
-                    {photos.map(() => {
-                        return (
-                            <View
-                                style={{
-                                    width: 70,
-                                    aspectRatio: 1,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    backgroundColor: colors.inputBackground,
-                                }}
-                            >
-                                <VectorIcon name="camera" size={20} style={{ opacity: 0.6 }} />
-                            </View>
-                        );
-                    })}
-                </View>
+                <ComposePhotoButton
+                    imgBlob={photos}
+                    onPress={handleAddPhoto}
+                    style={{ marginBottom: 20 }}
+                />
 
                 <CustomTextInput
                     title="오늘의 감사일기를 작성해보세요!"
@@ -124,24 +109,6 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 20,
         paddingHorizontal: HORIZONTAL_GAP,
-    },
-    date: {
-        fontSize: 20,
-        fontWeight: 600,
-        marginBottom: 4,
-    },
-    dayOfWeek: {
-        fontSize: 18,
-        fontWeight: 600,
-        opacity: 0.7,
-        marginBottom: 10,
-    },
-    locationContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    location: {
-        opacity: 0.7,
     },
     divider: {
         marginVertical: 15,
