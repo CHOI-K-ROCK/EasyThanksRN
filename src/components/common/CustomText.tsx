@@ -14,7 +14,7 @@ const CustomText = (props: TextProps) => {
     const flattenedStyle = StyleSheet.flatten(style) || {};
     const fontWeight = flattenedStyle.fontWeight as FontWeightType;
     const fontFamilyForAndroid = useMemo(() => {
-        const convertedFontWeight = typeof fontWeight === 'number' ? `${fontWeight}` : fontWeight;
+        const convertedFontWeight = '' + fontWeight; // 문자열 형변환
 
         return convertFontWeightToFontFamily(convertedFontWeight as FontWeightType);
     }, [fontWeight]);
