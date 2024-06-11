@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import BadgeButton from '../common/BadgeButton';
 import CustomText from '../common/CustomText';
 import VectorIcon from '../common/VectorIcon';
 
-import { getDateStrings } from '../../utils/date';
+import { getDateStrings, getDayOfWeekName } from '../../utils/date';
 import { commonStyles } from '../../style';
 
 type Props = {
@@ -18,10 +18,10 @@ type Props = {
 const ComposeSummaryView = (props: Props) => {
     const { date, onPressEditDate, locationString, onPressEditLocation } = props;
 
-    const { year, month, day, dayOfWeek, hours, min, ampm } = getDateStrings(date, {
-        is12: true,
-        isPad: true,
-    });
+    const { year, month, day, dayOfWeek, hours, min, ampm } = useMemo(
+        () => getDateStrings(date),
+        [date]
+    );
 
     return (
         <View style={styles.container}>
@@ -31,7 +31,9 @@ const ComposeSummaryView = (props: Props) => {
                         <CustomText style={[styles.date]}>
                             {year}년 {month}월 {day}일
                         </CustomText>
-                        <CustomText style={styles.dayOfWeek}>{dayOfWeek}요일</CustomText>
+                        <CustomText style={styles.dayOfWeek}>
+                            {getDayOfWeekName(dayOfWeek)}요일
+                        </CustomText>
                     </View>
                     <BadgeButton title="날짜변경" onPress={onPressEditDate} />
                 </View>

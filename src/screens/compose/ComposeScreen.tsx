@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { LegacyRef, RefObject, useEffect, useRef, useState } from 'react';
 
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    ScrollView,
+    StyleSheet,
+    View,
+} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import InnerNavigationBar from '../../components/common/InnerNavigationBar';
@@ -9,8 +15,9 @@ import PushAnimatedPressable from '../../components/common/PushAnimatedPressable
 import CustomTextInput from '../../components/common/CustomTextInput';
 import WithKeyboardSafeAreaView from '../../components/common/WithKeyboardSafeAreaView';
 import HorizontalDivider from '../../components/common/HorizontalDivider';
-import VectorIcon from '../../components/common/VectorIcon';
 import FullWidthButton from '../../components/common/FullWidthButton';
+import ComposeSummaryView from '../../components/compose/ComposeSummaryView';
+import ComposePhotoButton from '../../components/compose/ComposePhotoButton';
 
 import {
     ComposeScreenNavigationProps,
@@ -18,16 +25,12 @@ import {
 } from '../../@types/navigations/composeStack';
 
 import useInput from '../../hooks/useInput';
+import useCustomTheme from '../../hooks/useCustomTheme';
+
+import { commonStyles } from '../../style';
 
 import { HORIZONTAL_GAP } from '../../constant/style';
-import { commonStyles } from '../../style';
-import { getDateStrings } from '../../utils/date';
-import useCustomTheme from '../../hooks/useCustomTheme';
-import BadgeButton from '../../components/common/BadgeButton';
-import ComposeSummaryView from '../../components/compose/ComposeSummaryView';
-import ProfilePicture from '../../components/common/ProfilePicture';
 import { SAMPLE_IMAGE } from '../../constant/dummy';
-import ComposePhotoButton from '../../components/compose/ComposePhotoButton';
 
 const ComposeScreen = () => {
     const { value: content, handleChange: setContent } = useInput();
@@ -57,6 +60,11 @@ const ComposeScreen = () => {
         setPhotos(p => SAMPLE_IMAGE);
     };
 
+    const handleDeletePhoto = () => {
+        console.log('delete Photo');
+        setPhotos(p => undefined);
+    };
+
     return (
         <WithKeyboardSafeAreaView>
             <InnerNavigationBar
@@ -84,6 +92,7 @@ const ComposeScreen = () => {
                 <ComposePhotoButton
                     imgBlob={photos}
                     onPress={handleAddPhoto}
+                    onPressClose={handleDeletePhoto}
                     style={{ marginBottom: 20 }}
                 />
 
@@ -96,6 +105,7 @@ const ComposeScreen = () => {
                     textStyle={styles.textField}
                     placeholder="내용"
                 />
+                <View style={{ height: 50 }} />
             </ScrollView>
 
             <View style={styles.buttonContainer}>

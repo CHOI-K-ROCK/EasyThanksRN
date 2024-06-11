@@ -8,6 +8,7 @@ import useCustomTheme from '../../hooks/useCustomTheme';
 
 type Props = {
     onPress: () => void;
+    onPressClose: () => void;
     imgBlob?: any; //! temp type be blob
 
     style?: StyleProp<ViewStyle>;
@@ -16,13 +17,12 @@ type Props = {
 const ComposePhotoButton = (props: Props) => {
     const { colors } = useCustomTheme();
 
-    const { onPress, imgBlob, style } = props;
-
-    console.log(imgBlob);
+    const { onPress, onPressClose, imgBlob, style } = props;
 
     return (
         <PushAnimatedPressable
             onPress={onPress}
+            scale={0.98}
             style={[
                 {
                     backgroundColor: colors.inputBackground,
@@ -35,6 +35,16 @@ const ComposePhotoButton = (props: Props) => {
                 <VectorIcon name="camera" size={20} style={styles.icon} />
             ) : (
                 <Image source={{ uri: imgBlob }} style={styles.thumbnail} />
+            )}
+            {imgBlob && (
+                <PushAnimatedPressable onPress={onPressClose} style={styles.closeButtonConainer}>
+                    <VectorIcon
+                        name="close"
+                        size={17}
+                        color={'#fff'}
+                        style={styles.closeButtonIcon}
+                    />
+                </PushAnimatedPressable>
             )}
         </PushAnimatedPressable>
     );
@@ -56,6 +66,17 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 5,
+    },
+    closeButtonConainer: {
+        position: 'absolute',
+        top: -10,
+        right: -15,
+        padding: 5,
+    },
+    closeButtonIcon: {
+        backgroundColor: '#000',
+        borderRadius: 999,
+        padding: 3,
     },
 });
 
