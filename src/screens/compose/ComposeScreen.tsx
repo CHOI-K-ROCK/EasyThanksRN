@@ -33,11 +33,10 @@ import { HORIZONTAL_GAP } from '../../constant/style';
 import { SAMPLE_IMAGE } from '../../constant/dummy';
 
 const ComposeScreen = () => {
-    const { value: content, handleChange: setContent } = useInput();
-    const { colors } = useCustomTheme();
-
-    const { goBack } = useNavigation<ComposeScreenNavigationProps>();
+    const { navigate, goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
+
+    const { value: content, handleChange: setContent } = useInput();
 
     const [photos, setPhotos] = useState<string | undefined>(undefined); // 사진 blob
     // const [photos, setPhotos] = useState<any[]>([]); // 사진 blob
@@ -45,12 +44,16 @@ const ComposeScreen = () => {
     const initialData = params?.initialData;
     const isEdit = initialData !== undefined;
 
-    const handleEditDate = () => {
+    const onPressEditDate = () => {
         console.log('edit date');
     };
 
-    const handleEditLocation = () => {
-        console.log('edit location');
+    const onPressEditTime = () => {
+        console.log('time edit');
+    };
+
+    const onPressEditLocation = () => {
+        navigate('EditLocationScreen');
     };
 
     const locationString = '인천광역시 길주로 654';
@@ -78,9 +81,10 @@ const ComposeScreen = () => {
             <ScrollView style={styles.container} bounces={false}>
                 <ComposeSummaryView
                     date={new Date()}
-                    onPressEditDate={handleEditDate}
+                    onPressEditDate={onPressEditDate}
+                    onPressEditTime={onPressEditTime}
                     locationString={locationString}
-                    onPressEditLocation={handleEditLocation}
+                    onPressEditLocation={onPressEditLocation}
                 />
 
                 <HorizontalDivider style={styles.divider} />

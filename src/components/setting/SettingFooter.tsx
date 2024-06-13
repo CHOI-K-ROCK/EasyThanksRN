@@ -7,6 +7,7 @@ const SettingFooter = (props: { onPressOpenSource: () => void }) => {
     const { onPressOpenSource } = props;
 
     const currentYear = new Date().getFullYear();
+    const APP_VERSION = '0.2.1';
 
     return (
         <View style={styles.container}>
@@ -14,7 +15,7 @@ const SettingFooter = (props: { onPressOpenSource: () => void }) => {
                 {`ⓒ ${currentYear}. KROCK All rights reserved.`}
             </CustomText>
             {/* 훅으로 앱 정보 가져올 수 있도록 개발 필요 */}
-            <CustomText style={styles.text}>{`ver 0.2.1`}</CustomText>
+            <CustomText style={styles.text}>{`ver ${APP_VERSION}`}</CustomText>
 
             <TouchableOpacity
                 onPress={onPressOpenSource}

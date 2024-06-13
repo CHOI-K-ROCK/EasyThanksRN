@@ -10,13 +10,16 @@ import { commonStyles } from '../../style';
 
 type Props = {
     date: Date;
+
     onPressEditDate: () => void;
+    onPressEditTime: () => void;
+
     locationString: string;
     onPressEditLocation: () => void;
 };
 
 const ComposeSummaryView = (props: Props) => {
-    const { date, onPressEditDate, locationString, onPressEditLocation } = props;
+    const { date, onPressEditDate, onPressEditTime, locationString, onPressEditLocation } = props;
 
     const { year, month, day, dayOfWeek, hours, min, ampm } = useMemo(
         () => getDateStrings(date),
@@ -47,7 +50,7 @@ const ComposeSummaryView = (props: Props) => {
                             {hours}시 {min}분
                         </CustomText>
                     </View>
-                    <BadgeButton title="시간변경" onPress={onPressEditDate} />
+                    <BadgeButton title="시간변경" onPress={onPressEditTime} />
                 </View>
             </View>
 
