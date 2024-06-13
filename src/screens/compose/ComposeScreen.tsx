@@ -79,37 +79,39 @@ const ComposeScreen = () => {
                 }
             />
             <ScrollView style={styles.container} bounces={false}>
-                <ComposeSummaryView
-                    date={new Date()}
-                    onPressEditDate={onPressEditDate}
-                    onPressEditTime={onPressEditTime}
-                    locationString={locationString}
-                    onPressEditLocation={onPressEditLocation}
-                />
+                <View onStartShouldSetResponder={() => true}>
+                    <ComposeSummaryView
+                        date={new Date()}
+                        onPressEditDate={onPressEditDate}
+                        onPressEditTime={onPressEditTime}
+                        locationString={locationString}
+                        onPressEditLocation={onPressEditLocation}
+                    />
 
-                <HorizontalDivider style={styles.divider} />
+                    <HorizontalDivider style={styles.divider} />
 
-                <CustomText style={[commonStyles.subject, { marginBottom: 10, marginTop: 0 }]}>
-                    오늘 가장 감사했던 순간은 언제인가요?
-                </CustomText>
+                    <CustomText style={[commonStyles.subject, { marginBottom: 10, marginTop: 0 }]}>
+                        오늘 가장 감사했던 순간은 언제인가요?
+                    </CustomText>
 
-                <ComposePhotoButton
-                    imgBlob={photos}
-                    onPress={handleAddPhoto}
-                    onPressClose={handleDeletePhoto}
-                    style={{ marginBottom: 20 }}
-                />
+                    <ComposePhotoButton
+                        imgBlob={photos}
+                        onPress={handleAddPhoto}
+                        onPressClose={handleDeletePhoto}
+                        style={{ marginBottom: 20 }}
+                    />
 
-                <CustomTextInput
-                    title="오늘의 감사일기를 작성해보세요!"
-                    titleStyle={styles.textFieldTitle}
-                    value={content}
-                    onChangeText={setContent}
-                    multiline
-                    textStyle={styles.textField}
-                    placeholder="내용"
-                />
-                <View style={{ height: 50 }} />
+                    <CustomTextInput
+                        title="오늘의 감사일기를 작성해보세요!"
+                        titleStyle={styles.textFieldTitle}
+                        value={content}
+                        onChangeText={setContent}
+                        multiline
+                        textStyle={styles.textField}
+                        placeholder="내용"
+                    />
+                    <View style={{ height: 50 }} />
+                </View>
             </ScrollView>
 
             <View style={styles.buttonContainer}>
@@ -123,6 +125,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 20,
         paddingHorizontal: HORIZONTAL_GAP,
+        // flex: 1,
     },
     divider: {
         marginVertical: 15,

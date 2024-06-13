@@ -5,9 +5,12 @@ import {
     Keyboard,
     ColorValue,
     ViewStyle,
+    View,
+    Pressable,
 } from 'react-native';
 import SafeAreaView from './SafeAreaView';
 import { SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type Props = SafeAreaViewProps & {
     style?: ExtendedStyleProps;
@@ -31,8 +34,9 @@ const WithKeyboardSafeAreaView = (props: Props) => {
                     behavior={'padding'}
                     keyboardVerticalOffset={top}
                     style={{ flex: 1 }}
-                    children={children}
-                />
+                >
+                    {children}
+                </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
         </SafeAreaView>
     );
