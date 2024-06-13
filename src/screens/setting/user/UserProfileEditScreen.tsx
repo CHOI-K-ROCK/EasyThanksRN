@@ -18,7 +18,7 @@ import useCustomTheme from '../../../hooks/useCustomTheme';
 import useInput from '../../../hooks/useInput';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
-import WithKeyboardSafeAreaView from '../../../components/common/WithKeyboardSafeAreaView';
+import KeyboardDismissSafeAreaView from '../../../components/common/KeyboardDismissSafeAreaView';
 import { commonStyles } from '../../../style';
 import HorizontalDivider from '../../../components/common/HorizontalDivider';
 
@@ -37,7 +37,7 @@ const UserProfileEditScreen = () => {
     };
 
     return (
-        <WithKeyboardSafeAreaView keyboardAvoiding={false}>
+        <KeyboardDismissSafeAreaView keyboardAvoiding={false}>
             <InnerNavigationBar screenTitle="프로필 수정" goBack={goBack} />
 
             <View style={styles.container}>
@@ -86,7 +86,7 @@ const UserProfileEditScreen = () => {
                     </View>
                 </View>
             </View>
-        </WithKeyboardSafeAreaView>
+        </KeyboardDismissSafeAreaView>
     );
 };
 

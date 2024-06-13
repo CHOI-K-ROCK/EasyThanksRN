@@ -1,19 +1,13 @@
-import React, { LegacyRef, RefObject, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
-import {
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    ScrollView,
-    StyleSheet,
-    View,
-} from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import InnerNavigationBar from '../../components/common/InnerNavigationBar';
 import CustomText from '../../components/common/CustomText';
 import PushAnimatedPressable from '../../components/common/PushAnimatedPressable';
 import CustomTextInput from '../../components/common/CustomTextInput';
-import WithKeyboardSafeAreaView from '../../components/common/WithKeyboardSafeAreaView';
+import KeyboardDismissSafeAreaView from '../../components/common/KeyboardDismissSafeAreaView';
 import HorizontalDivider from '../../components/common/HorizontalDivider';
 import FullWidthButton from '../../components/common/FullWidthButton';
 import ComposeSummaryView from '../../components/compose/ComposeSummaryView';
@@ -25,7 +19,6 @@ import {
 } from '../../@types/navigations/composeStack';
 
 import useInput from '../../hooks/useInput';
-import useCustomTheme from '../../hooks/useCustomTheme';
 
 import { commonStyles } from '../../style';
 
@@ -43,6 +36,15 @@ const ComposeScreen = () => {
 
     const initialData = params?.initialData;
     const isEdit = initialData !== undefined;
+
+    const handleCancel = () => {
+        if (content) {
+            console.log('헉 글 쓰는중임!');
+            return;
+        }
+
+        goBack();
+    };
 
     const onPressEditDate = () => {
         console.log('edit date');
@@ -69,11 +71,11 @@ const ComposeScreen = () => {
     };
 
     return (
-        <WithKeyboardSafeAreaView>
+        <KeyboardDismissSafeAreaView keyboardAvoiding>
             <InnerNavigationBar
                 screenTitle={isEdit ? '글 수정하기' : '글 쓰기'}
                 rightComponent={
-                    <PushAnimatedPressable onPress={goBack} style={styles.cancelButton}>
+                    <PushAnimatedPressable onPress={handleCancel} style={styles.cancelButton}>
                         <CustomText style={styles.cancel}>취소</CustomText>
                     </PushAnimatedPressable>
                 }
@@ -117,7 +119,7 @@ const ComposeScreen = () => {
             <View style={styles.buttonContainer}>
                 <FullWidthButton title="작성 완료" />
             </View>
-        </WithKeyboardSafeAreaView>
+        </KeyboardDismissSafeAreaView>
     );
 };
 
