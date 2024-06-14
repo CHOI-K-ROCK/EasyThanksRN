@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import InnerNavigationBar from '../../components/common/InnerNavigationBar';
@@ -12,6 +12,7 @@ import HorizontalDivider from '../../components/common/HorizontalDivider';
 import FullWidthButton from '../../components/common/FullWidthButton';
 import ComposeSummaryView from '../../components/compose/ComposeSummaryView';
 import ComposePhotoButton from '../../components/compose/ComposePhotoButton';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
     ComposeScreenNavigationProps,
@@ -19,9 +20,9 @@ import {
 } from '../../@types/navigations/composeStack';
 
 import useInput from '../../hooks/useInput';
+import useDimensions from '../../hooks/useDimensions';
 
 import { commonStyles } from '../../style';
-
 import { HORIZONTAL_GAP } from '../../constant/style';
 import { SAMPLE_IMAGE } from '../../constant/dummy';
 
@@ -29,13 +30,14 @@ const ComposeScreen = () => {
     const { navigate, goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
 
-    const { value: content, handleChange: setContent } = useInput();
+    const isEdit = params?.initialData !== undefined;
+    const initialData = params?.initialData || {};
 
-    const [photos, setPhotos] = useState<string | undefined>(undefined); // 사진 blob
-    // const [photos, setPhotos] = useState<any[]>([]); // 사진 blob
+    const { initialImage, initialDate, content: initialContent } = initialData;
 
-    const initialData = params?.initialData;
-    const isEdit = initialData !== undefined;
+    const { value: content, handleChange: setContent } = useInput(initialContent);
+    const [photos, setPhotos] = useState<string | undefined>(initialImage || undefined); // 사진 blob
+    const [date, setDate] = useState<Date>(initialDate || new Date()); // 작성 Date
 
     const handleCancel = () => {
         if (content) {
@@ -70,8 +72,17 @@ const ComposeScreen = () => {
         setPhotos(p => undefined);
     };
 
+    const handleWritePost = () => {
+        const postData = {
+            content,
+            image: photos,
+            date,
+        };
+        console.log(postData);
+    };
+
     return (
-        <KeyboardDismissSafeAreaView keyboardAvoiding>
+        <KeyboardDismissSafeAreaView keyboardAvoiding={false}>
             <InnerNavigationBar
                 screenTitle={isEdit ? '글 수정하기' : '글 쓰기'}
                 rightComponent={
@@ -80,10 +91,13 @@ const ComposeScreen = () => {
                     </PushAnimatedPressable>
                 }
             />
-            <ScrollView style={styles.container} bounces={false}>
+            <KeyboardAwareScrollView
+                extraHeight={(Platform.OS === 'ios' && 150) || undefined}
+                style={styles.container}
+            >
                 <View onStartShouldSetResponder={() => true}>
                     <ComposeSummaryView
-                        date={new Date()}
+                        date={date}
                         onPressEditDate={onPressEditDate}
                         onPressEditTime={onPressEditTime}
                         locationString={locationString}
@@ -92,8 +106,8 @@ const ComposeScreen = () => {
 
                     <HorizontalDivider style={styles.divider} />
 
-                    <CustomText style={[commonStyles.subject, { marginBottom: 10, marginTop: 0 }]}>
-                        오늘 가장 감사했던 순간은 언제인가요?
+                    <CustomText style={[commonStyles.subject, styles.addPhotoTitle]}>
+                        {'오늘 가장 기억에 남는 순간이 언제인가요? (선택)'}
                     </CustomText>
 
                     <ComposePhotoButton
@@ -114,10 +128,10 @@ const ComposeScreen = () => {
                     />
                     <View style={{ height: 50 }} />
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
 
             <View style={styles.buttonContainer}>
-                <FullWidthButton title="작성 완료" />
+                <FullWidthButton title="작성 완료" onPress={handleWritePost} />
             </View>
         </KeyboardDismissSafeAreaView>
     );
@@ -131,6 +145,10 @@ const styles = StyleSheet.create({
     },
     divider: {
         marginVertical: 15,
+    },
+    addPhotoTitle: {
+        marginBottom: 10,
+        marginTop: 0,
     },
     textFieldTitle: {
         marginBottom: 10,

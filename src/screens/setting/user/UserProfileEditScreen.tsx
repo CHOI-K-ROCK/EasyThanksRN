@@ -7,6 +7,7 @@ import ProfilePicture from '../../../components/common/ProfilePicture';
 import CustomTextInput from '../../../components/common/CustomTextInput';
 import VectorIcon from '../../../components/common/VectorIcon';
 import CustomText from '../../../components/common/CustomText';
+import KeyboardDismissSafeAreaView from '../../../components/common/KeyboardDismissSafeAreaView';
 
 import {
     UserProfileEditScreenNavigationProps,
@@ -18,9 +19,7 @@ import useCustomTheme from '../../../hooks/useCustomTheme';
 import useInput from '../../../hooks/useInput';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
-import KeyboardDismissSafeAreaView from '../../../components/common/KeyboardDismissSafeAreaView';
 import { commonStyles } from '../../../style';
-import HorizontalDivider from '../../../components/common/HorizontalDivider';
 
 const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
@@ -28,7 +27,7 @@ const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
     const { params } = useRoute<UserProfileEditScreenRouteProps>();
 
-    const { userId, username, profileImage, email, oauthProvider } = params.userData;
+    const { username, profileImage } = params.userData;
 
     const { value, handleChange, clearValue } = useInput(username);
 
