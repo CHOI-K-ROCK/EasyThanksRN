@@ -7,6 +7,7 @@ import { Provider as JotaiProvider } from 'jotai';
 import RootStack from './src/navigation/RootStack';
 import useCustomTheme from './src/hooks/useCustomTheme';
 import AuthStack from './src/navigation/AuthStack';
+import ModalManager from './src/components/modal/ModalManager';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
@@ -15,6 +16,7 @@ function App(): React.JSX.Element {
     return (
         <JotaiProvider>
             <NavigationContainer>
+                <ModalManager />
                 <StatusBar
                     barStyle={isDark ? 'light-content' : 'dark-content'}
                     backgroundColor={colors.tabBarBackground}
