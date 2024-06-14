@@ -16,12 +16,12 @@ function App(): React.JSX.Element {
     return (
         <JotaiProvider>
             <NavigationContainer>
-                <ModalManager />
                 <StatusBar
                     barStyle={isDark ? 'light-content' : 'dark-content'}
                     backgroundColor={colors.tabBarBackground}
                 />
                 {isLoggedIn ? <RootStack /> : <AuthStack />}
+                <ModalManager />
             </NavigationContainer>
         </JotaiProvider>
     );

@@ -4,12 +4,10 @@ export type ModalBaseType = {
     type: 'dialog' | 'bottomSheet' | 'toast';
 
     id?: string;
-    content: ((modalId: string) => ReactNode) | string;
+    content: ReactNode | string;
 };
 
 export type ModalButtonType = {
-    type?: 'default' | 'close';
-
     content: string | ReactNode;
     onPress?: () => void;
 
@@ -17,7 +15,17 @@ export type ModalButtonType = {
     textColor?: string;
 };
 
-export type ModalDataType =
-    | (ModalBaseType & { type: 'dialog' } & { buttons?: ModalButtonType[] })
-    | (ModalBaseType & { type: 'bottomSheet' } & { buttons?: ModalButtonType[] })
-    | (ModalBaseType & { type: 'toast' } & { duration?: number });
+export type ModalDialogDataType = ModalBaseType & {
+    type: 'dialog';
+    buttons?: ModalButtonType[];
+};
+export type ModalBottomSheetDataType = ModalBaseType & {
+    type: 'bottomSheet';
+    buttons?: ModalButtonType[];
+};
+export type ModalToastDataType = ModalBaseType & {
+    type: 'toast';
+    duration?: number;
+};
+
+export type ModalDataType = ModalDialogDataType | ModalBottomSheetDataType | ModalToastDataType;

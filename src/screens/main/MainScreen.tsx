@@ -27,26 +27,20 @@ const MainScreen = () => {
         // id: 'dialog',
         type: 'dialog',
         content: '정말로 탈퇴하시겠습니까?',
-        buttons: [
-            { content: '네', onPress: () => console.log('뀨잉') },
-            { content: '닫기', type: 'close' },
-        ],
+        buttons: [{ content: '네', onPress: () => console.log('뀨잉') }, { content: '닫기' }],
     };
 
     const bottomSheetModalData: ModalDataType = {
-        id: 'bottomSheet',
+        // id: 'bottomSheet',
         type: 'bottomSheet',
-        content: '정말로 탈퇴하시겠습니까?',
-        buttons: [
-            { content: '네', onPress: () => console.log('뀨잉') },
-            { content: '닫기', type: 'close' },
-        ],
+        content: '슈우욱',
+        buttons: [{ content: '네', onPress: () => console.log('뀨잉') }, { content: '닫기' }],
     };
 
     const ToastModalData: ModalDataType = {
-        id: 'toast',
+        // id: 'toast',
         type: 'toast',
-        content: '정말로 탈퇴하시겠습니까?',
+        content: '뀨잉뽀잉',
         duration: 500,
     };
 

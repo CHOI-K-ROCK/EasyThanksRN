@@ -1,11 +1,11 @@
 import React from 'react';
 import CustomText from '../common/CustomText';
-import { ModalType } from '../../@types/models/modal';
+import { ModalDataType } from '../../@types/models/modal';
 
 type Props = {};
 
-const Toast = (props: ModalType) => {
-    const {} = props;
+const Toast = (props: ModalDataType & { type: 'toast' }) => {
+    const { id, content, duration } = props;
 
     return <CustomText>Toast</CustomText>;
 };

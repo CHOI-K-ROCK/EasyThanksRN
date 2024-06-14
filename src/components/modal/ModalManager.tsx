@@ -10,14 +10,14 @@ import { ModalDataType } from '../../@types/models/modal';
 import useModal from '../../hooks/useModal';
 
 const ModalManager = () => {
-    const { closeModal } = useModal();
-
     const registeredModal = useAtomValue(modals);
 
-    const renderModal = useCallback((props: ModalDataType) => {
-        const { id } = props;
+    console.log('Redner');
 
-        switch (props.type) {
+    const renderModal = useCallback((props: ModalDataType) => {
+        const { id, type } = props;
+
+        switch (type) {
             case 'dialog':
                 return <Dialog key={id} {...props} />;
             case 'toast':
@@ -27,26 +27,8 @@ const ModalManager = () => {
         }
     }, []);
 
-    return registeredModal.map((modal: ModalDataType & { id: string }) => {
-        // 모달 등록 단계 (useModal.openModal) 에서 id를 보장하므로 위 처럼 타입을 확장하여 사용.
-        const { id } = modal;
-
-        return (
-            <Pressable
-                key={id}
-                onPress={() => closeModal(id)}
-                style={{
-                    position: 'absolute',
-                    zIndex: 1,
-                    top: '50%',
-                    left: '50%',
-                    padding: 20,
-                    backgroundColor: '#88888810',
-                }}
-            >
-                {renderModal(modal)}
-            </Pressable>
-        );
+    return registeredModal.map((modal: ModalDataType) => {
+        return renderModal(modal);
     });
 };
 
