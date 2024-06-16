@@ -30,7 +30,7 @@ const ComposeSummaryView = (props: Props) => {
         <View style={styles.container}>
             <View style={styles.dateContainer}>
                 <View style={styles.contentCotainer}>
-                    <View style={commonStyles.rowCenterBox}>
+                    <View style={commonStyles.rowCenter}>
                         <CustomText style={[styles.date]}>
                             {year}년 {month}월 {day}일
                         </CustomText>
@@ -42,7 +42,7 @@ const ComposeSummaryView = (props: Props) => {
                 </View>
 
                 <View style={styles.contentCotainer}>
-                    <View style={commonStyles.rowCenterBox}>
+                    <View style={commonStyles.rowCenter}>
                         <CustomText style={[styles.ampm]}>
                             {ampm === 'am' ? '오전' : '오후'}
                         </CustomText>

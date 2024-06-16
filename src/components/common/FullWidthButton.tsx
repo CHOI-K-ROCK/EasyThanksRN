@@ -33,7 +33,11 @@ const FullWidthButton = (props: Props) => {
             {iconComponent && iconPosition === 'left' && (
                 <View style={styles.leftIconContainer}>{iconComponent}</View>
             )}
-            <CustomText style={[styles.title, titleStyle]}>{title}</CustomText>
+            <CustomText
+                style={[styles.title, titleStyle, restProps.disabled ? styles.titleDisabled : {}]}
+            >
+                {title}
+            </CustomText>
             {iconComponent && iconPosition === 'right' && (
                 <View style={styles.rightIconContainer}>{iconComponent}</View>
             )}
@@ -52,6 +56,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: 500,
+    },
+    titleDisabled: {
+        opacity: 0.4,
     },
     leftIconContainer: {
         marginRight: 4,

@@ -10,6 +10,8 @@ import { ModalDataTypeWithId } from '../../@types/models/modal';
 import useModal from '../../hooks/useModal';
 import useDimensions from '../../hooks/useDimensions';
 
+import { commonStyles } from '../../style';
+
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type Props = ModalDataTypeWithId & { type: 'dialog' };
@@ -18,13 +20,25 @@ const Dialog = (props: Props) => {
     const { closeModal } = useModal();
     const { wp, hp } = useDimensions();
 
-    const { content, id, buttons, backdrop = true, closingByBackdrop = true } = props;
+    const {
+        id,
+
+        content,
+        buttons,
+
+        backdrop = true,
+        closingByBackdrop = true,
+
+        onOpen,
+        onClose,
+    } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
 
     useEffect(() => {
         setVisible(true); // 최초 렌더링시 애니메이션 재생을 위한 상태 변경
-    }, []);
+        onOpen && onOpen();
+    }, [onOpen]);
 
     // animation
 
@@ -61,8 +75,9 @@ const Dialog = (props: Props) => {
         setVisible(false);
         setTimeout(() => {
             closeModal(id);
+            onClose && onClose();
         }, 300);
-    }, [closeModal, id]);
+    }, [closeModal, id, onClose]);
 
     const handlePressBackdrop = useCallback(() => {
         if (closingByBackdrop) {
@@ -82,7 +97,16 @@ const Dialog = (props: Props) => {
                 isCloseButton,
             } = button;
 
-            const buttonHandler = isCloseButton ? handleCloseModal : onPress;
+            const buttonHandler = () => {
+                if (isCloseButton) {
+                    handleCloseModal();
+                }
+
+                if (onPress) {
+                    console.log('run');
+                    onPress(handleCloseModal);
+                }
+            };
 
             if (typeof buttonContent === 'string') {
                 return (
@@ -100,12 +124,16 @@ const Dialog = (props: Props) => {
         });
     }, [buttons, handleCloseModal]);
 
+    // ui
+
+    const CONTENT_IS_STRING = !React.isValidElement(content) && typeof content === 'string';
+
     return (
-        <View style={styles.container}>
+        <View style={[StyleSheet.absoluteFill, commonStyles.centered]}>
             <AnimatedPressable
                 style={[
                     { backgroundColor: backdrop ? 'rgba(0,0,0,0.4)' : undefined },
-                    styles.backdrop,
+                    StyleSheet.absoluteFill,
                     animatedOpacity,
                 ]}
                 onPress={handlePressBackdrop}
@@ -113,39 +141,31 @@ const Dialog = (props: Props) => {
             <Animated.View
                 style={[
                     {
-                        width: wp(70),
-                        height: hp(20),
+                        width: wp(75),
+                        maxWidth: 320,
+                        minHeight: hp(25),
                         backgroundColor: '#000',
                     },
                     animatedOpacity,
                     animatedAppear,
                 ]}
             >
-                <CustomText onPress={handleCloseModal}>{content}</CustomText>
-                <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'center' }}>
+                {CONTENT_IS_STRING ? (
+                    <CustomText onPress={handleCloseModal}>{content}</CustomText>
+                ) : (
+                    content
+                )}
+                <View style={[commonStyles.rowCenter, styles.buttonContainer]}>
                     {renderButton()}
                 </View>
             </Animated.View>
         </View>
     );
 };
+
 const styles = StyleSheet.create({
-    backdrop: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        opacity: 0,
-    },
-    container: {
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+    buttonContainer: {
+        gap: 10,
     },
 });
 

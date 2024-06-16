@@ -28,6 +28,8 @@ const MainScreen = () => {
         // id: uuid(),
         type: 'dialog',
         content: '정말로 탈퇴하시겠습니까?',
+        onOpen: () => console.log('open'),
+        onClose: () => console.log('close'),
         buttons: [
             { content: '네', onPress: () => console.log('뀨잉') },
             { content: '닫기', isCloseButton: true },

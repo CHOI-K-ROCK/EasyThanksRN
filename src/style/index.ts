@@ -1,6 +1,23 @@
 import { StyleSheet, Platform } from 'react-native';
 
 export const commonStyles = StyleSheet.create({
+    // box
+    paddingHorizontal: {
+        paddingHorizontal: 15,
+    },
+    marginHorizontal: {
+        marginHorizontal: 15,
+    },
+    centered: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    rowCenter: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    // ui
     dropShadow: {
         ...Platform.select({
             ios: {
@@ -14,17 +31,6 @@ export const commonStyles = StyleSheet.create({
             },
         }),
     },
-    paddingHorizontal: {
-        paddingHorizontal: 15,
-    },
-    marginHorizontal: {
-        marginHorizontal: 15,
-    },
-    rowCenterBox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-
     link: {
         color: '#828282',
         textDecorationLine: 'underline',

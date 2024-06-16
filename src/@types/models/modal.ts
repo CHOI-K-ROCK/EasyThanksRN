@@ -9,7 +9,7 @@ export type ModalBaseType = {
 
 export type ModalButtonType = {
     content: string | ReactElement;
-    onPress?: () => void;
+    onPress?: (closeModal: () => void) => void;
 
     backgroundColor?: string;
     textColor?: string;
@@ -21,14 +21,22 @@ export type ModalDataType =
     | (ModalBaseType & {
           type: 'dialog';
           buttons?: ModalButtonType[];
+
           backdrop?: boolean;
           closingByBackdrop?: boolean;
+
+          onOpen?: () => void;
+          onClose?: () => void;
       })
     | (ModalBaseType & {
           type: 'bottomSheet';
           buttons?: ModalButtonType[];
+
           backdrop?: boolean;
           closingByBackdrop?: boolean;
+
+          onOpen?: () => void;
+          onClose?: () => void;
       })
     | (ModalBaseType & { type: 'toast'; duration?: number });
 
