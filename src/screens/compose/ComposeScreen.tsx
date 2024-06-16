@@ -20,7 +20,6 @@ import {
 } from '../../@types/navigations/composeStack';
 
 import useInput from '../../hooks/useInput';
-import useDimensions from '../../hooks/useDimensions';
 
 import { commonStyles } from '../../style';
 import { HORIZONTAL_GAP } from '../../constant/style';

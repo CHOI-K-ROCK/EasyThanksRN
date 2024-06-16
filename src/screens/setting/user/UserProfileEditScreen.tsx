@@ -53,7 +53,14 @@ const UserProfileEditScreen = () => {
 
     const onPressOptOut = () => {
         openModal({
-            content: '정말로 탈퇴하시겠어요?\n모든 데이터가 초기화 되고 되돌릴 수 없습니다!',
+            content: (
+                <View>
+                    <CustomText>
+                        {'정말로 탈퇴하시겠어요?\n모든 데이터가 초기화 되고 되돌릴 수 없습니다!'}
+                    </CustomText>
+                    <CustomTextInput style={{}} autoFocus={true} />
+                </View>
+            ),
             type: 'dialog',
             buttons: [
                 {

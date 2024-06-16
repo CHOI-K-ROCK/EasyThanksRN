@@ -21,8 +21,8 @@ function App(): React.JSX.Element {
                     backgroundColor={colors.tabBarBackground}
                 />
                 {isLoggedIn ? <RootStack /> : <AuthStack />}
-                <ModalManager />
             </NavigationContainer>
+            <ModalManager />
         </JotaiProvider>
     );
 }

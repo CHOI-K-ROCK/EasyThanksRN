@@ -11,6 +11,7 @@ import useModal from '../../hooks/useModal';
 import useDimensions from '../../hooks/useDimensions';
 
 import { commonStyles } from '../../style';
+import useKeyboard from '../../hooks/useKeyboard';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -19,6 +20,8 @@ type Props = ModalDataTypeWithId & { type: 'dialog' };
 const Dialog = (props: Props) => {
     const { closeModal } = useModal();
     const { wp, hp } = useDimensions();
+
+    const { isShow, dismiss } = useKeyboard();
 
     const {
         id,
@@ -80,14 +83,20 @@ const Dialog = (props: Props) => {
     }, [closeModal, id, onClose]);
 
     const handlePressBackdrop = useCallback(() => {
+        if (isShow) {
+            dismiss();
+            return;
+        }
         if (closingByBackdrop) {
             handleCloseModal();
         }
-    }, [closingByBackdrop, handleCloseModal]);
+    }, [closingByBackdrop, dismiss, handleCloseModal, isShow]);
 
     // ui
 
-    const renderButton = useCallback(() => {
+    const CONTENT_IS_STRING = !React.isValidElement(content) && typeof content === 'string';
+
+    const renderButtons = useCallback(() => {
         return buttons?.map(button => {
             const {
                 content: buttonContent,
@@ -124,10 +133,6 @@ const Dialog = (props: Props) => {
         });
     }, [buttons, handleCloseModal]);
 
-    // ui
-
-    const CONTENT_IS_STRING = !React.isValidElement(content) && typeof content === 'string';
-
     return (
         <View style={[StyleSheet.absoluteFill, commonStyles.centered]}>
             <AnimatedPressable
@@ -155,8 +160,9 @@ const Dialog = (props: Props) => {
                 ) : (
                     content
                 )}
+
                 <View style={[commonStyles.rowCenter, styles.buttonContainer]}>
-                    {renderButton()}
+                    {renderButtons()}
                 </View>
             </Animated.View>
         </View>
