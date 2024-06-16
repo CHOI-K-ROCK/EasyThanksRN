@@ -1,34 +1,33 @@
-import { useAtomValue } from 'jotai';
+import React, { useCallback } from 'react';
 
-import React, { forwardRef, useCallback } from 'react';
+import { useAtomValue } from 'jotai';
 import { modals } from '../../state/modal';
-import { Pressable, TouchableWithoutFeedback, View } from 'react-native';
+
 import Dialog from './Dialog';
 import BottomSheet from './BottomSheet';
 import Toast from './Toast';
-import { ModalDataType } from '../../@types/models/modal';
-import useModal from '../../hooks/useModal';
+
+import { ModalDataTypeWithId } from '../../@types/models/modal';
 
 const ModalManager = () => {
-    const registeredModal = useAtomValue(modals);
+    const openedModal = useAtomValue(modals);
 
-    console.log('Redner');
-
-    const renderModal = useCallback((props: ModalDataType) => {
-        const { id, type } = props;
+    const renderModal = useCallback((props: ModalDataTypeWithId) => {
+        // useModal 을 이용하여 데이터가 추가될때 id가 생성되므로, ModalDataTypeWithId 타입 사용.
+        const { type } = props;
 
         switch (type) {
             case 'dialog':
-                return <Dialog key={id} {...props} />;
+                return <Dialog {...props} />;
             case 'toast':
-                return <Toast key={id} {...props} />;
+                return <Toast {...props} />;
             case 'bottomSheet':
-                return <BottomSheet key={id} {...props} />;
+                return <BottomSheet {...props} />;
         }
     }, []);
 
-    return registeredModal.map((modal: ModalDataType) => {
-        return renderModal(modal);
+    return openedModal.map((modal: ModalDataTypeWithId) => {
+        return <React.Fragment key={modal.id}>{renderModal(modal)}</React.Fragment>;
     });
 };
 

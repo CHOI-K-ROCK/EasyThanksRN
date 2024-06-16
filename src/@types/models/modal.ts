@@ -13,19 +13,27 @@ export type ModalButtonType = {
 
     backgroundColor?: string;
     textColor?: string;
+
+    isCloseButton?: boolean;
 };
 
-export type ModalDialogDataType = ModalBaseType & {
-    type: 'dialog';
-    buttons?: ModalButtonType[];
-};
-export type ModalBottomSheetDataType = ModalBaseType & {
-    type: 'bottomSheet';
-    buttons?: ModalButtonType[];
-};
-export type ModalToastDataType = ModalBaseType & {
-    type: 'toast';
-    duration?: number;
-};
+export type ModalDataType =
+    | (ModalBaseType & {
+          type: 'dialog';
+          buttons?: ModalButtonType[];
+          backdrop?: boolean;
+          closingByBackdrop?: boolean;
+      })
+    | (ModalBaseType & {
+          type: 'bottomSheet';
+          buttons?: ModalButtonType[];
+          backdrop?: boolean;
+          closingByBackdrop?: boolean;
+      })
+    | (ModalBaseType & { type: 'toast'; duration?: number });
 
-export type ModalDataType = ModalDialogDataType | ModalBottomSheetDataType | ModalToastDataType;
+export type ModalDataTypeWithId = ModalDataType & { id: string };
+
+export type ModalDialogDataType = ModalDataTypeWithId & { type: 'dialog' };
+export type ModalBottomSheetDataType = ModalDataTypeWithId & { type: 'bottomSheet' };
+export type ModalToastDataType = ModalDataTypeWithId & { type: 'toast' };

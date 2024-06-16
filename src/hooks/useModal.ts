@@ -16,25 +16,25 @@ import useUuid from './useUuid';
  *
  */
 const useModal = () => {
-    const updateAtom = useSetAtom(modals);
+    const updateModalAtom = useSetAtom(modals);
     const uuid = useUuid();
 
     const openModal = (modalData: ModalDataType) => {
-        const id = modalData.id || uuid(); // 아이디 없는 경우 새로 생성.
+        const id = modalData.id || uuid(); // 아이디 없는 경우 새로 생성 === id 보장됨.
         const modalWithId = {
             ...modalData,
             id,
-        } as ModalDataType & { id: string }; // id가 항상 존재함을 보장
+        };
 
-        updateAtom(prev => [...prev, modalWithId]);
+        updateModalAtom(prev => [...prev, modalWithId]);
     };
 
     const closeModal = (modalId: string) => {
-        updateAtom(prev => prev.filter(e => e.id !== modalId));
+        updateModalAtom(prev => prev.filter(e => e.id !== modalId));
     };
 
     const clearModal = () => {
-        updateAtom([]);
+        updateModalAtom([]);
     };
 
     return { openModal, closeModal, clearModal };

@@ -8,8 +8,9 @@ import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
-import CustomText from '../../components/common/CustomText';
 import useModal from '../../hooks/useModal';
+import CustomText from '../../components/common/CustomText';
+
 import { ModalDataType } from '../../@types/models/modal';
 
 const MainScreen = () => {
@@ -24,10 +25,13 @@ const MainScreen = () => {
     };
 
     const dialogModalData: ModalDataType = {
-        // id: 'dialog',
+        // id: uuid(),
         type: 'dialog',
         content: '정말로 탈퇴하시겠습니까?',
-        buttons: [{ content: '네', onPress: () => console.log('뀨잉') }, { content: '닫기' }],
+        buttons: [
+            { content: '네', onPress: () => console.log('뀨잉') },
+            { content: '닫기', isCloseButton: true },
+        ],
     };
 
     const bottomSheetModalData: ModalDataType = {
@@ -51,7 +55,12 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <CustomText onPress={() => openModal(dialogModalData)} style={{ padding: 20 }}>
+            <CustomText
+                onPress={() => {
+                    openModal({ ...dialogModalData });
+                }}
+                style={{ padding: 20 }}
+            >
                 dialog modal add
             </CustomText>
             <CustomText onPress={() => openModal(bottomSheetModalData)} style={{ padding: 20 }}>
