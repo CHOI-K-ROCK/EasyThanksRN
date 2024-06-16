@@ -21,7 +21,7 @@ const Dialog = (props: Props) => {
     const { closeModal } = useModal();
     const { wp, hp } = useDimensions();
 
-    const { isShow, dismiss } = useKeyboard();
+    const { isShow, dismiss, keyboardHeight } = useKeyboard();
 
     const {
         id,
@@ -79,7 +79,7 @@ const Dialog = (props: Props) => {
         setTimeout(() => {
             closeModal(id);
             onClose && onClose();
-        }, 300);
+        }, ANIMATION_DURATION);
     }, [closeModal, id, onClose]);
 
     const handlePressBackdrop = useCallback(() => {
@@ -112,7 +112,6 @@ const Dialog = (props: Props) => {
                 }
 
                 if (onPress) {
-                    console.log('run');
                     onPress(handleCloseModal);
                 }
             };
@@ -134,7 +133,7 @@ const Dialog = (props: Props) => {
     }, [buttons, handleCloseModal]);
 
     return (
-        <View style={[StyleSheet.absoluteFill, commonStyles.centered]}>
+        <View style={[StyleSheet.absoluteFill, commonStyles.centered, { bottom: keyboardHeight }]}>
             <AnimatedPressable
                 style={[
                     { backgroundColor: backdrop ? 'rgba(0,0,0,0.4)' : undefined },

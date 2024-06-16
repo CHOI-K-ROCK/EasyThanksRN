@@ -8,6 +8,7 @@ import RootStack from './src/navigation/RootStack';
 import useCustomTheme from './src/hooks/useCustomTheme';
 import AuthStack from './src/navigation/AuthStack';
 import ModalManager from './src/components/modal/ModalManager';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
@@ -15,14 +16,16 @@ function App(): React.JSX.Element {
 
     return (
         <JotaiProvider>
-            <NavigationContainer>
-                <StatusBar
-                    barStyle={isDark ? 'light-content' : 'dark-content'}
-                    backgroundColor={colors.tabBarBackground}
-                />
-                {isLoggedIn ? <RootStack /> : <AuthStack />}
-            </NavigationContainer>
-            <ModalManager />
+            <SafeAreaProvider>
+                <NavigationContainer>
+                    <StatusBar
+                        barStyle={isDark ? 'light-content' : 'dark-content'}
+                        backgroundColor={colors.tabBarBackground}
+                    />
+                    {isLoggedIn ? <RootStack /> : <AuthStack />}
+                </NavigationContainer>
+                <ModalManager />
+            </SafeAreaProvider>
         </JotaiProvider>
     );
 }

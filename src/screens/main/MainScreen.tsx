@@ -47,7 +47,6 @@ const MainScreen = () => {
         // id: 'toast',
         type: 'toast',
         content: '뀨잉뽀잉',
-        duration: 500,
     };
 
     return (
