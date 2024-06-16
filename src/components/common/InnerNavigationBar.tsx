@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from './CustomText';
@@ -14,8 +14,8 @@ type Props = {
     screenTitle: string;
     goBack?: () => void;
 
-    leftComponent?: ReactNode;
-    rightComponent?: ReactNode;
+    leftComponent?: ReactElement;
+    rightComponent?: ReactElement;
 };
 
 const InnerNavigationBar = (props: Props) => {

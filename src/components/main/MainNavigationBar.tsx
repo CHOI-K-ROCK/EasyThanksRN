@@ -12,7 +12,7 @@ import { getRandomString } from '../../utils/string';
 import { EMOJI_SET } from '../../constant/string';
 
 type Props = {
-    leftComponent?: React.ReactNode;
+    leftComponent?: React.ReactElement;
 };
 
 const MainNavigationBar = (props: Props) => {

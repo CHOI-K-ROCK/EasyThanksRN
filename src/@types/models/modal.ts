@@ -1,14 +1,14 @@
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 export type ModalBaseType = {
     type: 'dialog' | 'bottomSheet' | 'toast';
 
     id?: string;
-    content: ReactNode | string;
+    content: ReactElement | string;
 };
 
 export type ModalButtonType = {
-    content: string | ReactNode;
+    content: string | ReactElement;
     onPress?: () => void;
 
     backgroundColor?: string;

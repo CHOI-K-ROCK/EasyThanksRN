@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 import {
     Platform,
@@ -25,7 +25,7 @@ type Props = TextInputProps & {
     clearButton?: boolean;
     onPressClear?: () => void;
 
-    iconComponent?: ReactNode;
+    iconComponent?: ReactElement;
 };
 
 const CustomTextInput = (props: Props) => {

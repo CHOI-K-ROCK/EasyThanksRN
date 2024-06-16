@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 import { PressableProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import PushAnimatedPressable from './PushAnimatedPressable';
@@ -8,7 +8,7 @@ import CustomText from './CustomText';
 
 type Props = PressableProps & {
     title: string;
-    iconComponent?: ReactNode;
+    iconComponent?: ReactElement;
     iconPosition?: 'left' | 'right';
     style?: StyleProp<ViewStyle>;
     titleStyle?: StyleProp<TextStyle>;
