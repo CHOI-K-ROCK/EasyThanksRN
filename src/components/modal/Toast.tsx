@@ -24,7 +24,11 @@ const Toast = (props: ModalToastDataType) => {
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
-    //const
+    const animatedTimer = useRef<NodeJS.Timeout | null>(null);
+    const durationTimer = useRef<NodeJS.Timeout | null>(null);
+
+    // variables
+
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
     const APPEAR_HEIGHT = bottom + hp(10);
@@ -33,16 +37,21 @@ const Toast = (props: ModalToastDataType) => {
         const handleToast = async () => {
             setVisible(true);
 
-            await delay(ANIMATION_DURATION);
-            await delay(duration);
+            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
+            await new Promise(res => (durationTimer.current = setTimeout(res, duration)));
 
             setVisible(false);
-            await delay(duration);
-            setVisible(false);
+            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
+            closeModal(id);
         };
 
         handleToast();
-    }, [duration]);
+
+        return () => {
+            clearTimeout(animatedTimer.current as NodeJS.Timeout);
+            clearTimeout(durationTimer.current as NodeJS.Timeout);
+        };
+    }, [closeModal, duration, id]);
 
     // animation
 
@@ -67,8 +76,12 @@ const Toast = (props: ModalToastDataType) => {
     // handler
 
     const handleCloseModal = useCallback(async () => {
+        clearTimeout(animatedTimer.current as NodeJS.Timeout);
+        clearTimeout(durationTimer.current as NodeJS.Timeout);
+
         setVisible(false);
         await delay(ANIMATION_DURATION);
+
         closeModal(id);
     }, [closeModal, id]);
 

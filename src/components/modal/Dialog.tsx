@@ -38,15 +38,19 @@ const Dialog = (props: Props) => {
 
     const [visible, setVisible] = useState<boolean>(false);
 
+    // variables
+
+    const ANIMATION_DURATION = 200;
+    const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
+
+    const contentIsString = !React.isValidElement(content) && typeof content === 'string';
+
     useEffect(() => {
         setVisible(true); // 최초 렌더링시 애니메이션 재생을 위한 상태 변경
         onOpen && onOpen();
     }, [onOpen]);
 
     // animation
-
-    const ANIMATION_DURATION = 200;
-    const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
 
     const animatedOpacity = useAnimatedStyle(
         () => ({
@@ -93,8 +97,6 @@ const Dialog = (props: Props) => {
     }, [closingByBackdrop, dismiss, handleCloseModal, isShow]);
 
     // ui
-
-    const CONTENT_IS_STRING = !React.isValidElement(content) && typeof content === 'string';
 
     const renderButtons = useCallback(() => {
         return buttons?.map(button => {
@@ -154,7 +156,7 @@ const Dialog = (props: Props) => {
                     animatedAppear,
                 ]}
             >
-                {CONTENT_IS_STRING ? (
+                {contentIsString ? (
                     <CustomText onPress={handleCloseModal}>{content}</CustomText>
                 ) : (
                     content
