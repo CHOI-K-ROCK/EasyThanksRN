@@ -5,6 +5,7 @@ import { modals } from '../state/modal';
 import { ModalDataType } from '../@types/models/modal';
 
 import useUuid from './useUuid';
+import { useCallback } from 'react';
 
 /**
  *
@@ -19,23 +20,29 @@ const useModal = () => {
     const updateModalAtom = useSetAtom(modals);
     const uuid = useUuid();
 
-    const openModal = (modalData: ModalDataType) => {
-        const id = modalData.id || uuid(); // 아이디 없는 경우 새로 생성 === id 보장됨.
-        const modalWithId = {
-            ...modalData,
-            id,
-        };
+    const openModal = useCallback(
+        (modalData: ModalDataType) => {
+            const id = modalData.id || uuid(); // 아이디 없는 경우 새로 생성 === id 보장됨.
+            const modalWithId = {
+                ...modalData,
+                id,
+            };
 
-        updateModalAtom(prev => [...prev, modalWithId]);
-    };
+            updateModalAtom(prev => [...prev, modalWithId]);
+        },
+        [updateModalAtom, uuid]
+    );
 
-    const closeModal = (modalId: string) => {
-        updateModalAtom(prev => prev.filter(e => e.id !== modalId));
-    };
+    const closeModal = useCallback(
+        (modalId: string) => {
+            updateModalAtom(prev => prev.filter(e => e.id !== modalId));
+        },
+        [updateModalAtom]
+    );
 
-    const clearModal = () => {
+    const clearModal = useCallback(() => {
         updateModalAtom([]);
-    };
+    }, [updateModalAtom]);
 
     return { openModal, closeModal, clearModal };
 };
