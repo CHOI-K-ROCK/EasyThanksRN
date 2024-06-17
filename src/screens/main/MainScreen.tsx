@@ -46,7 +46,7 @@ const MainScreen = () => {
     const ToastModalData: ModalDataType = {
         // id: 'toast',
         type: 'toast',
-        content: '뀨잉뽀잉',
+        content: '🍞',
     };
 
     return (

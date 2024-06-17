@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { View } from 'react-native';
 import CustomText from '../common/CustomText';
@@ -12,55 +12,46 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { commonStyles } from '../../style';
 import VectorIcon from '../common/VectorIcon';
+import { delay } from '../../utils/data';
 
 const Toast = (props: ModalToastDataType) => {
     const { closeModal } = useModal();
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
 
-    const { id, content, duration = 1000 } = props;
+    const { id, content, duration = 3000 } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
-    const handleCloseModal = useCallback(() => {
-        setVisible(false);
-        const closeTimer = setTimeout(() => {
-            closeModal(id);
-        }, ANIMATION_DURATION);
-    }, [closeModal, id]);
-
-    useEffect(() => {
-        setVisible(true); // 최초 렌더링시 애니메이션 재생을 위한 상태 변경
-
-        const toastTimer = setTimeout(() => {
-            console.log('times up');
-            handleCloseModal();
-        }, (duration || 0) + ANIMATION_DURATION);
-
-        return () => {
-            clearTimeout(toastTimer);
-        };
-    }, [duration, handleCloseModal]);
-
-    // animation
-
+    //const
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
     const APPEAR_HEIGHT = bottom + hp(10);
 
-    const animatedOpacity = useAnimatedStyle(
-        () => ({
+    useEffect(() => {
+        const handleToast = async () => {
+            setVisible(true);
+
+            await delay(ANIMATION_DURATION);
+            await delay(duration);
+
+            setVisible(false);
+            await delay(duration);
+            setVisible(false);
+        };
+
+        handleToast();
+    }, [duration]);
+
+    // animation
+
+    const animatedAppear = useAnimatedStyle(() => {
+        return {
             opacity: withTiming(visible ? 1 : 0, {
                 duration: ANIMATION_DURATION,
                 easing: EASING_BEZIER,
             }),
-        }),
-        [visible]
-    );
-
-    const animatedAppear = useAnimatedStyle(() => {
-        return {
             transform: [
                 {
                     translateY: withTiming(visible ? 0 : APPEAR_HEIGHT, {
@@ -75,7 +66,11 @@ const Toast = (props: ModalToastDataType) => {
 
     // handler
 
-    // ui
+    const handleCloseModal = useCallback(async () => {
+        setVisible(false);
+        await delay(ANIMATION_DURATION);
+        closeModal(id);
+    }, [closeModal, id]);
 
     return (
         <Animated.View
@@ -94,7 +89,6 @@ const Toast = (props: ModalToastDataType) => {
                 },
                 commonStyles.dropShadow,
                 commonStyles.rowCenter,
-                animatedOpacity,
                 animatedAppear,
             ]}
             onLayout={e => {
