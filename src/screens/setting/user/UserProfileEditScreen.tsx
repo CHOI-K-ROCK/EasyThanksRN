@@ -22,11 +22,12 @@ import useModal from '../../../hooks/useModal';
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
 import OptOutDialogModal from '../../../components/modal/OptOutDialogModal';
+import CommonModal from '../../../components/modal/common/CommonModal';
 
 const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
     const { openModal, closeModal } = useModal(() => (
-        <OptOutDialogModal onConfirm={onPressOptOut} closeModal={closeModal} />
+        <OptOutDialogModal closeModal={closeModal} onConfirm={onConfirmOptOut} />
     ));
 
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
@@ -58,27 +59,25 @@ const UserProfileEditScreen = () => {
         openModal();
     };
 
-    const onConfirmOptOut = useCallback(
-        async (closeModal: () => void) => {
-            try {
-                closeModal();
+    const onConfirmOptOut = async (animatedClose: () => void) => {
+        try {
+            // 탈퇴 로직 수행
+            // 로딩 상태 변경 true
+            console.log('탈퇴 요청 전송');
+            await new Promise((res, rej) => {
+                setTimeout(res, 2000);
+            });
+            // 로딩 상태 변경 false
+            console.log('탈퇴 완료, 로그아웃 진행');
+            // 탈퇴 완료시 로그인 화면으로 이동
 
-                // 탈퇴 로직 수행
-                // 로딩 상태 변경 true
-                console.log('탈퇴 요청 전송');
-                await new Promise((res, rej) => {
-                    setTimeout(res, 2000);
-                });
-                // 로딩 상태 변경 false
-                console.log('탈퇴 완료, 로그아웃 진행');
-                // 탈퇴 완료시 로그인 화면으로 이동
-                goBack();
-            } catch (error: any) {
-                console.log('opt out error : ', error.message);
-            }
-        },
-        [goBack]
-    );
+            animatedClose();
+            // ref 로 전달받는 메소드로, 콜백처리하는 경우 업데이트 되지 않아 실행되지 않음.
+            goBack();
+        } catch (error: any) {
+            console.log('opt out error : ', error.message);
+        }
+    };
 
     return (
         <KeyboardDismissSafeAreaView keyboardAvoiding={false}>

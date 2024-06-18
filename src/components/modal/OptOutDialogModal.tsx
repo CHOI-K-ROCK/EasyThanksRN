@@ -8,7 +8,7 @@ import useInput from '../../hooks/useInput';
 import { ModalButtonType } from '../../@types/models/modal';
 
 type Props = {
-    onConfirm: () => void;
+    onConfirm: (animatedClose: () => void) => void;
     closeModal: () => void;
 };
 
@@ -20,7 +20,7 @@ const OptOutDialogModal = (props: Props) => {
     const ref = useRef<any>(null);
 
     const handleConfirm = () => {
-        onConfirm();
+        onConfirm(ref.current.animatedCloseModal);
     };
 
     const buttons: ModalButtonType[] = [
