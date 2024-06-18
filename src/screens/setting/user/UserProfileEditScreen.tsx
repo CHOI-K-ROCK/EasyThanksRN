@@ -21,10 +21,13 @@ import useModal from '../../../hooks/useModal';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
+import OptOutDialogModal from '../../../components/modal/OptOutDialogModal';
 
 const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
-    const { openModal } = useModal();
+    const { openModal, closeModal } = useModal(() => (
+        <OptOutDialogModal onConfirm={onPressOptOut} closeModal={closeModal} />
+    ));
 
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
     const { params } = useRoute<UserProfileEditScreenRouteProps>();
@@ -52,29 +55,7 @@ const UserProfileEditScreen = () => {
     };
 
     const onPressOptOut = () => {
-        openModal({
-            content: (
-                <View>
-                    <CustomText>
-                        {'정말로 탈퇴하시겠어요?\n모든 데이터가 초기화 되고 되돌릴 수 없습니다!'}
-                    </CustomText>
-                    <CustomTextInput style={{}} autoFocus={true} />
-                </View>
-            ),
-            type: 'dialog',
-            buttons: [
-                {
-                    content: '네 탈퇴할게요',
-                    onPress: onConfirmOptOut,
-                    backgroundColor: colors.caution,
-                    textColor: '#FFF',
-                },
-                {
-                    content: '좀 더 생각해볼게요',
-                    isCloseButton: true,
-                },
-            ],
-        });
+        openModal();
     };
 
     const onConfirmOptOut = useCallback(

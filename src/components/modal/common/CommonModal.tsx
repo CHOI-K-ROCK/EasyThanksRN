@@ -1,32 +1,38 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import CustomText from '../common/CustomText';
-import FullWidthButton from '../common/FullWidthButton';
+import CustomText from '../../common/CustomText';
+import FullWidthButton from '../../common/FullWidthButton';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { ModalDataTypeWithId } from '../../@types/models/modal';
+import { ModalButtonType, ModalDataTypeWithId } from '../../../@types/models/modal';
 
-import useModal from '../../hooks/useModal';
-import useDimensions from '../../hooks/useDimensions';
+import useModal from '../../../hooks/useModal';
+import useDimensions from '../../../hooks/useDimensions';
 
-import { commonStyles } from '../../style';
-import useKeyboard from '../../hooks/useKeyboard';
+import { commonStyles } from '../../../style';
+import useKeyboard from '../../../hooks/useKeyboard';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-type Props = ModalDataTypeWithId & { type: 'dialog' };
+type Props = {
+    buttons?: ModalButtonType[];
 
-const Dialog = (props: Props) => {
-    const { closeModal } = useModal();
+    backdrop?: boolean;
+    closingByBackdrop?: boolean;
+
+    onOpen?: () => void;
+    onClose?: () => void;
+
+    children: ReactNode;
+};
+
+const CommonModal = (props: Props) => {
     const { wp, hp } = useDimensions();
 
     const { isShow, dismiss, keyboardHeight } = useKeyboard();
 
     const {
-        id,
-
-        content,
         buttons,
 
         backdrop = true,
@@ -34,6 +40,8 @@ const Dialog = (props: Props) => {
 
         onOpen,
         onClose,
+
+        children,
     } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
@@ -42,8 +50,6 @@ const Dialog = (props: Props) => {
 
     const ANIMATION_DURATION = 200;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
-
-    const contentIsString = !React.isValidElement(content) && typeof content === 'string';
 
     useEffect(() => {
         setVisible(true); // 최초 렌더링시 애니메이션 재생을 위한 상태 변경
@@ -81,10 +87,9 @@ const Dialog = (props: Props) => {
     const handleCloseModal = useCallback(() => {
         setVisible(false);
         setTimeout(() => {
-            closeModal(id);
             onClose && onClose();
         }, ANIMATION_DURATION);
-    }, [closeModal, id, onClose]);
+    }, [onClose]);
 
     const handlePressBackdrop = useCallback(() => {
         if (isShow) {
@@ -156,12 +161,7 @@ const Dialog = (props: Props) => {
                     animatedAppear,
                 ]}
             >
-                {contentIsString ? (
-                    <CustomText onPress={handleCloseModal}>{content}</CustomText>
-                ) : (
-                    content
-                )}
-
+                {children}
                 <View style={[commonStyles.rowCenter, styles.buttonContainer]}>
                     {renderButtons()}
                 </View>
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Dialog;
+export default CommonModal;
