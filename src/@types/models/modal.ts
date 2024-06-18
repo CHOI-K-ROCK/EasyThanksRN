@@ -8,8 +8,10 @@ export type ModalBaseType = {
 };
 
 export type ModalButtonType = {
-    content: string | ReactElement;
-    onPress?: (closeModal: () => void) => void;
+    type?: 'apply' | 'cancel';
+
+    content: string;
+    onPress?: () => void;
 
     backgroundColor?: string;
     textColor?: string;

@@ -1,17 +1,24 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import React, {
+    ReactNode,
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useState,
+} from 'react';
 
-import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import CustomText from '../../common/CustomText';
-import FullWidthButton from '../../common/FullWidthButton';
 import { Pressable, StyleSheet, View } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
-import { ModalButtonType, ModalDataTypeWithId } from '../../../@types/models/modal';
+import FullWidthButton from '../../common/FullWidthButton';
 
-import useModal from '../../../hooks/useModal';
+import { ModalButtonType } from '../../../@types/models/modal';
+
 import useDimensions from '../../../hooks/useDimensions';
+import useKeyboard from '../../../hooks/useKeyboard';
 
 import { commonStyles } from '../../../style';
-import useKeyboard from '../../../hooks/useKeyboard';
+import useCustomTheme from '../../../hooks/useCustomTheme';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -21,16 +28,14 @@ type Props = {
     backdrop?: boolean;
     closingByBackdrop?: boolean;
 
-    onOpen?: () => void;
-    onClose?: () => void;
-
     closeModal: () => void;
 
     children: ReactNode;
 };
 
-const CommonModal = (props: Props) => {
+const CommonModal = forwardRef((props: Props, ref) => {
     const { wp, hp } = useDimensions();
+    const { colors } = useCustomTheme();
 
     const { isShow, dismiss, keyboardHeight } = useKeyboard();
 
@@ -39,9 +44,6 @@ const CommonModal = (props: Props) => {
 
         backdrop = true,
         closingByBackdrop = true,
-
-        onOpen,
-        onClose,
 
         children,
         closeModal,
@@ -56,8 +58,12 @@ const CommonModal = (props: Props) => {
 
     useEffect(() => {
         setVisible(true); // 최초 렌더링시 애니메이션 재생을 위한 상태 변경
-        onOpen && onOpen();
-    }, [onOpen]);
+    }, []);
+
+    // 부모 컴포넌트에서 애니메이션 시간만큼 지연된 closeModal 을 호출해야하는 경우 사용
+    useImperativeHandle(ref, () => ({
+        animatedCloseModal: handleCloseModal,
+    }));
 
     // animation
 
@@ -91,9 +97,8 @@ const CommonModal = (props: Props) => {
         setVisible(false);
         setTimeout(() => {
             closeModal();
-            onClose && onClose();
         }, ANIMATION_DURATION);
-    }, [closeModal, onClose]);
+    }, [closeModal]);
 
     const handlePressBackdrop = useCallback(() => {
         if (isShow) {
@@ -109,39 +114,30 @@ const CommonModal = (props: Props) => {
 
     const renderButtons = useCallback(() => {
         return buttons?.map(button => {
+            const IS_CANCEL_BUTTON = button.type === 'cancel';
+
             const {
                 content: buttonContent,
                 onPress,
-                backgroundColor = '#FFF',
-                textColor,
-                isCloseButton,
+                backgroundColor = IS_CANCEL_BUTTON ? colors.caution : colors.text,
+                textColor = IS_CANCEL_BUTTON ? '#FFF' : colors.textReverse,
             } = button;
 
             const buttonHandler = () => {
-                if (isCloseButton && !onPress) {
-                    handleCloseModal();
-                }
-
-                if (onPress) {
-                    onPress(handleCloseModal);
-                }
+                onPress ? onPress() : handleCloseModal();
             };
 
-            if (typeof buttonContent === 'string') {
-                return (
-                    <FullWidthButton
-                        key={buttonContent}
-                        title={buttonContent}
-                        onPress={buttonHandler}
-                        titleStyle={{ color: textColor }}
-                        style={{ backgroundColor, flex: 1 }}
-                    />
-                );
-            }
-
-            return buttonContent;
+            return (
+                <FullWidthButton
+                    key={buttonContent}
+                    title={buttonContent}
+                    onPress={buttonHandler}
+                    titleStyle={{ color: textColor }}
+                    style={{ backgroundColor, flex: 1 }}
+                />
+            );
         });
-    }, [buttons, handleCloseModal]);
+    }, [buttons, colors.caution, colors.text, colors.textReverse, handleCloseModal]);
 
     return (
         <View style={[StyleSheet.absoluteFill, commonStyles.centered, { bottom: keyboardHeight }]}>
@@ -172,7 +168,7 @@ const CommonModal = (props: Props) => {
             </Animated.View>
         </View>
     );
-};
+});
 
 const styles = StyleSheet.create({
     buttonContainer: {

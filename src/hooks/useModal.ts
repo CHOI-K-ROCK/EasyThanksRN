@@ -5,7 +5,7 @@ import { modals } from '../state/modal';
 import { ModalDataType } from '../@types/models/modal';
 
 import useUuid from './useUuid';
-import React, { ReactElement, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 /**
  *
