@@ -8,12 +8,10 @@ const ModalManager = () => {
 
     return openedModal.map((modal: { id: string; component: React.FC }) => {
         const { id, component } = modal;
+        const ModalComponent = () => component({});
 
-        return <Component key={id} component={component} />;
+        return <ModalComponent key={id} />;
     });
-};
-const Component = ({ component, ...rest }: { component: React.FC }) => {
-    return component({ ...rest });
 };
 
 export default ModalManager;

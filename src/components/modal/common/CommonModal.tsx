@@ -24,6 +24,8 @@ type Props = {
     onOpen?: () => void;
     onClose?: () => void;
 
+    closeModal: () => void;
+
     children: ReactNode;
 };
 
@@ -42,6 +44,7 @@ const CommonModal = (props: Props) => {
         onClose,
 
         children,
+        closeModal,
     } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
@@ -87,9 +90,10 @@ const CommonModal = (props: Props) => {
     const handleCloseModal = useCallback(() => {
         setVisible(false);
         setTimeout(() => {
+            closeModal();
             onClose && onClose();
         }, ANIMATION_DURATION);
-    }, [onClose]);
+    }, [closeModal, onClose]);
 
     const handlePressBackdrop = useCallback(() => {
         if (isShow) {
@@ -114,7 +118,7 @@ const CommonModal = (props: Props) => {
             } = button;
 
             const buttonHandler = () => {
-                if (isCloseButton) {
+                if (isCloseButton && !onPress) {
                     handleCloseModal();
                 }
 
