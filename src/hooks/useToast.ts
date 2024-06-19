@@ -6,7 +6,7 @@ import { ModalDataType } from '../@types/models/modal';
 
 import useUuid from './useUuid';
 import React, { useCallback } from 'react';
-import { ToastDataType } from '../components/modal/ToastManager';
+import { ToastDataType } from '../components/modal/manager/ToastManager';
 
 /**
  *

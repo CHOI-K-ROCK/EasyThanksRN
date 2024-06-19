@@ -19,6 +19,7 @@ import useKeyboard from '../../../hooks/useKeyboard';
 
 import { commonStyles } from '../../../style';
 import useCustomTheme from '../../../hooks/useCustomTheme';
+import CustomText from '../../common/CustomText';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -30,7 +31,8 @@ type Props = {
 
     closeModal: () => void;
 
-    children: ReactNode;
+    text?: string;
+    children?: ReactNode;
 };
 
 const CommonModal = forwardRef((props: Props, ref) => {
@@ -45,7 +47,9 @@ const CommonModal = forwardRef((props: Props, ref) => {
         backdrop = true,
         closingByBackdrop = true,
 
+        text,
         children,
+
         closeModal,
     } = props;
 
@@ -161,7 +165,9 @@ const CommonModal = forwardRef((props: Props, ref) => {
                     animatedAppear,
                 ]}
             >
+                {text && <CustomText>{text}</CustomText>}
                 {children}
+
                 <View style={[commonStyles.rowCenter, styles.buttonContainer]}>
                     {renderButtons()}
                 </View>

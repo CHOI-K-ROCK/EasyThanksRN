@@ -1,24 +1,24 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { View } from 'react-native';
-import CustomText from '../common/CustomText';
+import { StyleSheet, View } from 'react-native';
+import CustomText from '../../common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
-import useDimensions from '../../hooks/useDimensions';
+import useDimensions from '../../../hooks/useDimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { commonStyles } from '../../style';
-import VectorIcon from '../common/VectorIcon';
-import { delay } from '../../utils/data';
-import { ToastDataType } from './ToastManager';
-import useToast from '../../hooks/useToast';
+import { commonStyles } from '../../../style';
+import VectorIcon from '../../common/VectorIcon';
+import { delay } from '../../../utils/data';
+import { ToastDataType } from '../manager/ToastManager';
+import useToast from '../../../hooks/useToast';
 
-const Toast = (props: ToastDataType) => {
+const Toast = (props: ToastDataType & { id: string }) => {
     const { closeModal } = useToast();
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
 
-    const { id, content, duration = 3000 } = props;
+    const { type = 'common', id, text, component, duration = 3000, autoClose = true } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
@@ -36,12 +36,18 @@ const Toast = (props: ToastDataType) => {
         const handleToast = async () => {
             setVisible(true);
 
-            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
-            await new Promise(res => (durationTimer.current = setTimeout(res, duration)));
+            if (autoClose) {
+                await new Promise(
+                    res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION))
+                );
+                await new Promise(res => (durationTimer.current = setTimeout(res, duration)));
 
-            setVisible(false);
-            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
-            closeModal(id!);
+                setVisible(false);
+                await new Promise(
+                    res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION))
+                );
+                closeModal(id);
+            }
         };
 
         handleToast();
@@ -50,7 +56,7 @@ const Toast = (props: ToastDataType) => {
             clearTimeout(animatedTimer.current as NodeJS.Timeout);
             clearTimeout(durationTimer.current as NodeJS.Timeout);
         };
-    }, [closeModal, duration, id]);
+    }, [closeModal, duration, id, autoClose]);
 
     // animation
 
@@ -81,8 +87,21 @@ const Toast = (props: ToastDataType) => {
         setVisible(false);
         await delay(ANIMATION_DURATION);
 
-        closeModal(id!);
+        closeModal(id);
     }, [closeModal, id]);
+
+    // ui
+
+    const renderIcon = useCallback(() => {
+        switch (type) {
+            case 'complete':
+                return <VectorIcon name={'check'} />;
+            case 'caution':
+                return <VectorIcon name={'exclamation'} />;
+            case 'error':
+                return <VectorIcon name={'close'} />;
+        }
+    }, [type]);
 
     return (
         <Animated.View
@@ -108,7 +127,9 @@ const Toast = (props: ToastDataType) => {
                 setMessageSize({ h: height, w: width });
             }}
         >
-            <CustomText style={{ fontWeight: 600, fontSize: 15 }}>{content}</CustomText>
+            {renderIcon()}
+            {text && <CustomText style={{ fontWeight: 600, fontSize: 15 }}>{text}</CustomText>}
+            {component && component}
             <VectorIcon
                 name="close"
                 color={'#000'}
@@ -122,6 +143,8 @@ const Toast = (props: ToastDataType) => {
         </Animated.View>
     );
 };
+
+const styles = StyleSheet.create({});
 
 export default Toast;
 

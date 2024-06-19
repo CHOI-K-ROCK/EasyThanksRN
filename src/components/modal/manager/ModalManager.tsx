@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useAtomValue } from 'jotai';
-import { modals } from '../../state/modal';
+import { modals } from '../../../state/modal';
 
 const ModalManager = () => {
     const openedModal = useAtomValue(modals);

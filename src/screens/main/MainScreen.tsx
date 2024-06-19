@@ -13,7 +13,8 @@ import CustomText from '../../components/common/CustomText';
 
 import { ModalDataType } from '../../@types/models/modal';
 import useToast from '../../hooks/useToast';
-import { ToastDataType } from '../../components/modal/ToastManager';
+import { ToastDataType } from '../../components/modal/manager/ToastManager';
+import { View } from 'react-native';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -27,30 +28,6 @@ const MainScreen = () => {
         });
     };
 
-    const dialogModalData: ModalDataType = {
-        // id: uuid(),
-        type: 'dialog',
-        content: '정말로 탈퇴하시겠습니까?',
-        onOpen: () => console.log('open'),
-        onClose: () => console.log('close'),
-        buttons: [
-            { content: '네', onPress: () => console.log('뀨잉') },
-            { content: '닫기', isCloseButton: true },
-        ],
-    };
-
-    const bottomSheetModalData: ModalDataType = {
-        // id: 'bottomSheet',
-        type: 'bottomSheet',
-        content: '슈우욱',
-        buttons: [{ content: '네', onPress: () => console.log('뀨잉') }, { content: '닫기' }],
-    };
-
-    const ToastModalData: ToastDataType = {
-        // id: 'toast',
-        content: '🍞',
-    };
-
     return (
         <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>
             <MainNavigationBar
@@ -58,23 +35,53 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            {/* <CustomText
-                onPress={() => {
-                    openModal({ ...dialogModalData });
-                }}
-                style={{ padding: 20 }}
-            >
-                dialog modal add
-            </CustomText>
-            <CustomText onPress={() => openModal(bottomSheetModalData)} style={{ padding: 20 }}>
-                bottomSheet modal add
-            </CustomText>
-            */}
             <CustomText
-                onPress={() => openModal(ToastModalData)}
-                style={{ padding: 20, marginBottom: 100 }}
+                onPress={() =>
+                    openModal({
+                        type: 'common',
+                        text: '🍞',
+                        autoClose: false,
+                    })
+                }
+                style={{ padding: 20, marginBottom: 40 }}
             >
-                modal add
+                modal common
+            </CustomText>
+            <CustomText
+                onPress={() =>
+                    openModal({
+                        type: 'caution',
+                        text: '🍞',
+                        component: (
+                            <View style={{ backgroundColor: 'red', width: 20, height: 20 }} />
+                        ),
+                    })
+                }
+                style={{ padding: 20, marginBottom: 40 }}
+            >
+                modal caution
+            </CustomText>
+            <CustomText
+                onPress={() =>
+                    openModal({
+                        type: 'complete',
+                        text: '🍞',
+                    })
+                }
+                style={{ padding: 20, marginBottom: 40 }}
+            >
+                modal complete
+            </CustomText>
+            <CustomText
+                onPress={() =>
+                    openModal({
+                        type: 'error',
+                        text: '🍞',
+                    })
+                }
+                style={{ padding: 20, marginBottom: 40 }}
+            >
+                modal error
             </CustomText>
 
             {/* <CustomText onPress={clearModal} style={{ padding: 20 }}>
