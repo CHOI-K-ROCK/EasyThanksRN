@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
@@ -8,6 +8,7 @@ import CustomTextInput from '../../../components/common/CustomTextInput';
 import VectorIcon from '../../../components/common/VectorIcon';
 import CustomText from '../../../components/common/CustomText';
 import KeyboardDismissSafeAreaView from '../../../components/common/KeyboardDismissSafeAreaView';
+import OptOutDialogModal from '../../../components/modal/OptOutDialogModal';
 
 import {
     UserProfileEditScreenNavigationProps,
@@ -21,7 +22,6 @@ import useModal from '../../../hooks/useModal';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
-import OptOutDialogModal from '../../../components/modal/OptOutDialogModal';
 
 const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
@@ -47,7 +47,7 @@ const UserProfileEditScreen = () => {
     const onPressEditProfile = async () => {
         console.log('닉네임 요청 전송');
 
-        await new Promise((res, rej) => {
+        await new Promise(res => {
             setTimeout(res, 2000);
         });
 

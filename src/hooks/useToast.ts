@@ -1,12 +1,11 @@
-import { useSetAtom } from 'jotai';
+import React, { useCallback } from 'react';
 
+import { useSetAtom } from 'jotai';
 import { toasts } from '../state/modal';
 
-import { ModalDataType } from '../@types/models/modal';
+import { ToastCreateType } from '../@types/models/toast';
 
 import useUuid from './useUuid';
-import React, { useCallback } from 'react';
-import { ToastDataType } from '../components/modal/manager/ToastManager';
 
 /**
  *
@@ -21,7 +20,7 @@ const useToast = () => {
     const uuid = useUuid(); // useId 사용가능.
 
     const openModal = useCallback(
-        (toastData: ToastDataType) => {
+        (toastData: ToastCreateType) => {
             updateModalAtom(prev => [...prev, { ...toastData, id: toastData.id || uuid() }]);
         },
         [updateModalAtom, uuid]

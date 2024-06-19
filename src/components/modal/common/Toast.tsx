@@ -3,17 +3,19 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CustomText from '../../common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import VectorIcon from '../../common/VectorIcon';
 
 import useDimensions from '../../../hooks/useDimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { commonStyles } from '../../../style';
-import VectorIcon from '../../common/VectorIcon';
+import { ToastType } from '../../../@types/models/toast';
+
 import { delay } from '../../../utils/data';
-import { ToastDataType } from '../manager/ToastManager';
 import useToast from '../../../hooks/useToast';
 
-const Toast = (props: ToastDataType & { id: string }) => {
+import { commonStyles } from '../../../style';
+
+const Toast = (props: ToastType) => {
     const { closeModal } = useToast();
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();

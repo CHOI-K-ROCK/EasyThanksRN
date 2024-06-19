@@ -6,12 +6,14 @@ import { modals } from '../../../state/modal';
 const ModalManager = () => {
     const openedModal = useAtomValue(modals);
 
-    return openedModal.map((modal: { id: string; component: React.FC }) => {
-        const { id, component } = modal;
-        const ModalComponent = () => component({});
+    return openedModal.map((modal: { id: string; component: React.FC; props: any }) => {
+        const { id, component, props } = modal;
 
-        return <ModalComponent key={id} />;
+        return <Component component={component} key={id} {...props} />;
     });
+};
+const Component = ({ component, ...rest }: { component: React.FC }) => {
+    return component({ ...rest });
 };
 
 export default ModalManager;

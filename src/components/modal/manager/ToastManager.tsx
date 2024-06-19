@@ -1,22 +1,15 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import { useAtomValue } from 'jotai';
 import { toasts } from '../../../state/modal';
 
 import Toast from '../common/Toast';
+import { ToastType } from '../../../@types/models/toast';
 
-export type ToastDataType = {
-    id?: string;
-    type?: 'common' | 'complete' | 'caution' | 'error';
-    text?: string;
-    component?: ReactElement;
-    duration?: number;
-    autoClose?: boolean;
-};
 const ToastManager = () => {
     const openedToasts = useAtomValue(toasts);
 
-    return openedToasts.map((toast: ToastDataType & { id: string }) => {
+    return openedToasts.map((toast: ToastType) => {
         return <Toast key={toast.id} {...toast} />;
     });
 };

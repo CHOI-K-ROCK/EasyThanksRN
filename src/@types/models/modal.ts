@@ -1,10 +1,13 @@
 import { ReactElement } from 'react';
 
-export type ModalBaseType = {
-    type: 'dialog' | 'bottomSheet' | 'toast';
+export type ModalType = {
+    buttons?: ModalButtonType[];
 
-    id?: string;
-    content: ReactElement | string;
+    backdrop?: boolean;
+    onPressBackdrop?: () => void;
+
+    text?: string;
+    children?: ReactElement;
 };
 
 export type ModalButtonType = {
@@ -18,32 +21,3 @@ export type ModalButtonType = {
 
     isCloseButton?: boolean;
 };
-
-export type ModalDataType =
-    | (ModalBaseType & {
-          type: 'dialog';
-          buttons?: ModalButtonType[];
-
-          backdrop?: boolean;
-          closingByBackdrop?: boolean;
-
-          onOpen?: () => void;
-          onClose?: () => void;
-      })
-    | (ModalBaseType & {
-          type: 'bottomSheet';
-          buttons?: ModalButtonType[];
-
-          backdrop?: boolean;
-          closingByBackdrop?: boolean;
-
-          onOpen?: () => void;
-          onClose?: () => void;
-      })
-    | (ModalBaseType & { type: 'toast'; duration?: number });
-
-export type ModalDataTypeWithId = ModalDataType & { id: string };
-
-export type ModalDialogDataType = ModalDataTypeWithId & { type: 'dialog' };
-export type ModalBottomSheetDataType = ModalDataTypeWithId & { type: 'bottomSheet' };
-export type ModalToastDataType = ModalDataTypeWithId & { type: 'toast' };

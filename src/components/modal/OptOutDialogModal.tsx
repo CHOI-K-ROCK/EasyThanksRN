@@ -1,11 +1,13 @@
-import React, { forwardRef, useCallback, useRef } from 'react';
+import React from 'react';
+
 import CommonModal from './common/CommonModal';
-import useCustomTheme from '../../hooks/useCustomTheme';
-import { View } from 'react-native';
 import CustomText from '../common/CustomText';
 import CustomTextInput from '../common/CustomTextInput';
-import useInput from '../../hooks/useInput';
+
+import useCustomTheme from '../../hooks/useCustomTheme';
 import { ModalButtonType } from '../../@types/models/modal';
+
+import useInput from '../../hooks/useInput';
 
 type Props = {
     onConfirm: () => void;
@@ -30,11 +32,12 @@ const OptOutDialogModal = (props: Props) => {
         },
         {
             content: '좀 더 생각해볼게요',
+            onPress: closeModal,
         },
     ];
 
     return (
-        <CommonModal buttons={buttons} closeModal={closeModal}>
+        <CommonModal buttons={buttons} onPressBackdrop={closeModal}>
             <CustomText>
                 {'정말로 탈퇴하시겠어요?\n모든 데이터가 초기화 되고 되돌릴 수 없습니다!'}
             </CustomText>

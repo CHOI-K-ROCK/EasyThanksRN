@@ -1,41 +1,22 @@
-import React, {
-    ReactNode,
-    forwardRef,
-    useCallback,
-    useEffect,
-    useImperativeHandle,
-    useState,
-} from 'react';
+import React, { useCallback } from 'react';
 
 import { Pressable, StyleSheet, View } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, withTiming } from 'react-native-reanimated';
+import CustomText from '../../common/CustomText';
 
 import FullWidthButton from '../../common/FullWidthButton';
 
-import { ModalButtonType } from '../../../@types/models/modal';
+import { ModalType } from '../../../@types/models/modal';
 
+import useCustomTheme from '../../../hooks/useCustomTheme';
 import useDimensions from '../../../hooks/useDimensions';
 import useKeyboard from '../../../hooks/useKeyboard';
 
 import { commonStyles } from '../../../style';
-import useCustomTheme from '../../../hooks/useCustomTheme';
-import CustomText from '../../common/CustomText';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-type Props = {
-    buttons?: ModalButtonType[];
-
-    backdrop?: boolean;
-    closingByBackdrop?: boolean;
-
-    closeModal: () => void;
-
-    text?: string;
-    children?: ReactNode;
-};
-
-const CommonModal = forwardRef((props: Props, ref) => {
+const CommonModal = (props: ModalType) => {
     const { wp, hp } = useDimensions();
     const { colors } = useCustomTheme();
 
@@ -45,74 +26,96 @@ const CommonModal = forwardRef((props: Props, ref) => {
         buttons,
 
         backdrop = true,
-        closingByBackdrop = true,
+        onPressBackdrop,
 
         text,
         children,
-
-        closeModal,
     } = props;
-
-    const [visible, setVisible] = useState<boolean>(false);
 
     // variables
 
     const ANIMATION_DURATION = 200;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
 
-    useEffect(() => {
-        setVisible(true); // 최초 렌더링시 애니메이션 재생을 위한 상태 변경
-    }, []);
-
-    // 부모 컴포넌트에서 애니메이션 시간만큼 지연된 closeModal 을 호출해야하는 경우 사용
-    useImperativeHandle(ref, () => ({
-        animatedCloseModal: handleCloseModal,
-    }));
-
     // animation
 
-    const animatedOpacity = useAnimatedStyle(
-        () => ({
-            opacity: withTiming(visible ? 1 : 0, {
+    const backdropEntering = useCallback(() => {
+        'worklet';
+        const animations = {
+            opacity: withTiming(1, { duration: ANIMATION_DURATION, easing: EASING_BEZIER }),
+        };
+        const initialValues = {
+            opacity: 0,
+        };
+        return { animations, initialValues };
+    }, [EASING_BEZIER]);
+
+    const backdropExiting = useCallback(() => {
+        'worklet';
+        const animations = {
+            opacity: withTiming(0, { duration: ANIMATION_DURATION, easing: EASING_BEZIER }),
+        };
+        const initialValues = {
+            opacity: 1,
+        };
+        return { animations, initialValues };
+    }, [EASING_BEZIER]);
+
+    const modalEntering = useCallback(() => {
+        'worklet';
+        const animations = {
+            opacity: withTiming(1, {
                 duration: ANIMATION_DURATION,
                 easing: EASING_BEZIER,
             }),
-        }),
-        [visible]
-    );
-
-    const animatedAppear = useAnimatedStyle(
-        () => ({
             transform: [
                 {
-                    translateY: withTiming(visible ? 0 : 15, {
+                    translateY: withTiming(0, {
                         duration: ANIMATION_DURATION,
                         easing: EASING_BEZIER,
                     }),
                 },
             ],
-        }),
-        [visible]
-    );
+        };
+        const initialValues = {
+            opacity: 0,
+            transform: [{ translateY: 15 }],
+        };
+        return { animations, initialValues };
+    }, [EASING_BEZIER]);
+
+    const modalExiting = useCallback(() => {
+        'worklet';
+        const animations = {
+            opacity: withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: EASING_BEZIER,
+            }),
+            transform: [
+                {
+                    translateY: withTiming(15, {
+                        duration: ANIMATION_DURATION,
+                        easing: EASING_BEZIER,
+                    }),
+                },
+            ],
+        };
+        const initialValues = {
+            opacity: 1,
+            transform: [{ translateY: 0 }],
+        };
+        return { animations, initialValues };
+    }, [EASING_BEZIER]);
 
     // handler
-
-    const handleCloseModal = useCallback(() => {
-        setVisible(false);
-        setTimeout(() => {
-            closeModal();
-        }, ANIMATION_DURATION);
-    }, [closeModal]);
 
     const handlePressBackdrop = useCallback(() => {
         if (isShow) {
             dismiss();
             return;
         }
-        if (closingByBackdrop) {
-            handleCloseModal();
-        }
-    }, [closingByBackdrop, dismiss, handleCloseModal, isShow]);
+        backdrop && onPressBackdrop && onPressBackdrop();
+    }, [backdrop, dismiss, isShow, onPressBackdrop]);
 
     // ui
 
@@ -128,7 +131,7 @@ const CommonModal = forwardRef((props: Props, ref) => {
             } = button;
 
             const buttonHandler = () => {
-                onPress ? onPress() : handleCloseModal();
+                onPress && onPress();
             };
 
             return (
@@ -141,19 +144,28 @@ const CommonModal = forwardRef((props: Props, ref) => {
                 />
             );
         });
-    }, [buttons, colors.caution, colors.text, colors.textReverse, handleCloseModal]);
+    }, [buttons, colors.caution, colors.text, colors.textReverse]);
 
     return (
-        <View style={[StyleSheet.absoluteFill, commonStyles.centered, { bottom: keyboardHeight }]}>
+        <View
+            style={[
+                StyleSheet.absoluteFill,
+                commonStyles.centered,
+                { zIndex: 999, bottom: keyboardHeight },
+            ]}
+        >
             <AnimatedPressable
+                entering={backdropEntering}
+                exiting={backdropExiting}
                 style={[
                     { backgroundColor: backdrop ? 'rgba(0,0,0,0.4)' : undefined },
                     StyleSheet.absoluteFill,
-                    animatedOpacity,
                 ]}
                 onPress={handlePressBackdrop}
             />
             <Animated.View
+                entering={modalEntering}
+                exiting={modalExiting}
                 style={[
                     {
                         width: wp(75),
@@ -161,8 +173,6 @@ const CommonModal = forwardRef((props: Props, ref) => {
                         minHeight: hp(25),
                         backgroundColor: '#000',
                     },
-                    animatedOpacity,
-                    animatedAppear,
                 ]}
             >
                 {text && <CustomText>{text}</CustomText>}
@@ -174,7 +184,7 @@ const CommonModal = forwardRef((props: Props, ref) => {
             </Animated.View>
         </View>
     );
-});
+};
 
 const styles = StyleSheet.create({
     buttonContainer: {

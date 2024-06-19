@@ -17,7 +17,7 @@ import React, { useCallback } from 'react';
 const useModal = (component: React.FC) => {
     const updateModalAtom = useSetAtom(modals);
     const uuid = useUuid();
-    const id = uuid(); // useId 사용가능.
+    const id = uuid();
 
     const openModal = useCallback(() => {
         updateModalAtom(prev => [...prev, { id, component }]);
