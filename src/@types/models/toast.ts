@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
 
-export type ToastCreateType = {
-    id?: string;
+type ToastBaseType = {
     type?: 'common' | 'complete' | 'caution' | 'error';
 
     text?: string;
@@ -11,13 +10,10 @@ export type ToastCreateType = {
     autoClose?: boolean;
 };
 
-export type ToastType = {
+export type ToastCreateType = ToastBaseType & {
+    id?: string;
+};
+
+export type ToastType = ToastBaseType & {
     id: string;
-    type?: 'common' | 'complete' | 'caution' | 'error';
-
-    text?: string;
-    component?: ReactElement;
-
-    duration?: number;
-    autoClose?: boolean;
 };
