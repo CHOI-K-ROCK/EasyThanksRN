@@ -12,10 +12,13 @@ import useModal from '../../hooks/useModal';
 import CustomText from '../../components/common/CustomText';
 
 import { ModalDataType } from '../../@types/models/modal';
+import useToast from '../../hooks/useToast';
+import { ToastDataType } from '../../components/modal/ToastManager';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
-    const { openModal, clearModal } = useModal();
+    // const { openModal, clearModal } = useModal();
+    const { openModal, closeModal } = useToast();
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
     const toAppMenu = () => {
@@ -43,9 +46,8 @@ const MainScreen = () => {
         buttons: [{ content: '네', onPress: () => console.log('뀨잉') }, { content: '닫기' }],
     };
 
-    const ToastModalData: ModalDataType = {
+    const ToastModalData: ToastDataType = {
         // id: 'toast',
-        type: 'toast',
         content: '🍞',
     };
 
@@ -56,7 +58,7 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <CustomText
+            {/* <CustomText
                 onPress={() => {
                     openModal({ ...dialogModalData });
                 }}
@@ -67,6 +69,7 @@ const MainScreen = () => {
             <CustomText onPress={() => openModal(bottomSheetModalData)} style={{ padding: 20 }}>
                 bottomSheet modal add
             </CustomText>
+            */}
             <CustomText
                 onPress={() => openModal(ToastModalData)}
                 style={{ padding: 20, marginBottom: 100 }}
@@ -74,9 +77,9 @@ const MainScreen = () => {
                 modal add
             </CustomText>
 
-            <CustomText onPress={clearModal} style={{ padding: 20 }}>
+            {/* <CustomText onPress={clearModal} style={{ padding: 20 }}>
                 clearModal
-            </CustomText>
+            </CustomText> */}
         </SafeAreaView>
     );
 };

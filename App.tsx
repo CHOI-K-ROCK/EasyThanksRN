@@ -9,6 +9,7 @@ import useCustomTheme from './src/hooks/useCustomTheme';
 import AuthStack from './src/navigation/AuthStack';
 import ModalManager from './src/components/modal/ModalManager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ToastManager from './src/components/modal/ToastManager';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
@@ -25,6 +26,7 @@ function App(): React.JSX.Element {
                     {isLoggedIn ? <RootStack /> : <AuthStack />}
                 </NavigationContainer>
                 <ModalManager />
+                <ToastManager />
             </SafeAreaProvider>
         </JotaiProvider>
     );

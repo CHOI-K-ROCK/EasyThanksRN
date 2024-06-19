@@ -4,18 +4,17 @@ import { View } from 'react-native';
 import CustomText from '../common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
-import { ModalToastDataType } from '../../@types/models/modal';
-
-import useModal from '../../hooks/useModal';
 import useDimensions from '../../hooks/useDimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { commonStyles } from '../../style';
 import VectorIcon from '../common/VectorIcon';
 import { delay } from '../../utils/data';
+import { ToastDataType } from './ToastManager';
+import useToast from '../../hooks/useToast';
 
-const Toast = (props: ModalToastDataType) => {
-    const { closeModal } = useModal();
+const Toast = (props: ToastDataType) => {
+    const { closeModal } = useToast();
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
 
@@ -42,7 +41,7 @@ const Toast = (props: ModalToastDataType) => {
 
             setVisible(false);
             await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
-            closeModal(id);
+            closeModal(id!);
         };
 
         handleToast();
@@ -82,7 +81,7 @@ const Toast = (props: ModalToastDataType) => {
         setVisible(false);
         await delay(ANIMATION_DURATION);
 
-        closeModal(id);
+        closeModal(id!);
     }, [closeModal, id]);
 
     return (
@@ -125,3 +124,6 @@ const Toast = (props: ModalToastDataType) => {
 };
 
 export default Toast;
+
+// 키보드 훅은 context - provider 로 확장 * 1
+// 전체 View 에서 동일한 값을 가져오지 못하는 문제 해결을 위함. *

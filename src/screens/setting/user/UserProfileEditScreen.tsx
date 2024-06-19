@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
@@ -22,13 +22,9 @@ import useModal from '../../../hooks/useModal';
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
 import OptOutDialogModal from '../../../components/modal/OptOutDialogModal';
-import CommonModal from '../../../components/modal/common/CommonModal';
 
 const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
-    const { openModal, closeModal } = useModal(() => (
-        <OptOutDialogModal closeModal={closeModal} onConfirm={onConfirmOptOut} />
-    ));
 
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
     const { params } = useRoute<UserProfileEditScreenRouteProps>();
@@ -36,6 +32,10 @@ const UserProfileEditScreen = () => {
     const { username, profileImage } = params.userData; // 상태에 저장해놓기? 훅으로 만들기?
 
     const { value, handleChange, clearValue } = useInput(username);
+
+    const { openModal, closeModal } = useModal(() => (
+        <OptOutDialogModal closeModal={closeModal} onConfirm={onConfirmOptOut} />
+    ));
 
     const isValidNickName = username !== value;
     // && 정규식(2글자 이상, 인젝션 공격에 사용 될 수 있는 문자 제외)
@@ -59,7 +59,7 @@ const UserProfileEditScreen = () => {
         openModal();
     };
 
-    const onConfirmOptOut = async (animatedClose: () => void) => {
+    const onConfirmOptOut = useCallback(async () => {
         try {
             // 탈퇴 로직 수행
             // 로딩 상태 변경 true
@@ -71,13 +71,12 @@ const UserProfileEditScreen = () => {
             console.log('탈퇴 완료, 로그아웃 진행');
             // 탈퇴 완료시 로그인 화면으로 이동
 
-            animatedClose();
-            // ref 로 전달받는 메소드로, 콜백처리하는 경우 업데이트 되지 않아 실행되지 않음.
+            closeModal();
             goBack();
         } catch (error: any) {
             console.log('opt out error : ', error.message);
         }
-    };
+    }, [closeModal, goBack]);
 
     return (
         <KeyboardDismissSafeAreaView keyboardAvoiding={false}>
