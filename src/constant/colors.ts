@@ -12,7 +12,12 @@ const DARK_THEME = {
     tabBarIconInactive: '#B0B0B0',
     inputBackground: '#252525',
     badgeButtonText: '#',
-    caution: '#d42c16',
+
+    toastBackground: 'rgba(0,0,0,0.6)',
+
+    caution: '#ea8c07',
+    complete: '#62c70a',
+    warning: '#d42c16',
 };
 
 const LIGHT_THEME = {
@@ -25,7 +30,12 @@ const LIGHT_THEME = {
     tabBarIconInactive: '#C4C4C4',
     inputBackground: '#EEEEEE',
     badgeButtonText: '#',
-    caution: '#eb4933',
+
+    toastBackground: 'rgba(0,0,0,0.4)',
+
+    caution: '#ffa50a',
+    complete: '#75ed0b',
+    warning: '#ff311e',
 };
 
 export { DARK_THEME, LIGHT_THEME };

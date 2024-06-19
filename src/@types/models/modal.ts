@@ -6,6 +6,7 @@ export type ModalType = {
     backdrop?: boolean;
     onPressBackdrop?: () => void;
 
+    title?: string;
     text?: string;
     children?: ReactElement;
 };
@@ -19,5 +20,5 @@ export type ModalButtonType = {
     backgroundColor?: string;
     textColor?: string;
 
-    isCloseButton?: boolean;
+    disabled?: boolean;
 };

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { ColorValue, StyleSheet, View } from 'react-native';
 import CustomText from '../../common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import VectorIcon from '../../common/VectorIcon';
@@ -12,15 +12,17 @@ import { ToastType } from '../../../@types/models/toast';
 
 import { delay } from '../../../utils/data';
 import useToast from '../../../hooks/useToast';
+import useCustomTheme from '../../../hooks/useCustomTheme';
 
 import { commonStyles } from '../../../style';
 
 const Toast = (props: ToastType) => {
-    const { closeModal } = useToast();
+    const { closeToast } = useToast();
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
+    const { colors } = useCustomTheme();
 
-    const { type = 'common', id, text, component, duration = 3000, autoClose = true } = props;
+    const { type = 'common', id, text, component, duration = 2000, top } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
@@ -32,24 +34,18 @@ const Toast = (props: ToastType) => {
 
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
-    const APPEAR_HEIGHT = bottom + hp(10);
+    const APPEAR_HEIGHT = bottom + hp(5);
 
     useEffect(() => {
         const handleToast = async () => {
             setVisible(true);
 
-            if (autoClose) {
-                await new Promise(
-                    res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION))
-                );
-                await new Promise(res => (durationTimer.current = setTimeout(res, duration)));
+            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
+            await new Promise(res => (durationTimer.current = setTimeout(res, duration)));
 
-                setVisible(false);
-                await new Promise(
-                    res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION))
-                );
-                closeModal(id);
-            }
+            setVisible(false);
+            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
+            closeToast(id);
         };
 
         handleToast();
@@ -58,7 +54,7 @@ const Toast = (props: ToastType) => {
             clearTimeout(animatedTimer.current as NodeJS.Timeout);
             clearTimeout(durationTimer.current as NodeJS.Timeout);
         };
-    }, [closeModal, duration, id, autoClose]);
+    }, [closeToast, duration, id]);
 
     // animation
 
@@ -82,45 +78,66 @@ const Toast = (props: ToastType) => {
 
     // handler
 
-    const handleCloseModal = useCallback(async () => {
+    const handlecloseToast = useCallback(async () => {
         clearTimeout(animatedTimer.current as NodeJS.Timeout);
         clearTimeout(durationTimer.current as NodeJS.Timeout);
 
         setVisible(false);
         await delay(ANIMATION_DURATION);
 
-        closeModal(id);
-    }, [closeModal, id]);
+        closeToast(id);
+    }, [closeToast, id]);
 
     // ui
 
     const renderIcon = useCallback(() => {
+        let name: string = '';
+        let backgroundColor: ColorValue = '#000';
+
         switch (type) {
-            case 'complete':
-                return <VectorIcon name={'check'} />;
-            case 'caution':
-                return <VectorIcon name={'exclamation'} />;
-            case 'error':
-                return <VectorIcon name={'close'} />;
+            case 'complete': {
+                name = 'check';
+                backgroundColor = colors.complete;
+                break;
+            }
+            case 'caution': {
+                name = 'exclamation';
+                backgroundColor = colors.caution;
+                break;
+            }
+            case 'error': {
+                name = 'close';
+                backgroundColor = colors.warning;
+                break;
+            }
+            case 'common': {
+                return <></>;
+            }
         }
-    }, [type]);
+
+        return (
+            <VectorIcon
+                name={name}
+                color={'#FFF'}
+                size={17}
+                style={[
+                    {
+                        backgroundColor,
+                    },
+                    styles.typeIcon,
+                ]}
+            />
+        );
+    }, [colors, type]);
 
     return (
         <Animated.View
             style={[
                 {
-                    position: 'absolute',
                     bottom: APPEAR_HEIGHT,
-                    left: '50%',
-                    backgroundColor: '#000',
-                    paddingLeft: 15,
-                    paddingRight: 10,
-                    gap: 5,
-
-                    paddingVertical: 13,
-                    borderRadius: 10,
+                    backgroundColor: colors.toastBackground,
                 },
-                commonStyles.dropShadow,
+                styles.container,
                 commonStyles.rowCenter,
                 animatedAppear,
             ]}
@@ -129,24 +146,47 @@ const Toast = (props: ToastType) => {
                 setMessageSize({ h: height, w: width });
             }}
         >
-            {renderIcon()}
-            {text && <CustomText style={{ fontWeight: 600, fontSize: 15 }}>{text}</CustomText>}
-            {component && component}
-            <VectorIcon
-                name="close"
-                color={'#000'}
-                style={{
-                    backgroundColor: '#FFF',
-                    borderRadius: 999,
-                    padding: 5,
-                }}
-                onPress={handleCloseModal}
-            />
+            <View style={[commonStyles.rowCenter, { gap: 10 }]}>
+                {renderIcon()}
+                {text && <CustomText style={styles.text}>{text}</CustomText>}
+                {component && component}
+                <VectorIcon
+                    name="close"
+                    color={'#000'}
+                    size={15}
+                    style={styles.closeButton}
+                    onPress={handlecloseToast}
+                />
+            </View>
         </Animated.View>
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    typeIcon: {
+        borderRadius: 6,
+        padding: 2,
+    },
+    container: {
+        position: 'absolute',
+        left: '50%',
+        paddingLeft: 15,
+        paddingRight: 10,
+
+        paddingVertical: 8,
+        borderRadius: 999,
+    },
+    text: {
+        fontWeight: 600,
+        fontSize: 15,
+        color: '#FFF',
+    },
+    closeButton: {
+        backgroundColor: '#FFF',
+        borderRadius: 999,
+        padding: 4,
+    },
+});
 
 export default Toast;
 

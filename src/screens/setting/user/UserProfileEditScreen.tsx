@@ -22,12 +22,14 @@ import useModal from '../../../hooks/useModal';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
+import useToast from '../../../hooks/useToast';
 
 const UserProfileEditScreen = () => {
-    const { colors } = useCustomTheme();
-
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
     const { params } = useRoute<UserProfileEditScreenRouteProps>();
+
+    const { colors } = useCustomTheme();
+    const { openToast } = useToast();
 
     const { username, profileImage } = params.userData; // 상태에 저장해놓기? 훅으로 만들기?
 
@@ -47,12 +49,10 @@ const UserProfileEditScreen = () => {
     const onPressEditProfile = async () => {
         console.log('닉네임 요청 전송');
 
-        await new Promise(res => {
-            setTimeout(res, 2000);
-        });
-
         console.log('닉네임 수정 완료', username, ' -> ', value);
+
         // Toast 메시지 표시
+        openToast({ text: '닉네임 변경 완료', type: 'complete' });
     };
 
     const onPressOptOut = () => {
@@ -129,7 +129,7 @@ const UserProfileEditScreen = () => {
                         <FullWidthButton
                             title={'회원탈퇴하기'}
                             onPress={onPressOptOut}
-                            style={[{ backgroundColor: colors.caution }, styles.optOutButton]}
+                            style={[{ backgroundColor: colors.warning }, styles.optOutButton]}
                             titleStyle={styles.optOutButtonTitle}
                         />
                     </View>

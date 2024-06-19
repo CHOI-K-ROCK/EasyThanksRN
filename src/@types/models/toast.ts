@@ -7,7 +7,6 @@ type ToastBaseType = {
     component?: ReactElement;
 
     duration?: number;
-    autoClose?: boolean;
 };
 
 export type ToastCreateType = ToastBaseType & {
@@ -16,4 +15,5 @@ export type ToastCreateType = ToastBaseType & {
 
 export type ToastType = ToastBaseType & {
     id: string;
+    top: number;
 };

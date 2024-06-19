@@ -8,18 +8,15 @@ import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
-import useModal from '../../hooks/useModal';
 import CustomText from '../../components/common/CustomText';
 
-import { ModalDataType } from '../../@types/models/modal';
 import useToast from '../../hooks/useToast';
-import { ToastDataType } from '../../components/modal/manager/ToastManager';
 import { View } from 'react-native';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
-    // const { openModal, clearModal } = useModal();
-    const { openModal, closeModal } = useToast();
+
+    const { openToast } = useToast();
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
     const toAppMenu = () => {
@@ -37,10 +34,9 @@ const MainScreen = () => {
             />
             <CustomText
                 onPress={() =>
-                    openModal({
+                    openToast({
                         type: 'common',
                         text: '🍞',
-                        autoClose: false,
                     })
                 }
                 style={{ padding: 20, marginBottom: 40 }}
@@ -49,12 +45,9 @@ const MainScreen = () => {
             </CustomText>
             <CustomText
                 onPress={() =>
-                    openModal({
+                    openToast({
                         type: 'caution',
-                        text: '🍞',
-                        component: (
-                            <View style={{ backgroundColor: 'red', width: 20, height: 20 }} />
-                        ),
+                        text: '완성입니다!',
                     })
                 }
                 style={{ padding: 20, marginBottom: 40 }}
@@ -63,7 +56,7 @@ const MainScreen = () => {
             </CustomText>
             <CustomText
                 onPress={() =>
-                    openModal({
+                    openToast({
                         type: 'complete',
                         text: '🍞',
                     })
@@ -74,7 +67,7 @@ const MainScreen = () => {
             </CustomText>
             <CustomText
                 onPress={() =>
-                    openModal({
+                    openToast({
                         type: 'error',
                         text: '🍞',
                     })
@@ -83,10 +76,6 @@ const MainScreen = () => {
             >
                 modal error
             </CustomText>
-
-            {/* <CustomText onPress={clearModal} style={{ padding: 20 }}>
-                clearModal
-            </CustomText> */}
         </SafeAreaView>
     );
 };

@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import {
     ColorValue,
     Platform,
+    StyleProp,
     StyleSheet,
+    TextStyle,
     TouchableOpacity,
     TouchableOpacityProps,
     View,
@@ -30,6 +32,7 @@ type Props = TouchableOpacityProps & {
     size?: number;
     color?: ColorValue;
     iconProvider?: iconProviderType;
+    iconStyle?: StyleProp<TextStyle>;
 };
 
 const VectorIcon = (props: Props) => {
@@ -42,6 +45,7 @@ const VectorIcon = (props: Props) => {
         iconProvider = 'MaterialCommunityIcons',
         onPress,
         activeOpacity = 0.7,
+        iconStyle,
         ...restProps
     } = props;
 
@@ -71,13 +75,9 @@ const VectorIcon = (props: Props) => {
             activeOpacity={activeOpacity}
             {...restProps}
         >
-            <Icon style={styles.icon} name={name} size={size} color={color} />
+            <Icon style={iconStyle} name={name} size={size} color={color} />
         </TouchableOpacity>
     );
 };
-
-const styles = StyleSheet.create({
-    icon: {},
-});
 
 export default React.memo(VectorIcon);

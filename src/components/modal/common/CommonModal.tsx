@@ -13,6 +13,7 @@ import useDimensions from '../../../hooks/useDimensions';
 import useKeyboard from '../../../hooks/useKeyboard';
 
 import { commonStyles } from '../../../style';
+import HorizontalDivider from '../../common/HorizontalDivider';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -28,6 +29,7 @@ const CommonModal = (props: ModalType) => {
         backdrop = true,
         onPressBackdrop,
 
+        title,
         text,
         children,
     } = props;
@@ -128,6 +130,7 @@ const CommonModal = (props: ModalType) => {
                 onPress,
                 backgroundColor = IS_CANCEL_BUTTON ? colors.caution : colors.text,
                 textColor = IS_CANCEL_BUTTON ? '#FFF' : colors.textReverse,
+                disabled,
             } = button;
 
             const buttonHandler = () => {
@@ -136,6 +139,7 @@ const CommonModal = (props: ModalType) => {
 
             return (
                 <FullWidthButton
+                    disabled={disabled}
                     key={buttonContent}
                     title={buttonContent}
                     onPress={buttonHandler}
@@ -144,7 +148,7 @@ const CommonModal = (props: ModalType) => {
                 />
             );
         });
-    }, [buttons, colors.caution, colors.text, colors.textReverse]);
+    }, [buttons, colors]);
 
     return (
         <View
@@ -169,15 +173,27 @@ const CommonModal = (props: ModalType) => {
                 style={[
                     {
                         width: wp(75),
-                        maxWidth: 320,
-                        minHeight: hp(25),
-                        backgroundColor: '#000',
+                        backgroundColor: colors.background,
                     },
+                    styles.container,
                 ]}
             >
-                {text && <CustomText>{text}</CustomText>}
+                {title && (
+                    <>
+                        <CustomText style={styles.title}>{title}</CustomText>
+                        <HorizontalDivider style={styles.divider} />
+                    </>
+                )}
+
+                {text && (
+                    <CustomText style={[{ minHeight: children ? hp(2) : hp(14) }, styles.text]}>
+                        {text}
+                    </CustomText>
+                )}
+
                 {children}
 
+                <View style={{ flex: 1 }} />
                 <View style={[commonStyles.rowCenter, styles.buttonContainer]}>
                     {renderButtons()}
                 </View>
@@ -187,8 +203,29 @@ const CommonModal = (props: ModalType) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        maxWidth: 320,
+
+        padding: 15,
+        borderRadius: 15,
+    },
     buttonContainer: {
         gap: 10,
+        alignItems: 'flex-end',
+    },
+    divider: {
+        marginTop: 8,
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 500,
+    },
+    text: {
+        textAlign: 'center',
+        verticalAlign: 'middle',
+        fontSize: 15,
+        lineHeight: 25,
+        paddingVertical: 20,
     },
 });
 
