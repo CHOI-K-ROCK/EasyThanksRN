@@ -35,7 +35,7 @@ const LIGHT_THEME = {
 
     caution: '#ffa50a',
     complete: '#75ed0b',
-    warning: '#ff311e',
+    warning: '#eb4933',
 };
 
 export { DARK_THEME, LIGHT_THEME };

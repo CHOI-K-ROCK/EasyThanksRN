@@ -8,7 +8,8 @@ import { commonStyles } from '../../style';
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import { convertDateToString } from '../../utils/date';
-import { getRandomString } from '../../utils/string';
+import { getRandomArrayValue } from '../../utils/data';
+
 import { EMOJI_SET } from '../../constant/string';
 
 type Props = {
@@ -38,7 +39,9 @@ const MainNavigationBar = (props: Props) => {
                     <CustomText style={styles.nickname}>KROCK</CustomText>
                     <View style={styles.welcomeWrapper}>
                         <CustomText style={styles.welcome}>{'님 어서오세요!'}</CustomText>
-                        <CustomText style={styles.emoji}>{getRandomString(EMOJI_SET)}</CustomText>
+                        <CustomText style={styles.emoji}>
+                            {getRandomArrayValue(EMOJI_SET)}
+                        </CustomText>
                     </View>
                 </View>
                 <CustomText style={styles.currentDate}>

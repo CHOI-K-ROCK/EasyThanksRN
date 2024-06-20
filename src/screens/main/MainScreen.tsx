@@ -11,7 +11,7 @@ import useCustomTheme from '../../hooks/useCustomTheme';
 import CustomText from '../../components/common/CustomText';
 
 import useToast from '../../hooks/useToast';
-import { View } from 'react-native';
+import RotationThanksWordsView from '../../components/main/RotationThanksWordsView';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -32,7 +32,8 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <CustomText
+            <RotationThanksWordsView />
+            {/* <CustomText
                 onPress={() =>
                     openToast({
                         type: 'common',
@@ -75,7 +76,7 @@ const MainScreen = () => {
                 style={{ padding: 20, marginBottom: 40 }}
             >
                 modal error
-            </CustomText>
+            </CustomText> */}
         </SafeAreaView>
     );
 };
