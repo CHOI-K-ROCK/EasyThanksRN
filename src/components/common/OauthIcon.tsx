@@ -3,12 +3,19 @@ import React, { useCallback } from 'react';
 import GoogleIcon from '../../../assets/images/logos/profile_oauth_google.png';
 import NaverIcon from '../../../assets/images/logos/profile_oauth_naver.png';
 import KakaoIcon from '../../../assets/images/logos/profile_oauth_kakao.png';
+
 import { Image, ImageStyle, StyleProp } from 'react-native';
 import { OauthProviderType } from '../../constant/dummy';
+import PushAnimatedPressable from './PushAnimatedPressable';
 
-type Props = { provider: OauthProviderType; style: StyleProp<ImageStyle> };
-const UserProfileOauthIcon = (props: Props) => {
-    const { provider, style } = props;
+type Props = {
+    provider: OauthProviderType;
+    style: StyleProp<ImageStyle>;
+    onPress?: () => void;
+};
+
+const OauthIcon = (props: Props) => {
+    const { provider, style, onPress } = props;
 
     const getSource = useCallback(() => {
         switch (provider) {
@@ -21,7 +28,11 @@ const UserProfileOauthIcon = (props: Props) => {
         }
     }, [provider]);
 
-    return <Image source={getSource()} style={style} />;
+    return (
+        <PushAnimatedPressable onPress={onPress} disabled={!onPress}>
+            <Image source={getSource()} style={style} />
+        </PushAnimatedPressable>
+    );
 };
 
-export default UserProfileOauthIcon;
+export default OauthIcon;

@@ -12,6 +12,7 @@ import CustomText from '../../components/common/CustomText';
 
 import useToast from '../../hooks/useToast';
 import RotationThanksWordsView from '../../components/main/RotationThanksWordsView';
+import ScreenLayout from '../../components/common/ScreenLayout';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -32,51 +33,9 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <RotationThanksWordsView />
-            {/* <CustomText
-                onPress={() =>
-                    openToast({
-                        type: 'common',
-                        text: '🍞',
-                    })
-                }
-                style={{ padding: 20, marginBottom: 40 }}
-            >
-                modal common
-            </CustomText>
-            <CustomText
-                onPress={() =>
-                    openToast({
-                        type: 'caution',
-                        text: '완성입니다!',
-                    })
-                }
-                style={{ padding: 20, marginBottom: 40 }}
-            >
-                modal caution
-            </CustomText>
-            <CustomText
-                onPress={() =>
-                    openToast({
-                        type: 'complete',
-                        text: '🍞',
-                    })
-                }
-                style={{ padding: 20, marginBottom: 40 }}
-            >
-                modal complete
-            </CustomText>
-            <CustomText
-                onPress={() =>
-                    openToast({
-                        type: 'error',
-                        text: '🍞',
-                    })
-                }
-                style={{ padding: 20, marginBottom: 40 }}
-            >
-                modal error
-            </CustomText> */}
+            <ScreenLayout>
+                <RotationThanksWordsView />
+            </ScreenLayout>
         </SafeAreaView>
     );
 };

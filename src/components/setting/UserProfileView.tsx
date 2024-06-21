@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import VectorIcon from '../common/VectorIcon';
 import CustomText from '../common/CustomText';
 import FullWidthButton from '../common/FullWidthButton';
-import UserProfileOauthIcon from './UserProfileOauthIcon';
+import OauthIcon from '../common/OauthIcon';
 import ProfilePicture from '../common/ProfilePicture';
 
 import { OauthProviderType, UserDataType } from '../../constant/dummy';
@@ -22,7 +22,7 @@ const UserProfileView = (props: Props) => {
                 <ProfilePicture uri={profileImage} style={styles.profileImage} />
                 <View style={styles.nicknameContainer}>
                     {/* 닉네임 */}
-                    <UserProfileOauthIcon
+                    <OauthIcon
                         style={styles.oauthIcon}
                         provider={oauthProvider as OauthProviderType}
                     />

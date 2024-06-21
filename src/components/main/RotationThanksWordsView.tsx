@@ -1,24 +1,41 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { StyleSheet, Touchable, View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { StyleSheet, View } from 'react-native';
 import CustomText from '../common/CustomText';
-import { getRandomArrayValue } from '../../utils/data';
 import { THANKS_MAXIMS } from '../../constant/string';
 import VectorIcon from '../common/VectorIcon';
-import Animated, {
-    SlideInRight,
-    SlideOutLeft,
-    SlideOutRight,
-    withDelay,
-    withTiming,
-} from 'react-native-reanimated';
-import { transform } from '@babel/core';
 
-const RotationThanksWordsView = () => {
+import Animated, { withDelay, withTiming } from 'react-native-reanimated';
+
+import { getRandomArrayValue } from '../../utils/data';
+type Props = {
+    rotate?: boolean;
+    rotateSec?: number;
+}
+const RotationThanksWordsView = (props: Props) => {
+    const { rotate = true, rotateSec = 10 } = props;
+
     const [maximData, setMaximData] = useState<{ maxim: string; author: string }>(
         getRandomArrayValue(THANKS_MAXIMS)
     );
 
     const { maxim, author } = maximData;
+
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        if (rotate) {
+            timerRef.current = setInterval(() => {
+                getOtherMaxim()
+            }, rotateSec * 1000)
+        }
+
+        return () => {
+            if (rotate) {
+                clearInterval(timerRef.current as NodeJS.Timeout)
+            };
+        }
+    }, [])
 
     //animation
     const delayedEntering = useCallback((delay: number) => {
@@ -77,25 +94,41 @@ const RotationThanksWordsView = () => {
     };
 
     return (
-        <View>
-            <Animated.View key={maxim} entering={delayedEntering(0)} exiting={delayedExiting(0)}>
-                <CustomText style={[{}, styles.maxim]}>{maxim}</CustomText>
-            </Animated.View>
-            <Animated.View key={author} entering={delayedEntering(200)} exiting={delayedExiting(0)}>
-                <CustomText style={[{}, styles.author]}>{author}</CustomText>
-            </Animated.View>
-            <VectorIcon name="refresh" onPress={getOtherMaxim} />
+        <View style={[styles.container]}>
+            <View>
+                <Animated.View
+                    key={maxim}
+                    entering={delayedEntering(0)}
+                    exiting={delayedExiting(0)}
+                >
+                    <CustomText style={[{}, styles.maxim]}>{maxim}</CustomText>
+                </Animated.View>
+                <View>
+                    <Animated.View
+                        key={author}
+                        entering={delayedEntering(200)}
+                        exiting={delayedExiting(0)}
+                    >
+                        <CustomText style={[{}, styles.author]}>{author}</CustomText>
+                    </Animated.View>
+                    <VectorIcon name="refresh" onPress={getOtherMaxim} />
+                </View>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+        borderRadius: 15,
+    },
     maxim: {
-        fontSize: 17,
+        fontSize: 14,
         fontWeight: 500,
     },
     author: {
-        fontSize: 15,
+        fontSize: 12,
         opacity: 0.5,
     },
 });

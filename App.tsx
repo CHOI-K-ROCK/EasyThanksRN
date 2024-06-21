@@ -13,7 +13,7 @@ import ToastManager from './src/components/modal/manager/ToastManager';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
-    const isLoggedIn = true;
+    const isLoggedIn = false;
 
     return (
         <JotaiProvider>
