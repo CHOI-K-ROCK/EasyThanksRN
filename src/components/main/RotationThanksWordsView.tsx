@@ -8,10 +8,12 @@ import VectorIcon from '../common/VectorIcon';
 import Animated, { withDelay, withTiming } from 'react-native-reanimated';
 
 import { getRandomArrayValue } from '../../utils/data';
+
 type Props = {
     rotate?: boolean;
     rotateSec?: number;
-}
+};
+
 const RotationThanksWordsView = (props: Props) => {
     const { rotate = true, rotateSec = 10 } = props;
 
@@ -26,19 +28,19 @@ const RotationThanksWordsView = (props: Props) => {
     useEffect(() => {
         if (rotate) {
             timerRef.current = setInterval(() => {
-                getOtherMaxim()
-            }, rotateSec * 1000)
+                getOtherMaxim();
+            }, rotateSec * 1000);
         }
 
         return () => {
             if (rotate) {
-                clearInterval(timerRef.current as NodeJS.Timeout)
-            };
-        }
-    }, [])
+                clearInterval(timerRef.current as NodeJS.Timeout);
+            }
+        };
+    }, [rotate, rotateSec]);
 
     //animation
-    const delayedEntering = useCallback((delay: number) => {
+    const createDelayedEntering = useCallback((delay: number) => {
         return () => {
             'worklet';
 
@@ -63,7 +65,7 @@ const RotationThanksWordsView = (props: Props) => {
         };
     }, []);
 
-    const delayedExiting = (delay: number) => {
+    const createDelayedExiting = (delay: number) => {
         return () => {
             'worklet';
 
@@ -87,6 +89,7 @@ const RotationThanksWordsView = (props: Props) => {
             return { animations, initialValues };
         };
     };
+
     // handler
 
     const getOtherMaxim = () => {
@@ -98,16 +101,16 @@ const RotationThanksWordsView = (props: Props) => {
             <View>
                 <Animated.View
                     key={maxim}
-                    entering={delayedEntering(0)}
-                    exiting={delayedExiting(0)}
+                    entering={createDelayedEntering(0)}
+                    exiting={createDelayedExiting(0)}
                 >
                     <CustomText style={[{}, styles.maxim]}>{maxim}</CustomText>
                 </Animated.View>
                 <View>
                     <Animated.View
                         key={author}
-                        entering={delayedEntering(200)}
-                        exiting={delayedExiting(0)}
+                        entering={createDelayedEntering(200)}
+                        exiting={createDelayedExiting(0)}
                     >
                         <CustomText style={[{}, styles.author]}>{author}</CustomText>
                     </Animated.View>

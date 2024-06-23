@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useAtom, useSetAtom } from 'jotai';
-import { toasts } from '../state/modal';
+import { toasts } from '../state/ui';
 
 import { ToastCreateType } from '../@types/models/toast';
 

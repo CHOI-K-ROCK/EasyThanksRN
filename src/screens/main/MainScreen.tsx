@@ -17,7 +17,6 @@ import ScreenLayout from '../../components/common/ScreenLayout';
 const MainScreen = () => {
     const { colors } = useCustomTheme();
 
-    const { openToast } = useToast();
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
     const toAppMenu = () => {

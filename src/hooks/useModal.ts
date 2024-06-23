@@ -1,6 +1,6 @@
 import { useSetAtom } from 'jotai';
 
-import { modals } from '../state/modal';
+import { modals } from '../state/ui';
 
 import useUuid from './useUuid';
 import React, { useCallback } from 'react';
