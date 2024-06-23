@@ -179,21 +179,25 @@ const CommonModal = (props: ModalType) => {
                 ]}
             >
                 {title && (
-                    <>
+                    <View>
                         <CustomText style={styles.title}>{title}</CustomText>
                         <HorizontalDivider style={styles.divider} />
-                    </>
+                    </View>
                 )}
 
                 {text && (
-                    <CustomText style={[{ minHeight: children ? hp(2) : hp(14) }, styles.text]}>
-                        {text}
-                    </CustomText>
+                    <View
+                        style={{
+                            minHeight: children ? hp(2) : hp(14),
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <CustomText style={styles.text}>{text}</CustomText>
+                    </View>
                 )}
 
                 {children}
 
-                <View style={{ flex: 1 }} />
                 <View style={styles.buttonContainer}>{renderButtons()}</View>
             </Animated.View>
         </View>
@@ -222,7 +226,6 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        verticalAlign: 'middle',
         fontSize: 15,
         lineHeight: 25,
         paddingVertical: 20,

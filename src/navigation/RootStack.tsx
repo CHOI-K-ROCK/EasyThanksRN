@@ -47,6 +47,8 @@ const RootStack = () => {
                 options={{
                     presentation: 'card',
                     animation: 'slide_from_bottom',
+                    gestureEnabled: false,
+                    animationDuration: 250,
                 }}
             />
 

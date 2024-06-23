@@ -12,13 +12,16 @@
     "postuninstall": "license-checker --direct --customPath ./licenses/licensesFormat.json --json > ./licenses/licenses.json"
   },
   "dependencies": {
+    "@react-native-masked-view/masked-view": "^0.3.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "@react-navigation/stack": "^6.3.29",
     "@types/uuid": "^9.0.8",
     "jotai": "^2.8.2",
     "react": "18.2.0",
     "react-native": "0.74.1",
+    "react-native-gesture-handler": "^2.17.1",
     "react-native-get-random-values": "^1.11.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "^3.11.0",

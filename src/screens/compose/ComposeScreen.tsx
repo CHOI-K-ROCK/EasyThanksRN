@@ -46,6 +46,7 @@ const ComposeScreen = () => {
     const { openModal, closeModal } = useModal(() => (
         <CommonModal
             text={'변경된 내용이 있어요!\n작성을 취소하시겠어요?'}
+            // title="작성 취소"
             buttons={[
                 { content: '네', onPress: handleCancelWhileCompose, type: 'cancel' },
                 { content: '아니요', onPress: closeModal },
