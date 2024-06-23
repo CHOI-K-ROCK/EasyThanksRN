@@ -7,9 +7,11 @@ import { Provider as JotaiProvider } from 'jotai';
 import RootStack from './src/navigation/RootStack';
 import useCustomTheme from './src/hooks/useCustomTheme';
 import AuthStack from './src/navigation/AuthStack';
-import ModalManager from './src/components/modal/manager/ModalManager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import ToastManager from './src/components/modal/manager/ToastManager';
+
+import ToastProvider from './src/components/provider/ToastProvider';
+import ModalProvider from './src/components/provider/ModalProvider';
+import LoadingProvider from './src/components/provider/LoadingProvider';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
@@ -25,8 +27,10 @@ function App(): React.JSX.Element {
                     />
                     {isLoggedIn ? <RootStack /> : <AuthStack />}
                 </NavigationContainer>
-                <ModalManager />
-                <ToastManager />
+                {/* Providers */}
+                <ModalProvider />
+                <ToastProvider />
+                <LoadingProvider />
             </SafeAreaProvider>
         </JotaiProvider>
     );

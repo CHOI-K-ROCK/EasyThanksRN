@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { useAtomValue } from 'jotai';
-import { toasts } from '../../../state/modal';
+import { toasts } from '../../state/ui';
 
-import Toast from '../common/Toast';
-import { ToastType } from '../../../@types/models/toast';
+import Toast from '../modal/common/Toast';
+import { ToastType } from '../../@types/models/toast';
 
-const ToastManager = () => {
+const ToastProvider = () => {
     const openedToasts = useAtomValue(toasts);
 
     return openedToasts.map((toast: ToastType) => {
@@ -14,4 +14,4 @@ const ToastManager = () => {
     });
 };
 
-export default ToastManager;
+export default ToastProvider;

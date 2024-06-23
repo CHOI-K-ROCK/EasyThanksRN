@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useAtomValue } from 'jotai';
-import { modals } from '../../../state/modal';
+import { modals } from '../../state/ui';
 
-const ModalManager = () => {
+const ModalProvider = () => {
     const openedModal = useAtomValue(modals);
 
     return openedModal.map((modal: { id: string; component: React.FC; props: any }) => {
@@ -16,4 +16,4 @@ const Component = ({ component, ...rest }: { component: React.FC }) => {
     return component({ ...rest });
 };
 
-export default ModalManager;
+export default ModalProvider;
