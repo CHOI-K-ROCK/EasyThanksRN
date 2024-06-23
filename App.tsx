@@ -15,7 +15,7 @@ import LoadingProvider from './src/components/provider/LoadingProvider';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
-    const isLoggedIn = false;
+    const isLoggedIn = true;
 
     return (
         <JotaiProvider>

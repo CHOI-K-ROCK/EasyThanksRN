@@ -128,7 +128,7 @@ const CommonModal = (props: ModalType) => {
             const {
                 content: buttonContent,
                 onPress,
-                backgroundColor = IS_CANCEL_BUTTON ? colors.caution : colors.text,
+                backgroundColor = IS_CANCEL_BUTTON ? colors.warning : colors.text,
                 textColor = IS_CANCEL_BUTTON ? '#FFF' : colors.textReverse,
                 disabled,
             } = button;
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
 
         padding: 15,
         borderRadius: 15,
+        ...commonStyles.dropShadow,
     },
     buttonContainer: {
         gap: 10,

@@ -45,7 +45,7 @@ const RootStack = () => {
                 component={ComposeStack}
                 name="ComposeStack"
                 options={{
-                    presentation: 'fullScreenModal',
+                    presentation: 'card',
                     animation: 'slide_from_bottom',
                 }}
             />

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
     oauthIcon: {
         width: 18,
-        aspectRatio: 1,
+        height: 18,
         alignSelf: 'center',
         marginRight: 3,
     },
