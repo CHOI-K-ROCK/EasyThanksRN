@@ -13,10 +13,16 @@ import { useAtomValue } from 'jotai';
 import { isLoading } from '../../state/ui';
 
 const LoadingProvider = () => {
+    const loadingState = useAtomValue(isLoading);
+
+    return loadingState && <LoadingOverlay />;
+};
+
+// ---- components ----
+
+const LoadingOverlay = () => {
     const { wp } = useDimensions();
     const { colors } = useCustomTheme();
-
-    const loadingState = useAtomValue(isLoading);
 
     const LOADING_DOTS_AMOUNT = 5;
 
@@ -55,40 +61,31 @@ const LoadingProvider = () => {
     }, []);
 
     return (
-        loadingState && (
-            <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop]}>
-                <View
-                    style={[
-                        {
-                            width: wp(25),
-                            height: wp(25),
-                            backgroundColor: colors.tabBarBackground + '90',
-                        },
-                        styles.loadingContainer,
-                    ]}
-                >
-                    <View style={{ flexDirection: 'row', gap: 5, marginTop: 20, marginBottom: 10 }}>
-                        {Array.from({ length: LOADING_DOTS_AMOUNT }).map((_, idx) => {
-                            return (
-                                <Animated.View
-                                    key={idx}
-                                    entering={initAnimation(idx)}
-                                    style={[
-                                        {
-                                            width: 8,
-                                            aspectRatio: 1,
-                                            backgroundColor: '#FFF',
-                                            borderRadius: 999,
-                                        },
-                                    ]}
-                                />
-                            );
-                        })}
-                    </View>
-                    <CustomText style={styles.text}>{'잠시만\n기다려주세요'}</CustomText>
+        <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop]}>
+            <View
+                style={[
+                    {
+                        width: wp(25),
+                        height: wp(25),
+                        backgroundColor: colors.tabBarBackground + '90',
+                    },
+                    styles.loadingContainer,
+                ]}
+            >
+                <View style={styles.indicatorContainer}>
+                    {Array.from({ length: LOADING_DOTS_AMOUNT }).map((_, idx) => {
+                        return (
+                            <Animated.View
+                                key={idx}
+                                entering={initAnimation(idx)}
+                                style={[styles.indicator]}
+                            />
+                        );
+                    })}
                 </View>
-            </Animated.View>
-        )
+                <CustomText style={styles.text}>{'잠시만\n기다려주세요'}</CustomText>
+            </View>
+        </Animated.View>
     );
 };
 
@@ -103,7 +100,18 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         ...commonStyles.centered,
     },
-    indicator: {},
+    indicatorContainer: {
+        flexDirection: 'row',
+        gap: 5,
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    indicator: {
+        width: 8,
+        aspectRatio: 1,
+        backgroundColor: '#FFF',
+        borderRadius: 999,
+    },
     text: {
         textAlign: 'center',
         fontSize: 11,
@@ -111,4 +119,5 @@ const styles = StyleSheet.create({
         opacity: 0.7,
     },
 });
+
 export default LoadingProvider;
