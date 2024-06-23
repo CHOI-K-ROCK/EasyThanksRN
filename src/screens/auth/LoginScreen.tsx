@@ -8,10 +8,17 @@ import { commonStyles } from '../../style';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import useDimensions from '../../hooks/useDimensions';
 import OauthIcon from '../../components/common/OauthIcon';
+import useDelay from '../../hooks/useDelay';
+import useLoading from '../../hooks/useLoading';
 
 const LoginScreen = () => {
     const { colors } = useCustomTheme();
     const { wp, hp } = useDimensions();
+
+    const delay = useDelay();
+    const { isLoading, setLoading } = useLoading();
+
+    console.log(isLoading);
 
     const buttonData = useMemo(
         () => [
@@ -25,10 +32,14 @@ const LoginScreen = () => {
             },
             {
                 provider: 'google',
-                onPress: () => { },
+                onPress: async () => {
+                    setLoading(true);
+                    await delay(10000, () => console.log('google'));
+                    setLoading(false);
+                },
             },
         ],
-        []
+        [delay, setLoading]
     );
 
     return (

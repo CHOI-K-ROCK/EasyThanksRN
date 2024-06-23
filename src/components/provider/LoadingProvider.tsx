@@ -9,11 +9,16 @@ import useCustomTheme from '../../hooks/useCustomTheme';
 
 import { commonStyles } from '../../style';
 
-import useUuid from '../../hooks/useUuid';
+import { useAtomValue } from 'jotai';
+import { isLoading } from '../../state/ui';
 
 const LoadingProvider = () => {
     const { wp } = useDimensions();
     const { colors } = useCustomTheme();
+
+    const loadingState = useAtomValue(isLoading);
+
+    const LOADING_DOTS_AMOUNT = 5;
 
     const initAnimation = useCallback((idx: number) => {
         return () => {
@@ -31,8 +36,9 @@ const LoadingProvider = () => {
                             DELAY,
                             withRepeat(
                                 withSequence(
-                                    withDelay(TOTAL_DURATION, withTiming(-7)),
-                                    withTiming(0)
+                                    withTiming(-7),
+                                    withTiming(0),
+                                    withDelay(TOTAL_DURATION, withTiming(0))
                                 ),
                                 -1
                             )
@@ -49,38 +55,40 @@ const LoadingProvider = () => {
     }, []);
 
     return (
-        <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop]}>
-            <View
-                style={[
-                    {
-                        width: wp(25),
-                        height: wp(25),
-                        backgroundColor: colors.tabBarBackground + '90',
-                    },
-                    styles.loadingContainer,
-                ]}
-            >
-                <View style={{ flexDirection: 'row', gap: 5, marginTop: 20, marginBottom: 10 }}>
-                    {Array.from({ length: 5 }).map((_, idx) => {
-                        return (
-                            <Animated.View
-                                key={idx}
-                                entering={initAnimation(idx)}
-                                style={[
-                                    {
-                                        width: 8,
-                                        aspectRatio: 1,
-                                        backgroundColor: '#FFF',
-                                        borderRadius: 999,
-                                    },
-                                ]}
-                            />
-                        );
-                    })}
+        loadingState && (
+            <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop]}>
+                <View
+                    style={[
+                        {
+                            width: wp(25),
+                            height: wp(25),
+                            backgroundColor: colors.tabBarBackground + '90',
+                        },
+                        styles.loadingContainer,
+                    ]}
+                >
+                    <View style={{ flexDirection: 'row', gap: 5, marginTop: 20, marginBottom: 10 }}>
+                        {Array.from({ length: LOADING_DOTS_AMOUNT }).map((_, idx) => {
+                            return (
+                                <Animated.View
+                                    key={idx}
+                                    entering={initAnimation(idx)}
+                                    style={[
+                                        {
+                                            width: 8,
+                                            aspectRatio: 1,
+                                            backgroundColor: '#FFF',
+                                            borderRadius: 999,
+                                        },
+                                    ]}
+                                />
+                            );
+                        })}
+                    </View>
+                    <CustomText style={styles.text}>{'잠시만\n기다려주세요'}</CustomText>
                 </View>
-                <CustomText style={styles.text}>{'잠시만\n기다려주세요'}</CustomText>
-            </View>
-        </Animated.View>
+            </Animated.View>
+        )
     );
 };
 
