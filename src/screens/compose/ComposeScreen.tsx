@@ -105,7 +105,7 @@ const ComposeScreen = () => {
 
                     <HorizontalDivider style={styles.divider} />
 
-                    <CustomText style={[commonStyles.subject, styles.addPhotoTitle]}>
+                    <CustomText style={styles.addPhotoTitle}>
                         {'오늘 가장 기억에 남는 순간이 언제인가요? (선택)'}
                     </CustomText>
 
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
         marginVertical: 15,
     },
     addPhotoTitle: {
+        ...commonStyles.subject,
         marginBottom: 10,
         marginTop: 0,
     },

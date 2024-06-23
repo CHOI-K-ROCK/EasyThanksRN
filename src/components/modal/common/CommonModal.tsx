@@ -194,9 +194,7 @@ const CommonModal = (props: ModalType) => {
                 {children}
 
                 <View style={{ flex: 1 }} />
-                <View style={[commonStyles.rowCenter, styles.buttonContainer]}>
-                    {renderButtons()}
-                </View>
+                <View style={styles.buttonContainer}>{renderButtons()}</View>
             </Animated.View>
         </View>
     );
@@ -211,6 +209,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         gap: 10,
+        flexDirection: 'row',
         alignItems: 'flex-end',
     },
     divider: {
