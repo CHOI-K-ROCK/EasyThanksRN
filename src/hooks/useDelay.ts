@@ -1,14 +1,22 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 // useDelay.ts
-export const useDelay = (ms: number) => {
+export const useDelay = () => {
     const timeoutId = useRef<NodeJS.Timeout | null>(null);
-    const promise = () =>
-        new Promise<void>(resolve => {
-            timeoutId.current = setTimeout(resolve, ms);
-        });
 
-    return { promise, timeoutId: timeoutId.current };
+    useEffect(() => {
+        return () => {
+            clearTimeout(timeoutId.current as NodeJS.Timeout);
+        };
+    }, []);
+
+    return (ms: number, fn?: () => void) =>
+        new Promise<void>(resolve => {
+            timeoutId.current = setTimeout(() => {
+                fn();
+                resolve();
+            }, ms);
+        });
 };
 
 export default useDelay;
