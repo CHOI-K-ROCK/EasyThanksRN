@@ -1,17 +1,14 @@
 import React, { useCallback } from 'react';
+
 import { StyleSheet, View } from 'react-native';
-import { commonStyles } from '../../style';
-import VectorIcon from '../common/VectorIcon';
+import CustomText from '../common/CustomText';
+
+import Animated, { withDelay, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
-import CustomText from '../common/CustomText';
-import Animated, {
-    Easing,
-    withDelay,
-    withRepeat,
-    withSequence,
-    withTiming,
-} from 'react-native-reanimated';
+
+import { commonStyles } from '../../style';
+
 import useUuid from '../../hooks/useUuid';
 
 const LoadingProvider = () => {
@@ -52,7 +49,7 @@ const LoadingProvider = () => {
     }, []);
 
     return (
-        <Animated.View key={useUuid()()} style={[StyleSheet.absoluteFill, styles.backdrop]}>
+        <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop]}>
             <View
                 style={[
                     {
