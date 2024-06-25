@@ -22,6 +22,7 @@
 		9DF267E0435A4C6598D8A51F /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48F79F6CF36E4D819CEEFAB3 /* Pretendard-Regular.ttf */; };
 		D93D077B0C59E675F0F68915 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9BB3BAA22C2F79B53D11ACF8 /* PrivacyInfo.xcprivacy */; };
 		DD6499162C297A9600A7E650 /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6499152C297A9600A7E650 /* SwiftBridge.swift */; };
+		DDA085882C2AEA6E00501440 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DDA085872C2AEA6E00501440 /* InfoPlist.xcstrings */; };
 		DDC3816E2C09993F004DACAC /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDC381662C09993E004DACAC /* MaterialIcons.ttf */; };
 		DDC3816F2C09993F004DACAC /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDC381672C09993E004DACAC /* FontAwesome5_Solid.ttf */; };
 		DDC381702C09993F004DACAC /* FontAwesome6_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDC381682C09993E004DACAC /* FontAwesome6_Regular.ttf */; };
@@ -74,6 +75,7 @@
 		C87A6B18468E446380625D85 /* Pretendard-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.ttf"; path = "../assets/fonts/Pretendard-ExtraBold.ttf"; sourceTree = "<group>"; };
 		DD6499142C297A9600A7E650 /* EasyThanksRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyThanksRN-Bridging-Header.h"; sourceTree = "<group>"; };
 		DD6499152C297A9600A7E650 /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
+		DDA085872C2AEA6E00501440 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		DDC381662C09993E004DACAC /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		DDC381672C09993E004DACAC /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
 		DDC381682C09993E004DACAC /* FontAwesome6_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Regular.ttf; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 		13B07FAE1A68108700A75B9A /* EasyThanksRN */ = {
 			isa = PBXGroup;
 			children = (
+				DDA085892C2AED4700501440 /* Localization */,
 				DDC32C662C0991E3004DACAC /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -208,6 +211,14 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-EasyThanksRN-EasyThanksRNTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		DDA085892C2AED4700501440 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				DDA085872C2AEA6E00501440 /* InfoPlist.xcstrings */,
+			);
+			name = Localization;
 			sourceTree = "<group>";
 		};
 		DDC32C662C0991E3004DACAC /* Fonts */ = {
@@ -294,6 +305,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -326,6 +338,7 @@
 				DDC3816E2C09993F004DACAC /* MaterialIcons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				DDA085882C2AEA6E00501440 /* InfoPlist.xcstrings in Resources */,
 				D93D077B0C59E675F0F68915 /* PrivacyInfo.xcprivacy in Resources */,
 				DDC381732C09993F004DACAC /* FontAwesome6_Solid.ttf in Resources */,
 				DDC381702C09993F004DACAC /* FontAwesome6_Regular.ttf in Resources */,
@@ -571,6 +584,8 @@
 					"$(PROJECT_DIR)/Pods/hermes-engine/destroot/Library/Frameworks/macosx",
 				);
 				INFOPLIST_FILE = EasyThanksRN/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Easy Thanks";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -581,11 +596,16 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockwithsun.easythanks;
 				PRODUCT_NAME = EasyThanksRN;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "EasyThanksRN-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -603,6 +623,8 @@
 					"$(PROJECT_DIR)/Pods/hermes-engine/destroot/Library/Frameworks/macosx",
 				);
 				INFOPLIST_FILE = EasyThanksRN/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Easy Thanks";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -613,10 +635,15 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rockwithsun.easythanks;
 				PRODUCT_NAME = EasyThanksRN;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "EasyThanksRN-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
