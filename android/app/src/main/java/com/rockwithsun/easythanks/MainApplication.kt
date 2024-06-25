@@ -1,4 +1,4 @@
-package com.easythanksrn
+package com.rockwithsun.easythanks
 
 import android.app.Application
 import com.facebook.react.PackageList
