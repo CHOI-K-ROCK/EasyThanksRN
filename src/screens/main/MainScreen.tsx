@@ -15,9 +15,13 @@ import RotationThanksWordsView from '../../components/main/RotationThanksWordsVi
 import ScreenLayout from '../../components/common/ScreenLayout';
 import KakaoTestScreen from '../KakaoTestScreen';
 import NaverTestScreen from '../NaverTestScreen';
+import GoogleTestScreen from '../GoogleTestScreen';
+import { ScrollView } from 'react-native';
+import useDimensions from '../../hooks/useDimensions';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
+    const { wp } = useDimensions();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
@@ -34,11 +38,15 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <ScreenLayout>
-                {/* <RotationThanksWordsView /> */}
-                {/* <KakaoTestScreen /> */}
+            <ScrollView horizontal snapToEnd snapToInterval={wp(100)} decelerationRate={'fast'}>
+                <KakaoTestScreen />
                 <NaverTestScreen />
-            </ScreenLayout>
+                <GoogleTestScreen />
+            </ScrollView>
+            {/* <ScreenLayout> */}
+            {/* <RotationThanksWordsView /> */}
+
+            {/* </ScreenLayout> */}
         </SafeAreaView>
     );
 };

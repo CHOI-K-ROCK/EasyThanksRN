@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "984264235813",
+    "project_id": "easythanks-29ec6",
+    "storage_bucket": "easythanks-29ec6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984264235813:android:8f8c95b40ce43d815618cc",
+        "android_client_info": {
+          "package_name": "com.rockwithsun.easythanks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984264235813-pkd3oadgnhsf5ea5nv9p0ddtre6o8r3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rockwithsun.easythanks",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "984264235813-20tpt93n8h48hjqirh9vd7mktoe08vq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2tm_hp9pvs66RG1s992lUT7Q4AdO8bwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984264235813-20tpt93n8h48hjqirh9vd7mktoe08vq4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "984264235813-6knq8q8nv62j77neh0b4kmq230rb0m35.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rockwithsun.easythanks"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,6 +5,7 @@ import NaverLogin, {
 import React, { ReactElement, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Button, View } from 'react-native';
 import CustomText from '../components/common/CustomText';
+import useDimensions from '../hooks/useDimensions';
 
 /** Fill your keys */
 const consumerKey = 'ppND6ldhXb7KNVFZy35e';
@@ -15,6 +16,7 @@ const appName = 'EasyThanks - 이지땡스';
 const serviceUrlSchemeIOS = 'com.rockwithsun.easythanks';
 
 const NaverTestScreen = (): ReactElement => {
+    const { wp } = useDimensions();
     useEffect(() => {
         NaverLogin.initialize({
             appName,
@@ -68,33 +70,32 @@ const NaverTestScreen = (): ReactElement => {
     };
 
     return (
-        <SafeAreaView style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-            <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, padding: 24 }}>
-                <Button title={'Login'} onPress={login} />
-                <Gap />
-                <Button title={'Logout'} onPress={logout} />
-                <Gap />
-                {success ? (
-                    <>
-                        <Button title="Get Profile" onPress={getProfile} />
-                        <Gap />
-                    </>
-                ) : null}
-                {success ? (
-                    <View>
-                        <Button title="Delete Token" onPress={deleteToken} />
-                        <Gap />
-                        <ResponseJsonText name={'Success'} json={success} />
-                    </View>
-                ) : null}
-                <Gap />
-                {failure ? <ResponseJsonText name={'Failure'} json={failure} /> : null}
-                <Gap />
-                {getProfileRes ? (
-                    <ResponseJsonText name={'GetProfile'} json={getProfileRes} />
-                ) : null}
-            </ScrollView>
-        </SafeAreaView>
+        <View style={{ flex: 1, width: wp(100), alignItems: 'center' }}>
+            <CustomText>네이버</CustomText>
+            <Gap />
+            <Gap />
+            <Button title={'Login'} onPress={login} />
+            <Gap />
+            <Button title={'Logout'} onPress={logout} />
+            <Gap />
+            {success ? (
+                <>
+                    <Button title="Get Profile" onPress={getProfile} />
+                    <Gap />
+                </>
+            ) : null}
+            {success ? (
+                <View>
+                    <Button title="Delete Token" onPress={deleteToken} />
+                    <Gap />
+                    <ResponseJsonText name={'Success'} json={success} />
+                </View>
+            ) : null}
+            <Gap />
+            {failure ? <ResponseJsonText name={'Failure'} json={failure} /> : null}
+            <Gap />
+            {getProfileRes ? <ResponseJsonText name={'GetProfile'} json={getProfileRes} /> : null}
+        </View>
     );
 };
 

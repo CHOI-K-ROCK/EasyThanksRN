@@ -12,6 +12,9 @@
     "postuninstall": "license-checker --direct --customPath ./licenses/licensesFormat.json --json > ./licenses/licenses.json"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^20.1.0",
+    "@react-native-firebase/auth": "^20.1.0",
+    "@react-native-google-signin/google-signin": "^12.2.1",
     "@react-native-masked-view/masked-view": "^0.3.1",
     "@react-native-seoul/kakao-login": "^5.4.1",
     "@react-native-seoul/naver-login": "^4.0.1",

@@ -7,8 +7,11 @@ import {
     shippingAddresses as getKakaoShippingAddresses,
     unlink,
 } from '@react-native-seoul/kakao-login';
+import useDimensions from '../hooks/useDimensions';
+import CustomText from '../components/common/CustomText';
 
 const KakaoTestScreen = () => {
+    const { wp } = useDimensions();
     const [result, setResult] = useState<string>('');
 
     const signInWithKakao = async (): Promise<void> => {
@@ -61,7 +64,9 @@ const KakaoTestScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[{ width: wp(100) }, styles.container]}>
+            <CustomText>카카오</CustomText>
+            <View style={{ height: 40 }} />
             <View style={styles.resultContainer}>
                 <ScrollView>
                     <Text>{result}</Text>
@@ -79,9 +84,6 @@ const KakaoTestScreen = () => {
             <Pressable style={styles.button} onPress={() => getProfile()}>
                 <Text style={styles.text}>프로필 조회</Text>
             </Pressable>
-            <Pressable style={styles.button} onPress={() => getShippingAddresses()}>
-                <Text style={styles.text}>배송주소록 조회</Text>
-            </Pressable>
             <Pressable style={styles.button} onPress={() => unlinkKakao()}>
                 <Text style={styles.text}>링크 해제</Text>
             </Pressable>
@@ -96,7 +98,6 @@ export default KakaoTestScreen;
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
         justifyContent: 'flex-end',
         alignItems: 'center',
         paddingBottom: 100,

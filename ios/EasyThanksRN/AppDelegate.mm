@@ -4,9 +4,11 @@
 
 // kakao
 #import <RNKakaoLogins.h>
-
 // naver
 #import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
+// google
+#import <GoogleSignIn/GoogleSignIn.h>
+#import <Firebase.h>
 
 @implementation AppDelegate
 
@@ -16,6 +18,10 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+  
+  if ([FIRApp defaultApp] == nil){
+    [FIRApp configure];
+  }
 
   return [super application:application
       didFinishLaunchingWithOptions:launchOptions];
@@ -47,13 +53,13 @@
   }
 
   //naver
-  if ([url.scheme isEqualToString:@"{{ CUSTOM URL SCHEME }}"]) {
+  if ([url.scheme isEqualToString:@"com.rockwithsun.easythanks"]) {
     return [[NaverThirdPartyLoginConnection getSharedInstance]
         application:app
             openURL:url
             options:options];
   }
-
+  
   return NO;
 }
 
