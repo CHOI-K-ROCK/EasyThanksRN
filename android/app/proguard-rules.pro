@@ -8,3 +8,7 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# oauth
+# naver rules
+-keep public class com.navercorp.nid.** { *; }

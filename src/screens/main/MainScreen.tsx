@@ -14,6 +14,7 @@ import useToast from '../../hooks/useToast';
 import RotationThanksWordsView from '../../components/main/RotationThanksWordsView';
 import ScreenLayout from '../../components/common/ScreenLayout';
 import KakaoTestScreen from '../KakaoTestScreen';
+import NaverTestScreen from '../NaverTestScreen';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -35,7 +36,8 @@ const MainScreen = () => {
             />
             <ScreenLayout>
                 {/* <RotationThanksWordsView /> */}
-                <KakaoTestScreen />
+                {/* <KakaoTestScreen /> */}
+                <NaverTestScreen />
             </ScreenLayout>
         </SafeAreaView>
     );
