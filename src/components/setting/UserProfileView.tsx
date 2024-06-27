@@ -6,20 +6,19 @@ import CustomText from '../common/CustomText';
 import FullWidthButton from '../common/FullWidthButton';
 import OauthIcon from '../common/OauthIcon';
 import ProfilePicture from '../common/ProfilePicture';
-
-import { OauthProviderType, UserDataType } from '../../constant/dummy';
+import { OauthProviderType, UserDataType } from '../../@types/models/user';
 
 type Props = { userData: UserDataType; onPressEdit: () => void };
 
 const UserProfileView = (props: Props) => {
     const { userData, onPressEdit } = props;
 
-    const { username, email, profileImage, oauthProvider } = userData;
+    const { username, email, profileImg, oauthProvider } = userData;
 
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
-                <ProfilePicture uri={profileImage} style={styles.profileImage} />
+                <ProfilePicture uri={profileImg} style={styles.profileImage} />
                 <View style={styles.nicknameContainer}>
                     {/* 닉네임 */}
                     <OauthIcon
@@ -29,7 +28,8 @@ const UserProfileView = (props: Props) => {
                     <CustomText style={styles.nickname}>{username}</CustomText>
                     <CustomText style={styles.sir}>님</CustomText>
                 </View>
-                <CustomText style={styles.email}>{email}</CustomText>
+                {/* 이후 비즈니스 앱 혹은 권한 생기면 추가 */}
+                {/* {email && <CustomText style={styles.email}>{email}</CustomText>} */}
             </View>
             <FullWidthButton
                 title={'프로필 수정'}
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     profileImage: {
-        marginBottom: 10,
+        marginBottom: 20,
     },
     nicknameContainer: {
         flexDirection: 'row',

@@ -1,6 +1,6 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { OpenSourceDataType } from '../../openSource';
-import { UserDataType } from '../../../constant/dummy';
+import { UserDataType } from '../../models/user';
 
 // setting
 export type SettingStackParamList = {

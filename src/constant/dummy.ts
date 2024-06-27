@@ -1,19 +1,17 @@
+import { UserDataType } from '../@types/models/user';
+
 export const SAMPLE_IMAGE =
     'https://images.unsplash.com/photo-1717496002081-38a90d3cba26?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
-export const DUMMY_PROFILE = {
-    userId: 'testuserid',
+export const DUMMY_PROFILE: UserDataType = {
+    id: 'testuserid',
     oauthProvider: 'google', // kakao, naver, google
     email: 'chl4842@gmail.com',
     username: 'KROCK',
-    profileImage: SAMPLE_IMAGE,
+    profileImg: SAMPLE_IMAGE,
     createdAt: '2024-06-01T05:25:16.645Z',
     updatedAt: '2024-06-06T05:25:16.645Z',
 };
-
-export type UserDataType = typeof DUMMY_PROFILE;
-export type OauthProviderType = 'google' | 'naver' | 'kakao';
-//! 임시 타입, 정해진 후 @type 에 새로 정의
 
 export const DUMMY_POST_NONE_IMAGE = {
     id: 'post-uuid-1',

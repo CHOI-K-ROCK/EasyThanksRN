@@ -18,6 +18,7 @@ import NaverTestScreen from '../NaverTestScreen';
 import GoogleTestScreen from '../GoogleTestScreen';
 import { ScrollView } from 'react-native';
 import useDimensions from '../../hooks/useDimensions';
+import { handleLogout } from '../../logics/auth';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -47,6 +48,12 @@ const MainScreen = () => {
             {/* <RotationThanksWordsView /> */}
 
             {/* </ScreenLayout> */}
+            <CustomText
+                style={{ fontSize: 25, position: 'absolute', top: 200 }}
+                onPress={handleLogout}
+            >
+                handleLogout
+            </CustomText>
         </SafeAreaView>
     );
 };

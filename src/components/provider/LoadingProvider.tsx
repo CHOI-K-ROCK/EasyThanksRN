@@ -10,10 +10,10 @@ import useCustomTheme from '../../hooks/useCustomTheme';
 import { commonStyles } from '../../style';
 
 import { useAtomValue } from 'jotai';
-import { isLoading } from '../../state/ui';
+import { isLoadingAtom } from '../../state/ui';
 
 const LoadingProvider = () => {
-    const loadingState = useAtomValue(isLoading);
+    const loadingState = useAtomValue(isLoadingAtom);
 
     return loadingState && <LoadingOverlay />;
 };

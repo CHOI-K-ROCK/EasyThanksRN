@@ -12,41 +12,51 @@ import useDelay from '../../hooks/useDelay';
 import useLoading from '../../hooks/useLoading';
 
 import { commonStyles } from '../../style';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { userDataAtom } from '../../state/user';
+import { kakaoLogin, naverLogin } from '../../logics/auth';
 
 const LoginScreen = () => {
     const { colors } = useCustomTheme();
     const { hp } = useDimensions();
 
-    const delay = useDelay();
-    const { isLoading, setLoading } = useLoading();
+    const [data, setUserData] = useAtom(userDataAtom);
+    console.log('setUserData', setUserData);
 
-    console.log(isLoading);
+    const { setLoading } = useLoading();
 
     const buttonData = useMemo(
         () => [
             {
                 provider: 'naver',
-                onPress: () => { },
-            },
-            {
-                provider: 'kakao',
-                onPress: () => { },
-            },
-            {
-                provider: 'google',
                 onPress: async () => {
                     setLoading(true);
-                    await delay(10000, () => console.log('google'));
+                    await naverLogin();
                     setLoading(false);
                 },
             },
+            {
+                provider: 'kakao',
+                onPress: async () => {
+                    setLoading(true);
+                    await kakaoLogin();
+                    // setUserData(res);
+
+                    setLoading(false);
+                },
+            },
+            {
+                provider: 'google',
+                onPress: async () => { },
+            },
         ],
-        [delay, setLoading]
+        [setLoading]
     );
 
     return (
         <SafeAreaView>
             <View style={styles.container}>
+                {/* <CustomText>{data && Object.values(data)}</CustomText> */}
                 {/* 로고 */}
                 <View style={[styles.logoContainer]}>
                     <CustomText style={[{ color: colors.mainColor }, styles.logo]}>

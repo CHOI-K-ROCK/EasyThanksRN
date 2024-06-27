@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useAtomValue } from 'jotai';
-import { toasts } from '../../state/ui';
+import { toastsAtom } from '../../state/ui';
 
 import Toast from '../modal/common/Toast';
 import { ToastType } from '../../@types/models/toast';
 
 const ToastProvider = () => {
-    const openedToasts = useAtomValue(toasts);
+    const openedToasts = useAtomValue(toastsAtom);
 
     return openedToasts.map((toast: ToastType) => {
         return <Toast key={toast.id} {...toast} />;

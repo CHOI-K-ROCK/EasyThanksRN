@@ -5,7 +5,8 @@ import NaverIcon from '../../../assets/images/logos/profile_oauth_naver.png';
 import KakaoIcon from '../../../assets/images/logos/profile_oauth_kakao.png';
 
 import { Image, ImageStyle, StyleProp } from 'react-native';
-import { OauthProviderType } from '../../constant/dummy';
+import { OauthProviderType } from '../../@types/models/user';
+
 import PushAnimatedPressable from './PushAnimatedPressable';
 
 type Props = {

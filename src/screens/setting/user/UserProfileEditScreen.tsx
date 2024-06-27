@@ -31,7 +31,7 @@ const UserProfileEditScreen = () => {
     const { colors } = useCustomTheme();
     const { openToast } = useToast();
 
-    const { username, profileImage } = params.userData; // 상태에 저장해놓기? 훅으로 만들기?
+    const { username, profileImg } = params.userData; // 상태에 저장해놓기? 훅으로 만들기?
 
     const { value, handleChange, clearValue } = useInput(username);
 
@@ -84,7 +84,7 @@ const UserProfileEditScreen = () => {
 
             <View style={styles.container}>
                 <View style={styles.editContainer}>
-                    <ProfilePicture style={styles.profile} uri={profileImage} />
+                    <ProfilePicture style={styles.profile} uri={profileImg} />
                     <TouchableOpacity
                         style={styles.profileEditButtonContainer}
                         onPress={onPressProfilePic}

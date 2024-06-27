@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { useAtomValue } from 'jotai';
-import { modals } from '../../state/ui';
+import { modalsAtom } from '../../state/ui';
 
 const ModalProvider = () => {
-    const openedModal = useAtomValue(modals);
+    const openedModal = useAtomValue(modalsAtom);
 
     return openedModal.map((modal: { id: string; component: React.FC; props: any }) => {
         const { id, component, props } = modal;
