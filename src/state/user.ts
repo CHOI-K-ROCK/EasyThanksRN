@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
-import { UserDataType } from '../@types/models/user';
+import { SsoProviderType, UserDataType } from '../@types/models/user';
 
-export const userDataAtom = atom<any | null>(null);
+export const userDataAtom = atom<UserDataType | null>(null);
+export const userSsoProviderAtom = atom<SsoProviderType>(get => get(userDataAtom)!.ssoProvider);

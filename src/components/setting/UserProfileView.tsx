@@ -4,16 +4,16 @@ import { StyleSheet, View } from 'react-native';
 import VectorIcon from '../common/VectorIcon';
 import CustomText from '../common/CustomText';
 import FullWidthButton from '../common/FullWidthButton';
-import OauthIcon from '../common/OauthIcon';
+import SsoIcon from '../common/SsoIcon';
 import ProfilePicture from '../common/ProfilePicture';
-import { OauthProviderType, UserDataType } from '../../@types/models/user';
+import { SsoProviderType, UserDataType } from '../../@types/models/user';
 
 type Props = { userData: UserDataType; onPressEdit: () => void };
 
 const UserProfileView = (props: Props) => {
     const { userData, onPressEdit } = props;
 
-    const { username, email, profileImg, oauthProvider } = userData;
+    const { username, email, profileImg, ssoProvider } = userData;
 
     return (
         <View style={styles.container}>
@@ -21,9 +21,9 @@ const UserProfileView = (props: Props) => {
                 <ProfilePicture uri={profileImg} style={styles.profileImage} />
                 <View style={styles.nicknameContainer}>
                     {/* 닉네임 */}
-                    <OauthIcon
-                        style={styles.oauthIcon}
-                        provider={oauthProvider as OauthProviderType}
+                    <SsoIcon
+                        style={styles.ssoIcon}
+                        provider={ssoProvider as SsoProviderType}
                     />
                     <CustomText style={styles.nickname}>{username}</CustomText>
                     <CustomText style={styles.sir}>님</CustomText>
@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     profileImage: {
-        marginBottom: 20,
+        marginBottom: 10,
     },
     nicknameContainer: {
         flexDirection: 'row',
         alignItems: 'baseline',
         columnGap: 3,
     },
-    oauthIcon: {
+    ssoIcon: {
         width: 18,
         height: 18,
         alignSelf: 'center',

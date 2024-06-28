@@ -1,15 +1,16 @@
 import React from 'react';
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { commonStyles } from '../../style';
+import { SAMPLE_IMAGE } from '../../constant/dummy';
 
-type Props = { uri: string; style?: StyleProp<ViewStyle> };
+type Props = { uri: string | null | undefined; style?: StyleProp<ViewStyle> };
 
 const ProfilePicture = (props: Props) => {
     const { uri, style } = props;
 
     return (
         <View style={[styles.profileImageContainer, style]}>
-            <Image style={styles.profileImage} source={{ uri }} />
+            <Image style={styles.profileImage} source={{ uri: uri || SAMPLE_IMAGE }} />
         </View>
     );
 };

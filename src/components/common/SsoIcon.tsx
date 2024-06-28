@@ -1,21 +1,21 @@
 import React, { useCallback } from 'react';
 
-import GoogleIcon from '../../../assets/images/logos/profile_oauth_google.png';
-import NaverIcon from '../../../assets/images/logos/profile_oauth_naver.png';
-import KakaoIcon from '../../../assets/images/logos/profile_oauth_kakao.png';
+import GoogleIcon from '../../../assets/images/logos/profile_sso_google.png';
+import NaverIcon from '../../../assets/images/logos/profile_sso_naver.png';
+import KakaoIcon from '../../../assets/images/logos/profile_sso_kakao.png';
 
 import { Image, ImageStyle, StyleProp } from 'react-native';
-import { OauthProviderType } from '../../@types/models/user';
+import { SsoProviderType } from '../../@types/models/user';
 
 import PushAnimatedPressable from './PushAnimatedPressable';
 
 type Props = {
-    provider: OauthProviderType;
+    provider: SsoProviderType;
     style: StyleProp<ImageStyle>;
     onPress?: () => void;
 };
 
-const OauthIcon = (props: Props) => {
+const SsoIcon = (props: Props) => {
     const { provider, style, onPress } = props;
 
     const getSource = useCallback(() => {
@@ -36,4 +36,4 @@ const OauthIcon = (props: Props) => {
     );
 };
 
-export default OauthIcon;
+export default SsoIcon;

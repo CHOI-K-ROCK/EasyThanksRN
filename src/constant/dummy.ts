@@ -5,7 +5,7 @@ export const SAMPLE_IMAGE =
 
 export const DUMMY_PROFILE: UserDataType = {
     id: 'testuserid',
-    oauthProvider: 'google', // kakao, naver, google
+    ssoProvider: 'google', // kakao, naver, google
     email: 'chl4842@gmail.com',
     username: 'KROCK',
     profileImg: SAMPLE_IMAGE,
