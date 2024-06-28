@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react';
 
+import { useAtomValue } from 'jotai';
+import { userDataAtom } from '../../state/user';
+
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
 import SafeAreaView from '../../components/common/SafeAreaView';
 import InnerNavigationBar from '../../components/common/InnerNavigationBar';
@@ -8,10 +11,10 @@ import SettingListItem from '../../components/setting/SettingMenuListItem';
 import SettingFooter from '../../components/setting/SettingFooter';
 
 import { SettingScreenNavigationProps } from '../../@types/navigations/settingStack';
+import { UserDataType } from '../../@types/models/user';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { DUMMY_PROFILE } from '../../constant/dummy';
 import { HORIZONTAL_GAP } from '../../constant/style';
 
 export type SettingDataType = {
@@ -23,12 +26,15 @@ export type SettingDataType = {
 const SettingScreen = () => {
     const { navigate, goBack } = useNavigation<SettingScreenNavigationProps>();
 
+    const userData = useAtomValue(userDataAtom) as UserDataType;
+    console.log(userData);
+
     const handleLogout = () => {
         console.log('logout logic excute');
     };
 
     const onPressEditUserProfile = () => {
-        navigate('UserProfileEditScreen', { userData: DUMMY_PROFILE });
+        navigate('UserProfileEditScreen', { userData: userData });
     };
 
     const onPressOpenSource = () => {
@@ -61,10 +67,7 @@ const SettingScreen = () => {
                 keyExtractor={(_, index) => index.toString()}
                 style={styles.list}
                 ListHeaderComponent={
-                    <UserProfileView
-                        userData={DUMMY_PROFILE}
-                        onPressEdit={onPressEditUserProfile}
-                    />
+                    <UserProfileView userData={userData} onPressEdit={onPressEditUserProfile} />
                 }
                 ListHeaderComponentStyle={styles.header}
                 ListFooterComponent={<SettingFooter onPressOpenSource={onPressOpenSource} />}
