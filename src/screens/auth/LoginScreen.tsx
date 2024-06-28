@@ -1,56 +1,52 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 
 import SafeAreaView from '../../components/common/SafeAreaView';
 import CustomText from '../../components/common/CustomText';
-import OauthIcon from '../../components/common/OauthIcon';
+import SsoIcon from '../../components/common/SsoIcon';
+
+import { SsoProviderType } from '../../@types/models/user';
 
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
-import useDelay from '../../hooks/useDelay';
 import useLoading from '../../hooks/useLoading';
+import useAuth from '../../logics/useAuth';
 
 import { commonStyles } from '../../style';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { userDataAtom } from '../../state/user';
-import { kakaoLogin, naverLogin } from '../../logics/auth';
 
 const LoginScreen = () => {
     const { colors } = useCustomTheme();
     const { hp } = useDimensions();
-
-    const [data, setUserData] = useAtom(userDataAtom);
-    console.log('setUserData', setUserData);
+    const { ssoLogin } = useAuth();
 
     const { setLoading } = useLoading();
+
+    const handleLogin = useCallback(
+        async (provider: SsoProviderType) => {
+            setLoading(true);
+            await ssoLogin(provider);
+            setLoading(false);
+        },
+        [setLoading, ssoLogin]
+    );
 
     const buttonData = useMemo(
         () => [
             {
                 provider: 'naver',
-                onPress: async () => {
-                    setLoading(true);
-                    await naverLogin();
-                    setLoading(false);
-                },
+                onPress: () => handleLogin('naver'),
             },
             {
                 provider: 'kakao',
-                onPress: async () => {
-                    setLoading(true);
-                    await kakaoLogin();
-                    // setUserData(res);
-
-                    setLoading(false);
-                },
+                onPress: () => handleLogin('kakao'),
             },
             {
                 provider: 'google',
-                onPress: async () => { },
+                onPress: () => handleLogin('google'),
             },
         ],
-        [setLoading]
+        [handleLogin]
     );
 
     return (
@@ -82,7 +78,7 @@ const LoginScreen = () => {
                         const { provider, onPress } = button;
 
                         return (
-                            <OauthIcon
+                            <SsoIcon
                                 key={provider}
                                 provider={provider as any}
                                 style={styles.socialLoginButton}
@@ -91,10 +87,9 @@ const LoginScreen = () => {
                         );
                     })}
                 </View>
-                <CustomText style={[styles.socialLoginTitle]}>소셜 계정으로 시작하기</CustomText>
-                {/* SNS 로그인 버튼 */}
-                {/* 회원 가입은 패스*/}
-                {/* 카카오, 구글, 네이버 */}
+                <CustomText style={[styles.socialLoginTitle]}>
+                    {'소셜 계정으로 시작하기'}
+                </CustomText>
             </View>
         </SafeAreaView>
     );

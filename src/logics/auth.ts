@@ -1,29 +1,28 @@
-import { getDefaultStore } from 'jotai';
-import { userDataAtom } from '../state/user';
-import { systemAtom } from '../state/system';
-
 import {
     login,
     getProfile as getKakaoProfile,
     logout as kakaoLogout,
 } from '@react-native-seoul/kakao-login';
+//naver
 import NaverLogin from '@react-native-seoul/naver-login';
+//google
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 
 import { delay } from '../utils/data';
+import { SsoProviderType, UserDataType } from '../@types/models/user';
 
-const store = getDefaultStore();
-
-export const kakaoLogin = () => {
-    return new Promise(async (resolve, reject) => {
+export const handleKakaoLogin = () =>
+    new Promise<UserDataType>(async (resolve, reject) => {
         try {
             const token = await login();
 
             // ---- temp ----
-            const profile = await getKakaoProfile();
-            const { nickname, profileImageUrl } = profile;
+            const kakaoUserProfile = await getKakaoProfile();
+            const { nickname, profileImageUrl } = kakaoUserProfile;
 
             const user = {
+                ssoProvider: 'kakao' as SsoProviderType,
                 username: nickname,
                 profileImg: profileImageUrl,
             };
@@ -32,20 +31,15 @@ export const kakaoLogin = () => {
 
             // 서버에 요청, 유효성 검증 이후 유저 생성 혹은 유저 데이터 반환
             // const res = await 서버로_보낼_요청(token)
-
-            store.set(userDataAtom, user);
-            store.set(systemAtom, { isSigned: true });
-
-            resolve(user);
+            resolve(user); // UserDataType
         } catch (error) {
-            console.log('kakao login error : ', error);
-            reject(undefined);
+            // console.log('kakao login error : ', error);
+            reject(error);
         }
     });
-};
 
-export const naverLogin = () => {
-    return new Promise(async (resolve, reject) => {
+export const handleNaverLogin = () =>
+    new Promise<UserDataType>(async (resolve, reject) => {
         const consumerKey = 'ppND6ldhXb7KNVFZy35e';
         const consumerSecret = 'CQMshPUfvy';
         const appName = 'EasyThanks - 이지땡스';
@@ -71,42 +65,58 @@ export const naverLogin = () => {
             }
 
             const { accessToken } = successResponse;
-            const userProfile = await NaverLogin.getProfile(accessToken);
 
-            const {
-                response: { nickname, profile_image },
-            } = userProfile;
+            // const res = await 서버로_보낼_요청(accessToken)
+
+            const { response: naverUserProfile } = await NaverLogin.getProfile(accessToken);
+            const { nickname, profile_image } = naverUserProfile;
 
             const user = {
-                nickname,
+                ssoProvider: 'naver' as SsoProviderType,
+                username: nickname,
                 profileImg: profile_image,
             };
 
-            store.set(userDataAtom, user);
-            store.set(systemAtom, { isSigned: true });
-
-            resolve(user);
+            resolve(user); // UserDataType
         } catch (error) {
-            reject(undefined);
+            // console.log('naver login error : ', error);
+            reject(error);
         }
     });
-};
 
-const googleLogin = () => { };
+export const handleGoogleLogin = () =>
+    new Promise<UserDataType>(async (resolve, reject) => {
+        try {
+            const webci =
+                '984264235813-20tpt93n8h48hjqirh9vd7mktoe08vq4.apps.googleusercontent.com'; // env
+
+            GoogleSignin.configure({ webClientId: webci });
+            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+
+            const { idToken } = await GoogleSignin.signIn();
+
+            // const res = await 서버로_보낼_요청(idToken)
+
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+            await auth().signInWithCredential(googleCredential);
+            const googleUserData = auth().currentUser!;
+
+            const { displayName, photoURL } = googleUserData;
+            const user = {
+                ssoProvider: 'google' as SsoProviderType,
+                username: displayName,
+                profileImg: photoURL,
+            };
+
+            resolve(user); // UserDataType
+        } catch (error) {
+            // console.log('google login error : ', error);
+            reject(error);
+        }
+    });
 
 // 내부에 상태 업데이트하는 로직 필요.
 // 로그인 직후 유저 정보는 전역 상태와 로컬 스토리지에 저장 필요
 // 즉, 최초 앱 실행시 로컬스토리지에 유저정보가 있는 경우
 // 해당 아이디를 로그인 되었다고 판단,
-
-export const handleLogout = async () => {
-    await kakaoLogout();
-    await NaverLogin.logout();
-    await auth().signOut();
-    // 향후 유저의 provider 참고 후 해당하는 로직만 실행하게끔.
-
-    const store = getDefaultStore();
-
-    store.set(userDataAtom, null);
-    store.set(systemAtom, { isSigned: false });
-};

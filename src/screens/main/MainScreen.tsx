@@ -18,11 +18,14 @@ import NaverTestScreen from '../NaverTestScreen';
 import GoogleTestScreen from '../GoogleTestScreen';
 import { ScrollView } from 'react-native';
 import useDimensions from '../../hooks/useDimensions';
-import { handleLogout } from '../../logics/auth';
+import { useAtomValue } from 'jotai';
+import { userSsoProviderAtom } from '../../state/user';
+import useAuth from '../../logics/useAuth';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
     const { wp } = useDimensions();
+    const { logout } = useAuth();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
@@ -48,10 +51,7 @@ const MainScreen = () => {
             {/* <RotationThanksWordsView /> */}
 
             {/* </ScreenLayout> */}
-            <CustomText
-                style={{ fontSize: 25, position: 'absolute', top: 200 }}
-                onPress={handleLogout}
-            >
+            <CustomText style={{ fontSize: 25, position: 'absolute', top: 200 }} onPress={logout}>
                 handleLogout
             </CustomText>
         </SafeAreaView>
