@@ -1,11 +1,11 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { OpenSourceDataType } from '../../openSource';
-import { UserDataType } from '../../models/user';
+import { UserEditDataType } from '../../models/user';
 
 // setting
 export type SettingStackParamList = {
     SettingScreen: undefined;
-    UserProfileEditScreen: { userData: UserDataType };
+    UserProfileEditScreen: { userData: UserEditDataType };
     NotificationScreen: undefined;
     NotificationSettingScreen: undefined;
     OpenSourceScreen: undefined;

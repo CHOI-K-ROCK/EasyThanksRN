@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react';
 
+import { useRecoilValue } from 'recoil';
+import { isLoadingAtom } from '../../state/ui';
+
 import { StyleSheet, View } from 'react-native';
 import CustomText from '../common/CustomText';
 
@@ -9,11 +12,8 @@ import useCustomTheme from '../../hooks/useCustomTheme';
 
 import { commonStyles } from '../../style';
 
-import { useAtomValue } from 'jotai';
-import { isLoadingAtom } from '../../state/ui';
-
 const LoadingProvider = () => {
-    const loadingState = useAtomValue(isLoadingAtom);
+    const loadingState = useRecoilValue(isLoadingAtom);
 
     return loadingState && <LoadingOverlay />;
 };
@@ -61,7 +61,7 @@ const LoadingOverlay = () => {
     }, []);
 
     return (
-        <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop]}>
+        <Animated.View style={[StyleSheet.absoluteFill, styles.container]}>
             <View
                 style={[
                     {
@@ -90,8 +90,9 @@ const LoadingOverlay = () => {
 };
 
 const styles = StyleSheet.create({
-    backdrop: {
+    container: {
         backgroundColor: 'rgba(0,0,0,0.4)',
+        zIndex: 999,
         ...commonStyles.centered,
     },
     loadingContainer: {

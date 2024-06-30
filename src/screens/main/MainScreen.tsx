@@ -19,7 +19,6 @@ import GoogleTestScreen from '../GoogleTestScreen';
 import { ScrollView } from 'react-native';
 import useDimensions from '../../hooks/useDimensions';
 import { useAtomValue } from 'jotai';
-import { userSsoProviderAtom } from '../../state/user';
 import useAuth from '../../logics/useAuth';
 
 const MainScreen = () => {

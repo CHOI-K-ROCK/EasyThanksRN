@@ -1,4 +1,4 @@
-import { getDefaultStore, useSetAtom } from 'jotai';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userDataAtom } from '../state/user';
 import { systemAtom } from '../state/system';
 
@@ -12,11 +12,9 @@ import auth from '@react-native-firebase/auth';
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 import { handleGoogleLogin, handleKakaoLogin, handleNaverLogin } from './auth';
 
-const store = getDefaultStore();
-
 const useAuth = () => {
-    const setUserData = useSetAtom(userDataAtom);
-    const setSystem = useSetAtom(systemAtom);
+    const [userData, setUserData] = useRecoilState(userDataAtom);
+    const setSystem = useSetRecoilState(systemAtom);
 
     const ssoLogin = async (provider: SsoProviderType) => {
         try {
@@ -45,7 +43,6 @@ const useAuth = () => {
     };
 
     const handleLogout = async () => {
-        const userData = store.get(userDataAtom);
         console.log(userData);
         if (!userData) return;
 

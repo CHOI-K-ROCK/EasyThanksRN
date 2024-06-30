@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { useAtomValue } from 'jotai';
+import { useRecoilValue } from 'recoil';
 import { userDataAtom } from '../../state/user';
 
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
@@ -11,11 +11,12 @@ import SettingListItem from '../../components/setting/SettingMenuListItem';
 import SettingFooter from '../../components/setting/SettingFooter';
 
 import { SettingScreenNavigationProps } from '../../@types/navigations/settingStack';
-import { UserDataType } from '../../@types/models/user';
+import { UserEditDataType } from '../../@types/models/user';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { HORIZONTAL_GAP } from '../../constant/style';
+import useAuth from '../../logics/useAuth';
 
 export type SettingDataType = {
     title: string;
@@ -25,13 +26,9 @@ export type SettingDataType = {
 
 const SettingScreen = () => {
     const { navigate, goBack } = useNavigation<SettingScreenNavigationProps>();
+    const { logout } = useAuth();
 
-    const userData = useAtomValue(userDataAtom) as UserDataType;
-    console.log(userData);
-
-    const handleLogout = () => {
-        console.log('logout logic excute');
-    };
+    const userData = useRecoilValue(userDataAtom) as UserEditDataType;
 
     const onPressEditUserProfile = () => {
         navigate('UserProfileEditScreen', { userData: userData });
@@ -50,13 +47,15 @@ const SettingScreen = () => {
         {
             title: '로그아웃',
             subtitle: '앱에서 로그아웃 합니다.',
-            onPress: handleLogout,
+            onPress: logout,
         },
     ];
 
     const renderListItem: ListRenderItem<SettingDataType> = useCallback(({ item }) => {
         return <SettingListItem {...item} />;
     }, []);
+
+    if (userData === null) return <></>;
 
     return (
         <SafeAreaView>

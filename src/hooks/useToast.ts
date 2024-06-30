@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
-import { useAtom, useSetAtom } from 'jotai';
-import { toasts } from '../state/ui';
+import { useSetRecoilState } from 'recoil';
+import { toastsAtom } from '../state/ui';
 
 import { ToastCreateType } from '../@types/models/toast';
 
@@ -16,8 +16,8 @@ import useUuid from './useUuid';
  *
  */
 const useToast = () => {
-    const setToastsAtom = useSetAtom(toasts);
-    const uuid = useUuid(); // useId 사용가능.
+    const setToastsAtom = useSetRecoilState(toastsAtom);
+    const uuid = useUuid();
 
     const openToast = useCallback(
         (toastData: ToastCreateType) => {

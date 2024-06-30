@@ -19,10 +19,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import useCustomTheme from '../../../hooks/useCustomTheme';
 import useInput from '../../../hooks/useInput';
 import useModal from '../../../hooks/useModal';
+import useToast from '../../../hooks/useToast';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
-import useToast from '../../../hooks/useToast';
+import useAuth from '../../../logics/useAuth';
+import useLoading from '../../../hooks/useLoading';
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
@@ -30,6 +32,8 @@ const UserProfileEditScreen = () => {
 
     const { colors } = useCustomTheme();
     const { openToast } = useToast();
+    const { logout } = useAuth();
+    const { setLoading } = useLoading();
 
     const { username, profileImg } = params.userData; // 상태에 저장해놓기? 훅으로 만들기?
 
@@ -61,22 +65,22 @@ const UserProfileEditScreen = () => {
 
     const onConfirmOptOut = useCallback(async () => {
         try {
-            // 탈퇴 로직 수행
-            // 로딩 상태 변경 true
             console.log('탈퇴 요청 전송');
-            await new Promise((res, rej) => {
+            setLoading(true);
+            await new Promise(res => {
                 setTimeout(res, 2000);
             });
-            // 로딩 상태 변경 false
+            setLoading(false);
             console.log('탈퇴 완료, 로그아웃 진행');
-            // 탈퇴 완료시 로그인 화면으로 이동
 
             closeModal();
-            goBack();
+            logout(); // 실질적으로는 회원 탈퇴 로직이여야함.
         } catch (error: any) {
             console.log('opt out error : ', error.message);
         }
-    }, [closeModal, goBack]);
+    }, [closeModal, logout, setLoading]);
+
+    if (params.userData === null) return <></>;
 
     return (
         <KeyboardDismissSafeAreaView keyboardAvoiding={false}>

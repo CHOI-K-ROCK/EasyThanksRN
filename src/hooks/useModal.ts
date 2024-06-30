@@ -1,6 +1,6 @@
-import { useSetAtom } from 'jotai';
+import { useSetRecoilState } from 'recoil';
 
-import { modals } from '../state/ui';
+import { modalsAtom } from '../state/ui';
 
 import useUuid from './useUuid';
 import React, { useCallback } from 'react';
@@ -15,7 +15,7 @@ import React, { useCallback } from 'react';
  *
  */
 const useModal = (component: React.FC) => {
-    const updateModalAtom = useSetAtom(modals);
+    const updateModalAtom = useSetRecoilState(modalsAtom);
     const uuid = useUuid();
     const id = uuid();
 

@@ -1,8 +1,8 @@
-import { useAtom } from 'jotai';
+import { useRecoilState } from 'recoil';
 import { isLoadingAtom } from '../state/ui';
 
 const useLoading = () => {
-    const [isLoading, setLoading] = useAtom(isLoadingAtom);
+    const [isLoading, setLoading] = useRecoilState(isLoadingAtom);
 
     return {
         isLoading,
