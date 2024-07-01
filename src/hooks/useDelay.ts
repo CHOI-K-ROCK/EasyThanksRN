@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 
 // useDelay.ts
+/**
+ *
+ * @returns 딜레이 메소드를 반환합니다.
+ */
 export const useDelay = () => {
     const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
@@ -10,12 +14,12 @@ export const useDelay = () => {
         };
     }, []);
 
-    return (ms: number, fn?: () => void) =>
+    return (delay: number, callback?: () => void) =>
         new Promise<void>(resolve => {
             timeoutId.current = setTimeout(() => {
-                fn();
+                callback && callback();
                 resolve();
-            }, ms);
+            }, delay);
         });
 };
 

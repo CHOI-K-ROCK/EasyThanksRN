@@ -12,6 +12,14 @@ import auth from '@react-native-firebase/auth';
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 import { handleGoogleLogin, handleKakaoLogin, handleNaverLogin } from '../logics/auth';
 
+/**
+ *
+ * Auth 와 관련된 동작의 메소드를 제공하는 훅입니다.
+ *
+ * @return 메소드를 반환하는 객체입니다.
+ * @return ssoLogin - ssoProvider 를 전달 받아 그와 일치하는 로그인 과정을 진행합니다.
+ * @return logout - 로그아웃 합니다.
+ */
 const useAuth = () => {
     const [userData, setUserData] = useRecoilState(userDataAtom);
     const setSigned = useSetRecoilState(isSignedAtom);
