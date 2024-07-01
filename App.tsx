@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { RecoilRoot, useRecoilValue } from 'recoil';
-import { systemAtom } from './src/state/system';
+import { isSignedAtom } from './src/recoil/system';
 
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,10 +15,22 @@ import ModalProvider from './src/components/provider/ModalProvider';
 import LoadingProvider from './src/components/provider/LoadingProvider';
 
 import useCustomTheme from './src/hooks/useCustomTheme';
+import { get, set } from './src/logics/storage';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
-    const { isSigned } = useRecoilValue(systemAtom);
+    const isSigned = useRecoilValue(isSignedAtom);
+
+    useEffect(() => {
+        const initApp = async () => {
+            console.log('run');
+            await set('system', JSON.stringify({ isSigned: true }));
+            const system = await get('system');
+            console.log(system);
+        };
+
+        initApp();
+    }, []);
 
     return (
         <SafeAreaProvider>

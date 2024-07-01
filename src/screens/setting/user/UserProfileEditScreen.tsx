@@ -23,7 +23,7 @@ import useToast from '../../../hooks/useToast';
 
 import { HORIZONTAL_GAP } from '../../../constant/style';
 import { commonStyles } from '../../../style';
-import useAuth from '../../../logics/useAuth';
+import useAuth from '../../../hooks/useAuth';
 import useLoading from '../../../hooks/useLoading';
 
 const UserProfileEditScreen = () => {

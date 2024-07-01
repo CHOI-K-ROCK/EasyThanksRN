@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { isLoadingAtom } from '../state/ui';
+import { isLoadingAtom } from '../recoil/ui';
 
 const useLoading = () => {
     const [isLoading, setLoading] = useRecoilState(isLoadingAtom);

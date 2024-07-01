@@ -10,16 +10,12 @@ import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import CustomText from '../../components/common/CustomText';
 
-import useToast from '../../hooks/useToast';
-import RotationThanksWordsView from '../../components/main/RotationThanksWordsView';
-import ScreenLayout from '../../components/common/ScreenLayout';
 import KakaoTestScreen from '../KakaoTestScreen';
 import NaverTestScreen from '../NaverTestScreen';
 import GoogleTestScreen from '../GoogleTestScreen';
 import { ScrollView } from 'react-native';
 import useDimensions from '../../hooks/useDimensions';
-import { useAtomValue } from 'jotai';
-import useAuth from '../../logics/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();

@@ -1,6 +1,6 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userDataAtom } from '../state/user';
-import { systemAtom } from '../state/system';
+import { userDataAtom } from '../recoil/user';
+import { isSignedAtom } from '../recoil/system';
 
 // kakao
 import { logout as kakaoLogout } from '@react-native-seoul/kakao-login';
@@ -10,11 +10,11 @@ import NaverLogin from '@react-native-seoul/naver-login';
 import auth from '@react-native-firebase/auth';
 
 import { SsoProviderType, UserDataType } from '../@types/models/user';
-import { handleGoogleLogin, handleKakaoLogin, handleNaverLogin } from './auth';
+import { handleGoogleLogin, handleKakaoLogin, handleNaverLogin } from '../logics/auth';
 
 const useAuth = () => {
     const [userData, setUserData] = useRecoilState(userDataAtom);
-    const setSystem = useSetRecoilState(systemAtom);
+    const setSigned = useSetRecoilState(isSignedAtom);
 
     const ssoLogin = async (provider: SsoProviderType) => {
         try {
@@ -36,7 +36,7 @@ const useAuth = () => {
             }
 
             setUserData({ ...res });
-            setSystem({ isSigned: true });
+            setSigned(true);
         } catch (error) {
             console.log('sso login error => ', error);
         }
@@ -66,7 +66,7 @@ const useAuth = () => {
             }
 
             setUserData(null);
-            setSystem({ isSigned: false });
+            setSigned(false);
         } catch (error) {
             console.log('logout error : ', error);
         }

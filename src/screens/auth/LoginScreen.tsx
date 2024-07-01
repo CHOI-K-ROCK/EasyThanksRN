@@ -11,7 +11,7 @@ import { SsoProviderType } from '../../@types/models/user';
 import useDimensions from '../../hooks/useDimensions';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import useLoading from '../../hooks/useLoading';
-import useAuth from '../../logics/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 import { commonStyles } from '../../style';
 

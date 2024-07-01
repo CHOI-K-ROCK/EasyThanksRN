@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { isLoadingAtom } from '../../state/ui';
+import { isLoadingAtom } from '../../recoil/ui';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from '../common/CustomText';

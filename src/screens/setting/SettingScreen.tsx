@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { userDataAtom } from '../../state/user';
+import { userDataAtom } from '../../recoil/user';
 
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
 import SafeAreaView from '../../components/common/SafeAreaView';
@@ -16,7 +16,7 @@ import { UserEditDataType } from '../../@types/models/user';
 import { useNavigation } from '@react-navigation/native';
 
 import { HORIZONTAL_GAP } from '../../constant/style';
-import useAuth from '../../logics/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 export type SettingDataType = {
     title: string;

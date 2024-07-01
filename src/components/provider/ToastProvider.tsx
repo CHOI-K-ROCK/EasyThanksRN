@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { toastsAtom } from '../../state/ui';
+import { toastsAtom } from '../../recoil/ui';
 
 import Toast from '../modal/common/Toast';
 import { ToastType } from '../../@types/models/toast';
