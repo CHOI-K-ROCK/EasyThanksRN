@@ -1,9 +1,12 @@
-const COMMON_THEME = {
+import { DefaultTheme } from '@react-navigation/native';
+
+const COMMON_COLOR = {
     mainColor: '#D2B48C',
+    ...DefaultTheme.colors,
 };
 
-const DARK_THEME = {
-    ...COMMON_THEME,
+const DARK_COLOR = {
+    ...COMMON_COLOR,
     text: '#FFFFFF',
     textReverse: '#000000',
     background: '#2E2E2E',
@@ -20,8 +23,8 @@ const DARK_THEME = {
     warning: '#d42c16',
 };
 
-const LIGHT_THEME = {
-    ...COMMON_THEME,
+const LIGHT_COLOR = {
+    ...COMMON_COLOR,
     text: '#000000',
     textReverse: '#FFFFFF',
     background: '#FFFFFF',
@@ -38,4 +41,6 @@ const LIGHT_THEME = {
     warning: '#eb4933',
 };
 
-export { DARK_THEME, LIGHT_THEME };
+export type CustomColorType = typeof DARK_COLOR | typeof LIGHT_COLOR;
+
+export { DARK_COLOR, LIGHT_COLOR };
