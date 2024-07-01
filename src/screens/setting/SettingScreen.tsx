@@ -17,6 +17,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { HORIZONTAL_GAP } from '../../constant/style';
 import useAuth from '../../hooks/useAuth';
+import CommonModal from '../../components/modal/common/CommonModal';
+import useModal from '../../hooks/useModal';
 
 export type SettingDataType = {
     title: string;
@@ -30,6 +32,17 @@ const SettingScreen = () => {
 
     const userData = useRecoilValue(userDataAtom) as UserEditDataType;
 
+    const { openModal, closeModal } = useModal(() => (
+        <CommonModal
+            text="로그아웃 하시겠어요?"
+            onPressBackdrop={closeModal}
+            buttons={[
+                { content: '네', type: 'cancel', onPress: handleLogout },
+                { content: '아니요', onPress: closeModal },
+            ]}
+        />
+    ));
+
     const onPressEditUserProfile = () => {
         navigate('UserProfileEditScreen', { userData: userData });
     };
@@ -38,16 +51,30 @@ const SettingScreen = () => {
         navigate('OpenSourceScreen');
     };
 
+    const onPressLogout = () => {
+        openModal();
+    };
+
+    const handleLogout = () => {
+        closeModal();
+        logout();
+    };
+
     const menus: SettingDataType[] = [
         {
-            title: '알림',
+            title: '감사 알림',
             subtitle: '설정한 감사 알림을 확인 할 수 있습니다.',
+            onPress: () => navigate('NotificationScreen'),
+        },
+        {
+            title: '앱 테마 설정',
+            subtitle: '다크 모드 및 라이트 모드를 설정합니다.',
             onPress: () => navigate('NotificationScreen'),
         },
         {
             title: '로그아웃',
             subtitle: '앱에서 로그아웃 합니다.',
-            onPress: logout,
+            onPress: onPressLogout,
         },
     ];
 

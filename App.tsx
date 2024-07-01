@@ -15,7 +15,7 @@ import ModalProvider from './src/components/provider/ModalProvider';
 import LoadingProvider from './src/components/provider/LoadingProvider';
 
 import useCustomTheme from './src/hooks/useCustomTheme';
-import { get, set } from './src/logics/storage';
+import { get, set } from './src/utils/storage';
 
 function App(): React.JSX.Element {
     const { colors, isDark } = useCustomTheme();
