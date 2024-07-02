@@ -8,6 +8,7 @@ export type SettingStackParamList = {
     UserProfileEditScreen: { userData: UserEditDataType };
     NotificationScreen: undefined;
     NotificationSettingScreen: undefined;
+    AppThemeSettingScreen: undefined;
     OpenSourceScreen: undefined;
     OpenSourceDetailScreen: { data: OpenSourceDataType };
 };
@@ -39,6 +40,17 @@ export type NotificationSettingScreenNavigationProps = NavigationProp<
 export type NotificationSettingScreenRouteProps = RouteProp<
     SettingStackParamList,
     'NotificationSettingScreen'
+>;
+
+// app theme
+
+export type AppThemeSettingScreenNavigationProps = NavigationProp<
+    SettingStackParamList,
+    'AppThemeSettingScreen'
+>;
+export type AppThemeSettingScreenRouteProps = RouteProp<
+    SettingStackParamList,
+    'AppThemeSettingScreen'
 >;
 
 // open source

@@ -3,9 +3,10 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SettingScreen from '../screens/setting/SettingScreen';
+import UserProfileEditScreen from '../screens/setting/user/UserProfileEditScreen';
 import NotificationScreen from '../screens/setting/notification/NotificationScreen';
 import NotificationSettingScreen from '../screens/setting/notification/NotificationSettingScreen';
-import UserProfileEditScreen from '../screens/setting/user/UserProfileEditScreen';
+import AppThemeSettingScreen from '../screens/setting/AppThemeSettingScreen';
 import OpenSourceScreen from '../screens/setting/openSource/OpenSourceScreen';
 import OpenSourceDetailScreen from '../screens/setting/openSource/OpenSourceDetailScreen';
 
@@ -23,6 +24,7 @@ const SettingStack = () => {
             <Stack.Screen name="UserProfileEditScreen" component={UserProfileEditScreen} />
             <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
             <Stack.Screen name="NotificationSettingScreen" component={NotificationSettingScreen} />
+            <Stack.Screen name="AppThemeSettingScreen" component={AppThemeSettingScreen} />
             <Stack.Screen name="OpenSourceScreen" component={OpenSourceScreen} />
             <Stack.Screen name="OpenSourceDetailScreen" component={OpenSourceDetailScreen} />
         </Stack.Navigator>

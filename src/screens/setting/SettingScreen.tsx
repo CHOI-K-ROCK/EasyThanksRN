@@ -69,7 +69,7 @@ const SettingScreen = () => {
         {
             title: '앱 테마 설정',
             subtitle: '다크 모드 및 라이트 모드를 설정합니다.',
-            onPress: () => navigate('NotificationScreen'),
+            onPress: () => navigate('AppThemeSettingScreen'),
         },
         {
             title: '로그아웃',
