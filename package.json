@@ -8,8 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "license-checker --direct --customPath ./licenses/licensesFormat.json --json > ./licenses/licenses.json",
-    "postuninstall": "license-checker --direct --customPath ./licenses/licensesFormat.json --json > ./licenses/licenses.json"
+    "postinstall": "license-checker --direct --customPath ./licenses/licenseFormat.json --json > ./licenses/licenses.json",
+    "postuninstall": "license-checker --direct --customPath ./licenses/licenseFormat.json --json > ./licenses/licenses.json"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.1",
