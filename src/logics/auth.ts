@@ -30,6 +30,7 @@ export const handleKakaoLogin = () =>
             // ---- ---- ----
 
             // 서버에 요청, 유효성 검증 이후 유저 생성 혹은 유저 데이터 반환
+            // recoil selector 를 통해 비동기로 저장하는 것도 고려해보기
             // const res = await 서버로_보낼_요청(token)
             resolve(user); // UserDataType
         } catch (error) {

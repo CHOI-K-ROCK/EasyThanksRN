@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import { isSignedAtom } from './src/recoil/system';
@@ -23,24 +23,25 @@ function App(): React.JSX.Element {
 
     const theme = isDark ? customTheme.dark : customTheme.light;
 
-    useEffect(() => {
-        const initApp = async () => {
-            console.log('init app');
+    const initApp = useCallback(() => {
+        // 이후에 훅으로 분리
+        async () => {
+            try {
+                console.log('init app');
 
-            //  앱 테마 체크
-            const appTheme = (await getAppTheme()) as AppThemeType | null;
-            const appThemeScheme = appTheme === 'device' ? null : appTheme;
-            Appearance.setColorScheme(appThemeScheme);
-
-            // 유저 id 체크
-            const userId = await getUserId();
-            if (userId) {
-                setSigned(true);
+                //  앱 테마 체크
+                const appTheme = (await getAppTheme()) as AppThemeType | null;
+                const appThemeScheme = appTheme === 'device' ? null : appTheme;
+                Appearance.setColorScheme(appThemeScheme);
+            } catch (e) {
+                console.log('app init error :', e);
             }
         };
-
-        initApp();
     }, []);
+
+    useEffect(() => {
+        initApp();
+    }, [initApp]);
 
     checkStroageValue('asUserId');
 
