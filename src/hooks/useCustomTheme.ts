@@ -1,29 +1,28 @@
-import { useColorScheme } from 'react-native';
-import { DARK_THEME, LIGHT_THEME } from '../constant/colors';
-import { useMemo } from 'react';
+import { CustomColorType, DARK_COLOR, LIGHT_COLOR } from '../constant/colors';
+import { Theme, useTheme } from '@react-navigation/native';
 
-type appThemeType = 'light' | 'dark' | 'device';
+export type AppThemeType = 'light' | 'dark' | 'device';
+export type CustomThemeType = Theme & { colors: CustomColorType };
 /**
  * @returns colors - 현재 테마의 색상 정보
- * @returns isDark - 현재 다크 테마 여부
+ * @returns dark - 현재 다크 테마 여부
  */
-const useCustomTheme = () => {
-    // 디바이스 설정값
-    const colorScheme = useColorScheme();
-    // 앱 설정값 (임시) -> 추후 앱 설정값으로.
-    const appTheme = 'device' as appThemeType;
 
-    const isDark = useMemo(() => {
-        if (appTheme === 'device') {
-            return colorScheme === 'dark' ? true : false;
-        }
-
-        return appTheme === 'dark' ? true : false;
-    }, [colorScheme, appTheme]);
-
-    const colors = useMemo(() => (isDark ? DARK_THEME : LIGHT_THEME), [isDark]);
-
-    return { colors, isDark };
+const light = {
+    dark: false,
+    colors: LIGHT_COLOR,
 };
+
+const dark = {
+    dark: true,
+    colors: DARK_COLOR,
+};
+
+export const customTheme = {
+    light,
+    dark,
+};
+
+const useCustomTheme = useTheme as () => CustomThemeType;
 
 export default useCustomTheme;

@@ -51,7 +51,6 @@ const useAuth = () => {
     };
 
     const handleLogout = async () => {
-        console.log(userData);
         if (!userData) return;
 
         try {

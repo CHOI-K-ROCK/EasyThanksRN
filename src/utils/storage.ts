@@ -16,6 +16,12 @@ export const clearStorage = async () => {
     return multiRemove(allKeys);
 };
 
+export const checkStroageValue = async (key: string) => {
+    const res = await get(key);
+
+    console.log(`AsyncStorage Key: ${key}, Value : ${res}`);
+};
+
 // ================
 
 export const getUserId = () => {
@@ -33,6 +39,6 @@ export const saveAppTheme = (appTheme: AppThemeType) => {
 };
 
 // ================
-
-const asUserId = 'asUsetId';
+// as : async storage
+const asUserId = 'asUserId';
 const asAppTheme = 'asAppTheme';

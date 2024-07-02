@@ -1,8 +1,8 @@
 import { DefaultTheme } from '@react-navigation/native';
 
 const COMMON_COLOR = {
-    mainColor: '#D2B48C',
     ...DefaultTheme.colors,
+    mainColor: '#D2B48C',
 };
 
 const DARK_COLOR = {

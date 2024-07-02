@@ -13,9 +13,10 @@ import CustomText from '../../components/common/CustomText';
 import KakaoTestScreen from '../KakaoTestScreen';
 import NaverTestScreen from '../NaverTestScreen';
 import GoogleTestScreen from '../GoogleTestScreen';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import useDimensions from '../../hooks/useDimensions';
 import useAuth from '../../hooks/useAuth';
+import useAppTheme from '../../hooks/useAppTheme';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -23,6 +24,7 @@ const MainScreen = () => {
     const { logout } = useAuth();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
+    const { setAppTheme } = useAppTheme();
 
     const toAppMenu = () => {
         navigate('SettingStack', {
@@ -37,18 +39,29 @@ const MainScreen = () => {
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
-            <ScrollView horizontal snapToEnd snapToInterval={wp(100)} decelerationRate={'fast'}>
+            <View style={{ gap: 20 }}>
+                <CustomText style={{ fontSize: 25 }} onPress={logout}>
+                    handleLogout
+                </CustomText>
+                <CustomText style={{ fontSize: 25 }} onPress={() => setAppTheme('device')}>
+                    dev
+                </CustomText>
+                <CustomText style={{ fontSize: 25 }} onPress={() => setAppTheme('light')}>
+                    lig
+                </CustomText>
+                <CustomText style={{ fontSize: 25 }} onPress={() => setAppTheme('dark')}>
+                    dar
+                </CustomText>
+            </View>
+            {/* <ScrollView horizontal snapToEnd snapToInterval={wp(100)} decelerationRate={'fast'}>
                 <KakaoTestScreen />
                 <NaverTestScreen />
                 <GoogleTestScreen />
-            </ScrollView>
+            </ScrollView> */}
             {/* <ScreenLayout> */}
             {/* <RotationThanksWordsView /> */}
 
             {/* </ScreenLayout> */}
-            <CustomText style={{ fontSize: 25, position: 'absolute', top: 200 }} onPress={logout}>
-                handleLogout
-            </CustomText>
         </SafeAreaView>
     );
 };
