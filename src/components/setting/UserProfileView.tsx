@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import VectorIcon from '../common/VectorIcon';
 import CustomText from '../common/CustomText';
 import FullWidthButton from '../common/FullWidthButton';
@@ -8,23 +8,20 @@ import SsoIcon from '../common/SsoIcon';
 import ProfilePicture from '../common/ProfilePicture';
 import { SsoProviderType, UserDataType } from '../../@types/models/user';
 
-type Props = { userData: UserDataType; onPressEdit: () => void };
+type Props = { userData: UserDataType; onPressEdit: () => void; style?: StyleProp<ViewStyle> };
 
 const UserProfileView = (props: Props) => {
-    const { userData, onPressEdit } = props;
+    const { userData, onPressEdit, style } = props;
 
     const { username, email, profileImg, ssoProvider } = userData;
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <View style={styles.profileContainer}>
                 <ProfilePicture uri={profileImg} style={styles.profileImage} />
                 <View style={styles.nicknameContainer}>
                     {/* 닉네임 */}
-                    <SsoIcon
-                        style={styles.ssoIcon}
-                        provider={ssoProvider as SsoProviderType}
-                    />
+                    <SsoIcon style={styles.ssoIcon} provider={ssoProvider as SsoProviderType} />
                     <CustomText style={styles.nickname}>{username}</CustomText>
                     <CustomText style={styles.sir}>님</CustomText>
                 </View>

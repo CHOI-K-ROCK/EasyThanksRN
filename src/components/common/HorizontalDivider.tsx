@@ -8,13 +8,35 @@ type Props = {
     height?: DimensionValue;
     width?: DimensionValue;
     style?: StyleProp<ViewStyle>;
+    type?: 'line' | 'block';
 };
 
 const HorizontalDivider = (props: Props) => {
     const { colors } = useCustomTheme();
-    const { color = colors.text, height = 1, width = '100%', style } = props;
+    const { type = 'line' } = props;
+    const isLineDivider = type === 'line';
+    const {
+        color = isLineDivider ? colors.text : colors.divider,
+        height = isLineDivider ? 1 : 15,
+        width = '100%',
+        style,
+    } = props;
 
-    return (
+    const LineDivider = () => (
+        <View
+            style={[
+                styles.lineDivider,
+                {
+                    backgroundColor: color,
+                    height,
+                    width,
+                },
+                style,
+            ]}
+        />
+    );
+
+    const BlockDivider = () => (
         <View
             style={[
                 {
@@ -22,17 +44,25 @@ const HorizontalDivider = (props: Props) => {
                     height,
                     width,
                 },
-                styles.divider,
+                styles.blockDivider,
                 style,
             ]}
         />
     );
+
+    const Divider = type === 'line' ? LineDivider : BlockDivider;
+
+    return <Divider />;
 };
 
 const styles = StyleSheet.create({
-    divider: {
+    lineDivider: {
         opacity: 0.2,
+    },
+    blockDivider: {
+        width: '200%',
+        left: -200,
     },
 });
 
-export default HorizontalDivider;
+export default React.memo(HorizontalDivider);

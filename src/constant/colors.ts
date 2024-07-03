@@ -15,6 +15,7 @@ const DARK_COLOR = {
     tabBarIconInactive: '#B0B0B0',
     inputBackground: '#252525',
     badgeButtonText: '#',
+    divider: '#2a2a2a',
 
     toastBackground: 'rgba(0,0,0,0.6)',
 
@@ -33,6 +34,7 @@ const LIGHT_COLOR = {
     tabBarIconInactive: '#C4C4C4',
     inputBackground: '#EEEEEE',
     badgeButtonText: '#',
+    divider: '#f1f1f1',
 
     toastBackground: 'rgba(0,0,0,0.4)',
 

@@ -3,7 +3,7 @@ import { AppThemeType } from './useCustomTheme';
 import { getAppTheme, saveAppTheme } from '../utils/storage';
 
 const useAppTheme = () => {
-    const setAppTheme = (theme: AppThemeType) => {
+    const setCurrentAppTheme = (theme: AppThemeType) => {
         saveAppTheme(theme); // 로컬 저장
 
         if (theme === 'light' || theme === 'dark') {
@@ -20,7 +20,7 @@ const useAppTheme = () => {
     };
 
     return {
-        setAppTheme,
+        setCurrentAppTheme,
         getCurrentAppTheme,
     };
 };

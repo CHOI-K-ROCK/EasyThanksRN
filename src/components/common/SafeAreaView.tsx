@@ -1,41 +1,39 @@
 import React from 'react';
 
-import { ColorValue, StyleSheet, View, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
 
 type Props = SafeAreaViewProps & {
-    style?: ExtendedStyleProps;
-};
-
-type ExtendedStyleProps = ViewStyle & {
     topAreaBackgroundColor?: ColorValue;
     bottomAreaBackgroundColor?: ColorValue;
+
+    style?: StyleProp<ViewStyle>;
 };
 
 const SafeAreaView = (props: Props) => {
-    const { style, ...restProps } = props;
     const { colors } = useCustomTheme();
     const { top, left, right, bottom } = useSafeAreaInsets();
-
-    const flattenStyles = (StyleSheet.flatten(style) || {}) as ExtendedStyleProps;
-
-    const backgroundColor = flattenStyles.backgroundColor || colors.background;
-    const topAreaBackgroundColor = flattenStyles.topAreaBackgroundColor || backgroundColor;
-    const bottomAreaBackgroundColor = flattenStyles.bottomAreaBackgroundColor || backgroundColor;
+    const {
+        topAreaBackgroundColor = colors.background,
+        bottomAreaBackgroundColor = colors.background,
+        style,
+        ...restProps
+    } = props;
 
     /**
      * View 이용사유
      * 스크린 전환 간에 깜빡이는 현상이 있어 View + useSafeAreaInsets 사용으로 해결
      */
+
     return (
         <>
             {/* 상단 SafeAreaView backgroundColor */}
             <View
                 style={[
                     {
-                        backgroundColor: topAreaBackgroundColor || backgroundColor,
+                        backgroundColor: topAreaBackgroundColor,
                         paddingTop: top,
                     },
                 ]}
@@ -44,7 +42,7 @@ const SafeAreaView = (props: Props) => {
             <View
                 style={[
                     {
-                        backgroundColor: backgroundColor,
+                        backgroundColor: colors.background,
                         paddingRight: right,
                         paddingLeft: left,
                     },
@@ -57,7 +55,7 @@ const SafeAreaView = (props: Props) => {
             <View
                 style={[
                     {
-                        backgroundColor: bottomAreaBackgroundColor || backgroundColor,
+                        backgroundColor: bottomAreaBackgroundColor,
                         paddingBottom: bottom,
                     },
                 ]}

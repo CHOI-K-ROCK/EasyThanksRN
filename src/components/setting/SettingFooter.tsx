@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
 import CustomText from '../common/CustomText';
 import VectorIcon from '../common/VectorIcon';
 
-const SettingFooter = (props: { onPressOpenSource: () => void }) => {
-    const { onPressOpenSource } = props;
+const SettingFooter = (props: { onPressOpenSource: () => void; style?: StyleProp<ViewStyle> }) => {
+    const { onPressOpenSource, style } = props;
 
     const currentYear = new Date().getFullYear();
     const APP_VERSION = '0.2.1';
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <CustomText style={styles.text}>
                 {`ⓒ ${currentYear}. KROCK All rights reserved.`}
             </CustomText>

@@ -10,21 +10,21 @@ import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import CustomText from '../../components/common/CustomText';
 
-import KakaoTestScreen from '../KakaoTestScreen';
-import NaverTestScreen from '../NaverTestScreen';
-import GoogleTestScreen from '../GoogleTestScreen';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import useDimensions from '../../hooks/useDimensions';
 import useAuth from '../../hooks/useAuth';
 import useAppTheme from '../../hooks/useAppTheme';
+import useLoading from '../../hooks/useLoading';
+import useDelay from '../../hooks/useDelay';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
-    const { wp } = useDimensions();
+    const { setLoading } = useLoading();
     const { logout } = useAuth();
+    const delay = useDelay();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
-    const { setAppTheme } = useAppTheme();
+    const { setCurrentAppTheme } = useAppTheme();
 
     const toAppMenu = () => {
         navigate('SettingStack', {
@@ -32,24 +32,31 @@ const MainScreen = () => {
         });
     };
 
+    const handleLogout = async () => {
+        setLoading(true);
+        await delay(500);
+        await logout();
+        setLoading(false);
+    };
+
     return (
-        <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>
+        <SafeAreaView topAreaBackgroundColor={colors.tabBarBackground}>
             <MainNavigationBar
                 leftComponent={
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
                 }
             />
             <View style={{ gap: 20 }}>
-                <CustomText style={{ fontSize: 25 }} onPress={logout}>
+                <CustomText style={{ fontSize: 25 }} onPress={handleLogout}>
                     handleLogout
                 </CustomText>
-                <CustomText style={{ fontSize: 25 }} onPress={() => setAppTheme('device')}>
+                <CustomText style={{ fontSize: 25 }} onPress={() => setCurrentAppTheme('device')}>
                     dev
                 </CustomText>
-                <CustomText style={{ fontSize: 25 }} onPress={() => setAppTheme('light')}>
+                <CustomText style={{ fontSize: 25 }} onPress={() => setCurrentAppTheme('light')}>
                     lig
                 </CustomText>
-                <CustomText style={{ fontSize: 25 }} onPress={() => setAppTheme('dark')}>
+                <CustomText style={{ fontSize: 25 }} onPress={() => setCurrentAppTheme('dark')}>
                     dar
                 </CustomText>
             </View>
