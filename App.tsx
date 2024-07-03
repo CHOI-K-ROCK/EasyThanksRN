@@ -50,13 +50,12 @@ function App(): React.JSX.Element {
             <NavigationContainer theme={theme}>
                 <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
                 {isSigned ? <RootStack /> : <AuthStack />}
+
+                {/* Providers */}
+                <ModalProvider />
+                <ToastProvider />
+                <LoadingProvider />
             </NavigationContainer>
-
-            {/* Providers */}
-
-            <ModalProvider />
-            <ToastProvider />
-            <LoadingProvider />
         </SafeAreaProvider>
     );
 }
