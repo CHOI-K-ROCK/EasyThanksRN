@@ -20,7 +20,7 @@ const PostScreen = () => {
     };
 
     return (
-        <SafeAreaView style={{ topAreaBackgroundColor: colors.tabBarBackground }}>
+        <SafeAreaView topAreaBackgroundColor={colors.tabBarBackground}>
             <MainNavigationBar
                 leftComponent={
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
