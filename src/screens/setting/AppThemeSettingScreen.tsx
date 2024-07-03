@@ -42,7 +42,7 @@ const AppThemeSettingScreen = () => {
 
     return (
         <SafeAreaView>
-            <InnerNavigationBar screenTitle={appTheme} goBack={goBack} />
+            <InnerNavigationBar screenTitle={'앱 테마 설정'} goBack={goBack} />
             <ScreenLayout>
                 <SettingListItem
                     title={'기기 설정'}
