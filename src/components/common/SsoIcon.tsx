@@ -7,7 +7,6 @@ import KakaoIcon from '../../../assets/images/logos/profile_sso_kakao.png';
 import { Image, ImageStyle, StyleProp } from 'react-native';
 
 import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
-
 import { SsoProviderType } from 'types/models/user';
 
 type Props = {
