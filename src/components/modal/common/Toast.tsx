@@ -15,12 +15,14 @@ import useToast from '../../../hooks/useToast';
 import useCustomTheme from '../../../hooks/useCustomTheme';
 
 import { commonStyles } from '../../../style';
+import useKeyboard from '../../../hooks/useKeyboard';
 
 const Toast = (props: ToastType) => {
     const { closeToast } = useToast();
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
+    const { keyboardHeight } = useKeyboard();
 
     const { type = 'common', id, text, component, duration = 2000, top } = props;
 
@@ -34,7 +36,7 @@ const Toast = (props: ToastType) => {
 
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
-    const APPEAR_HEIGHT = bottom + hp(5);
+    const APPEAR_HEIGHT = keyboardHeight + bottom;
 
     useEffect(() => {
         const handleToast = async () => {
