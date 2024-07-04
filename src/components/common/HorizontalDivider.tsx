@@ -1,7 +1,7 @@
 import React from 'react';
 import { ColorValue, DimensionValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 
 type Props = {
     color?: ColorValue;

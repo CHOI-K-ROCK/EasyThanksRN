@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ColorValue, StyleSheet, View } from 'react-native';
-import CustomText from '../../common/CustomText';
+import CustomText from 'components/common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import VectorIcon from '../../common/VectorIcon';
+import VectorIcon from 'components/common/VectorIcon';
 
-import useDimensions from '../../../hooks/useDimensions';
+import useDimensions from 'hooks/useDimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ToastType } from '../../../@types/models/toast';
+import { ToastType } from '@types/models/toast';
 
-import { delay } from '../../../utils/data';
-import useToast from '../../../hooks/useToast';
-import useCustomTheme from '../../../hooks/useCustomTheme';
+import { delay } from 'utils/data';
+import useToast from 'hooks/useToast';
+import useCustomTheme from 'hooks/useCustomTheme';
 
-import { commonStyles } from '../../../style';
-import useKeyboard from '../../../hooks/useKeyboard';
+import { commonStyles } from 'style';
+import useKeyboard from 'hooks/useKeyboard';
 
 const Toast = (props: ToastType) => {
     const { closeToast } = useToast();

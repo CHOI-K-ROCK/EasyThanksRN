@@ -1,21 +1,21 @@
 import React from 'react';
 
-import SafeAreaView from '../../components/common/SafeAreaView';
-import MainNavigationBar from '../../components/main/MainNavigationBar';
-import VectorIcon from '../../components/common/VectorIcon';
+import SafeAreaView from 'components/common/SafeAreaView';
+import MainNavigationBar from 'components/main/MainNavigationBar';
+import VectorIcon from 'components/common/VectorIcon';
 
-import { RootStackNavigationProps } from '../../@types/navigations/rootStack';
+import { RootStackNavigationProps } from '@types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
-import useCustomTheme from '../../hooks/useCustomTheme';
-import CustomText from '../../components/common/CustomText';
+import useCustomTheme from 'hooks/useCustomTheme';
+import CustomText from 'components/common/CustomText';
 
 import { View } from 'react-native';
-import useDimensions from '../../hooks/useDimensions';
-import useAuth from '../../hooks/useAuth';
-import useAppTheme from '../../hooks/useAppTheme';
-import useLoading from '../../hooks/useLoading';
-import useDelay from '../../hooks/useDelay';
+import useDimensions from 'hooks/useDimensions';
+import useAuth from 'hooks/useAuth';
+import useAppTheme from 'hooks/useAppTheme';
+import useLoading from 'hooks/useLoading';
+import useDelay from 'hooks/useDelay';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();

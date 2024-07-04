@@ -1,30 +1,30 @@
 import React, { useCallback } from 'react';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
-import FullWidthButton from '../../../components/common/FullWidthButton';
-import ProfilePicture from '../../../components/common/ProfilePicture';
-import CustomTextInput from '../../../components/common/CustomTextInput';
-import VectorIcon from '../../../components/common/VectorIcon';
-import CustomText from '../../../components/common/CustomText';
-import KeyboardDismissSafeAreaView from '../../../components/common/KeyboardDismissSafeAreaView';
-import OptOutDialogModal from '../../../components/modal/OptOutDialogModal';
+import InnerNavigationBar from 'components/common/InnerNavigationBar';
+import FullWidthButton from 'components/common/FullWidthButton';
+import ProfilePicture from 'components/common/ProfilePicture';
+import CustomTextInput from 'components/common/CustomTextInput';
+import VectorIcon from 'components/common/VectorIcon';
+import CustomText from 'components/common/CustomText';
+import KeyboardDismissSafeAreaView from 'components/common/KeyboardDismissSafeAreaView';
+import OptOutDialogModal from 'components/modal/OptOutDialogModal';
 
 import {
     UserProfileEditScreenNavigationProps,
     UserProfileEditScreenRouteProps,
-} from '../../../@types/navigations/settingStack';
+} from '@types/navigations/settingStack';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
-import useCustomTheme from '../../../hooks/useCustomTheme';
-import useInput from '../../../hooks/useInput';
-import useModal from '../../../hooks/useModal';
-import useToast from '../../../hooks/useToast';
+import useCustomTheme from 'hooks/useCustomTheme';
+import useInput from 'hooks/useInput';
+import useModal from 'hooks/useModal';
+import useToast from 'hooks/useToast';
 
-import { HORIZONTAL_GAP } from '../../../constant/style';
-import { commonStyles } from '../../../style';
-import useAuth from '../../../hooks/useAuth';
-import useLoading from '../../../hooks/useLoading';
+import { HORIZONTAL_GAP } from 'constant/style';
+import { commonStyles } from 'style';
+import useAuth from 'hooks/useAuth';
+import useLoading from 'hooks/useLoading';
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();

@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 
 import CommonModal from './common/CommonModal';
-import CustomTextInput from '../common/CustomTextInput';
+import CustomTextInput from 'components/common/CustomTextInput';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
-import { ModalButtonType } from '../../@types/models/modal';
+import useCustomTheme from 'hooks/useCustomTheme';
+import { ModalButtonType } from '@types/models/modal';
 
-import useInput from '../../hooks/useInput';
-import CustomText from '../common/CustomText';
+import useInput from 'hooks/useInput';
+import CustomText from 'components/common/CustomText';
 import { StyleSheet, View } from 'react-native';
 
 type Props = {

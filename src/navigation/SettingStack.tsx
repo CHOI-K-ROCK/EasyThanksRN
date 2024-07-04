@@ -2,13 +2,13 @@ import React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SettingScreen from '../screens/setting/SettingScreen';
-import UserProfileEditScreen from '../screens/setting/user/UserProfileEditScreen';
-import NotificationScreen from '../screens/setting/notification/NotificationScreen';
-import NotificationSettingScreen from '../screens/setting/notification/NotificationSettingScreen';
-import AppThemeSettingScreen from '../screens/setting/AppThemeSettingScreen';
-import OpenSourceScreen from '../screens/setting/openSource/OpenSourceScreen';
-import OpenSourceDetailScreen from '../screens/setting/openSource/OpenSourceDetailScreen';
+import SettingScreen from 'screens/setting/SettingScreen';
+import UserProfileEditScreen from 'screens/setting/user/UserProfileEditScreen';
+import NotificationScreen from 'screens/setting/notification/NotificationScreen';
+import NotificationSettingScreen from 'screens/setting/notification/NotificationSettingScreen';
+import AppThemeSettingScreen from 'screens/setting/AppThemeSettingScreen';
+import OpenSourceScreen from 'screens/setting/openSource/OpenSourceScreen';
+import OpenSourceDetailScreen from 'screens/setting/openSource/OpenSourceDetailScreen';
 
 const Stack = createNativeStackNavigator();
 

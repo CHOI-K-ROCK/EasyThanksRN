@@ -5,9 +5,9 @@ import CustomText from './CustomText';
 import PushAnimatedPressable from './PushAnimatedPressable';
 import VectorIcon from './VectorIcon';
 
-import useDimensions from '../../hooks/useDimensions';
-import useCustomTheme from '../../hooks/useCustomTheme';
-import { HORIZONTAL_GAP } from '../../constant/style';
+import useDimensions from 'hooks/useDimensions';
+import useCustomTheme from 'hooks/useCustomTheme';
+import { HORIZONTAL_GAP } from 'constant/style';
 import HorizontalDivider from './HorizontalDivider';
 
 type Props = {

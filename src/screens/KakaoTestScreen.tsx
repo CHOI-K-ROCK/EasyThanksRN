@@ -7,8 +7,8 @@ import {
     shippingAddresses as getKakaoShippingAddresses,
     unlink,
 } from '@react-native-seoul/kakao-login';
-import useDimensions from '../hooks/useDimensions';
-import CustomText from '../components/common/CustomText';
+import useDimensions from 'hooks/useDimensions';
+import CustomText from 'components/common/CustomText';
 
 const KakaoTestScreen = () => {
     const { wp } = useDimensions();

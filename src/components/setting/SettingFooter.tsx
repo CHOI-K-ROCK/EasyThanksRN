@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
-import CustomText from '../common/CustomText';
-import VectorIcon from '../common/VectorIcon';
+import CustomText from 'components/common/CustomText';
+import VectorIcon from 'components/common/VectorIcon';
 
 const SettingFooter = (props: { onPressOpenSource: () => void; style?: StyleProp<ViewStyle> }) => {
     const { onPressOpenSource, style } = props;

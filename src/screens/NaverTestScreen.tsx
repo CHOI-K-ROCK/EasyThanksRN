@@ -4,8 +4,8 @@ import NaverLogin, {
 } from '@react-native-seoul/naver-login';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Button, View } from 'react-native';
-import CustomText from '../components/common/CustomText';
-import useDimensions from '../hooks/useDimensions';
+import CustomText from 'components/common/CustomText';
+import useDimensions from 'hooks/useDimensions';
 
 /** Fill your keys */
 const consumerKey = 'ppND6ldhXb7KNVFZy35e';

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import CustomText from '../../common/CustomText';
-import VectorIcon from '../../common/VectorIcon';
+import CustomText from 'components/common/CustomText';
+import VectorIcon from 'components/common/VectorIcon';
 
-import { OpenSourceDataType } from '../../../@types/openSource';
+import { OpenSourceDataType } from '@types/openSource';
 
 type Props = {
     data: OpenSourceDataType;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { modalsAtom } from '../../recoil/ui';
+import { modalsAtom } from 'recoil/ui';
 
 const ModalProvider = () => {
     const openedModal = useRecoilValue(modalsAtom);

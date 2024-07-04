@@ -3,30 +3,30 @@ import React, { useCallback, useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import InnerNavigationBar from '../../components/common/InnerNavigationBar';
-import CustomText from '../../components/common/CustomText';
-import PushAnimatedPressable from '../../components/common/PushAnimatedPressable';
-import CustomTextInput from '../../components/common/CustomTextInput';
-import KeyboardDismissSafeAreaView from '../../components/common/KeyboardDismissSafeAreaView';
-import HorizontalDivider from '../../components/common/HorizontalDivider';
-import FullWidthButton from '../../components/common/FullWidthButton';
-import ComposeSummaryView from '../../components/compose/ComposeSummaryView';
-import ComposePhotoButton from '../../components/compose/ComposePhotoButton';
+import InnerNavigationBar from 'components/common/InnerNavigationBar';
+import CustomText from 'components/common/CustomText';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
+import CustomTextInput from 'components/common/CustomTextInput';
+import KeyboardDismissSafeAreaView from 'components/common/KeyboardDismissSafeAreaView';
+import HorizontalDivider from 'components/common/HorizontalDivider';
+import FullWidthButton from 'components/common/FullWidthButton';
+import ComposeSummaryView from 'components/compose/ComposeSummaryView';
+import ComposePhotoButton from 'components/compose/ComposePhotoButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
     ComposeScreenNavigationProps,
     ComposeScreenRouteProps,
-} from '../../@types/navigations/composeStack';
+} from '@types/navigations/composeStack';
 
-import useInput from '../../hooks/useInput';
+import useInput from 'hooks/useInput';
 
-import { commonStyles } from '../../style';
-import { HORIZONTAL_GAP } from '../../constant/style';
-import { SAMPLE_IMAGE } from '../../constant/dummy';
-import useModal from '../../hooks/useModal';
-import CommonModal from '../../components/modal/common/CommonModal';
-import useKeyboard from '../../hooks/useKeyboard';
+import { commonStyles } from 'style';
+import { HORIZONTAL_GAP } from 'constant/style';
+import { SAMPLE_IMAGE } from 'constant/dummy';
+import useModal from 'hooks/useModal';
+import CommonModal from 'components/modal/common/CommonModal';
+import useKeyboard from 'hooks/useKeyboard';
 
 const ComposeScreen = () => {
     const { navigate, goBack } = useNavigation<ComposeScreenNavigationProps>();

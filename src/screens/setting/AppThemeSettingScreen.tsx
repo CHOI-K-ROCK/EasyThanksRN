@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { StyleSheet } from 'react-native';
-import SafeAreaView from '../../components/common/SafeAreaView';
-import InnerNavigationBar from '../../components/common/InnerNavigationBar';
-import SettingListItem from '../../components/setting/SettingListItem';
-import ScreenLayout from '../../components/common/ScreenLayout';
-import CheckBox from '../../components/common/CheckBox';
+import SafeAreaView from 'components/common/SafeAreaView';
+import InnerNavigationBar from 'components/common/InnerNavigationBar';
+import SettingListItem from 'components/setting/SettingListItem';
+import ScreenLayout from 'components/common/ScreenLayout';
+import CheckBox from 'components/common/CheckBox';
 
-import { AppThemeSettingScreenNavigationProps } from '../../@types/navigations/settingStack';
+import { AppThemeSettingScreenNavigationProps } from '@types/navigations/settingStack';
 
 import { useNavigation } from '@react-navigation/native';
-import { AppThemeType } from '../../hooks/useCustomTheme';
-import useAppTheme from '../../hooks/useAppTheme';
+import { AppThemeType } from 'hooks/useCustomTheme';
+import useAppTheme from 'hooks/useAppTheme';
 
 const AppThemeSettingScreen = () => {
     const { goBack } = useNavigation<AppThemeSettingScreenNavigationProps>();

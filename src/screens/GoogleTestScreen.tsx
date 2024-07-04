@@ -1,10 +1,10 @@
 import React, { ReactElement, useState } from 'react';
 import { SafeAreaView, Button, View } from 'react-native';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import CustomText from '../components/common/CustomText';
+import CustomText from 'components/common/CustomText';
 
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import useDimensions from '../hooks/useDimensions';
+import useDimensions from 'hooks/useDimensions';
 
 const webci = '984264235813-20tpt93n8h48hjqirh9vd7mktoe08vq4.apps.googleusercontent.com'; // env
 

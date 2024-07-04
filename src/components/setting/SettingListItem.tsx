@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
-import CustomText from '../common/CustomText';
-import { commonStyles } from '../../style';
-import VectorIcon from '../common/VectorIcon';
-import useCustomTheme from '../../hooks/useCustomTheme';
+import CustomText from 'components/common/CustomText';
+import { commonStyles } from 'style';
+import VectorIcon from 'components/common/VectorIcon';
+import useCustomTheme from 'hooks/useCustomTheme';
 
 type Props = {
     title: string;

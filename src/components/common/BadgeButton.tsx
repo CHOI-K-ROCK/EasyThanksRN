@@ -3,7 +3,7 @@ import React from 'react';
 import CustomText from './CustomText';
 import PushAnimatedPressable from './PushAnimatedPressable';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 import { StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 type Props = {

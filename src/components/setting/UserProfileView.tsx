@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import VectorIcon from '../common/VectorIcon';
-import CustomText from '../common/CustomText';
-import FullWidthButton from '../common/FullWidthButton';
-import SsoIcon from '../common/SsoIcon';
-import ProfilePicture from '../common/ProfilePicture';
-import { SsoProviderType, UserDataType } from '../../@types/models/user';
+import VectorIcon from 'components/common/VectorIcon';
+import CustomText from 'components/common/CustomText';
+import FullWidthButton from 'components/common/FullWidthButton';
+import SsoIcon from 'components/common/SsoIcon';
+import ProfilePicture from 'components/common/ProfilePicture';
+import { SsoProviderType, UserDataType } from '@types/models/user';
 
 type Props = { userData: UserDataType; onPressEdit: () => void; style?: StyleProp<ViewStyle> };
 

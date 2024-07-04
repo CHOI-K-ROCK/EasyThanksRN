@@ -7,18 +7,18 @@ import Animated, {
     useAnimatedKeyboard,
     useAnimatedStyle,
 } from 'react-native-reanimated';
-import CustomText from '../../common/CustomText';
+import CustomText from 'components/common/CustomText';
 
-import FullWidthButton from '../../common/FullWidthButton';
+import FullWidthButton from 'components/common/FullWidthButton';
 
-import { ModalType } from '../../../@types/models/modal';
+// import { ModalType } from '@types/models/modal';
 
-import useCustomTheme from '../../../hooks/useCustomTheme';
-import useDimensions from '../../../hooks/useDimensions';
-import useKeyboard from '../../../hooks/useKeyboard';
+import useCustomTheme from 'hooks/useCustomTheme';
+import useDimensions from 'hooks/useDimensions';
+import useKeyboard from 'hooks/useKeyboard';
 
-import { commonStyles } from '../../../style';
-import HorizontalDivider from '../../common/HorizontalDivider';
+import { commonStyles } from 'style';
+import HorizontalDivider from 'components/common/HorizontalDivider';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 

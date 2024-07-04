@@ -1,20 +1,20 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
-import SafeAreaView from '../../../components/common/SafeAreaView';
-import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
-import ScreenLayout from '../../../components/common/ScreenLayout';
-import CustomText from '../../../components/common/CustomText';
+import SafeAreaView from 'components/common/SafeAreaView';
+import InnerNavigationBar from 'components/common/InnerNavigationBar';
+import ScreenLayout from 'components/common/ScreenLayout';
+import CustomText from 'components/common/CustomText';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
     OpenSourceDetailScreenRouteProps,
     OpenSourceScreenNavigationProps,
-} from '../../../@types/navigations/settingStack';
-import HorizontalDivider from '../../../components/common/HorizontalDivider';
-import { openUrl } from '../../../utils/linking';
-import { HORIZONTAL_GAP } from '../../../constant/style';
-import { commonStyles } from '../../../style';
+} from '@types/navigations/settingStack';
+import HorizontalDivider from 'components/common/HorizontalDivider';
+import { openUrl } from 'utils/linking';
+import { HORIZONTAL_GAP } from 'constant/style';
+import { commonStyles } from 'style';
 
 const OpenSourceDetailScreen = () => {
     const { goBack } = useNavigation<OpenSourceScreenNavigationProps>();

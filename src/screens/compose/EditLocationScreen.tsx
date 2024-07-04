@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { ScrollView, StyleSheet } from 'react-native';
-import SafeAreaView from '../../components/common/SafeAreaView';
-import VectorIcon from '../../components/common/VectorIcon';
-import InnerNavigationBar from '../../components/common/InnerNavigationBar';
-import PushAnimatedPressable from '../../components/common/PushAnimatedPressable';
+import SafeAreaView from 'components/common/SafeAreaView';
+import VectorIcon from 'components/common/VectorIcon';
+import InnerNavigationBar from 'components/common/InnerNavigationBar';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
 
 import { useNavigation } from '@react-navigation/native';
 

@@ -1,17 +1,17 @@
 import React, { useMemo } from 'react';
 
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native';
-import SafeAreaView from '../../../components/common/SafeAreaView';
-import InnerNavigationBar from '../../../components/common/InnerNavigationBar';
-import OpenSourceListItem from '../../../components/setting/openSource/OpenSourceListItem';
+import SafeAreaView from 'components/common/SafeAreaView';
+import InnerNavigationBar from 'components/common/InnerNavigationBar';
+import OpenSourceListItem from 'components/setting/openSource/OpenSourceListItem';
 
-import { OpenSourceScreenNavigationProps } from '../../../@types/navigations/settingStack';
+import { OpenSourceScreenNavigationProps } from '@types/navigations/settingStack';
 
 import { useNavigation } from '@react-navigation/native';
 
 import OPEN_SOURCE_DATA from '../../../../licenses/licenses.json';
-import { OpenSourceDataType } from '../../../@types/openSource';
-import { HORIZONTAL_GAP } from '../../../constant/style';
+import { OpenSourceDataType } from '@types/openSource';
+import { HORIZONTAL_GAP } from 'constant/style';
 
 const OpenSourceScreen = () => {
     const { navigate, goBack } = useNavigation<OpenSourceScreenNavigationProps>();

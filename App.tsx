@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect } from 'react';
 
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
-import { isSignedAtom } from './src/recoil/system';
+import { isSignedAtom } from 'recoil/system';
 
 import { Appearance, StatusBar, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import RootStack from './src/navigation/RootStack';
-import AuthStack from './src/navigation/AuthStack';
+import RootStack from 'navigation/RootStack';
+import AuthStack from 'navigation/AuthStack';
 
-import ToastProvider from './src/components/provider/ToastProvider';
-import ModalProvider from './src/components/provider/ModalProvider';
-import LoadingProvider from './src/components/provider/LoadingProvider';
+import ToastProvider from 'components/provider/ToastProvider';
+import ModalProvider from 'components/provider/ModalProvider';
+import LoadingProvider from 'components/provider/LoadingProvider';
 
-import { AppThemeType, customTheme } from './src/hooks/useCustomTheme';
-import { checkStroageValue, getAppTheme, getUserId } from './src/utils/storage';
-import { KeyboardContextProvider } from './src/contexts/KeyboardContext';
+import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
+import { checkStroageValue, getAppTheme } from 'utils/storage';
+import { KeyboardContextProvider } from 'contexts/KeyboardContext';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);

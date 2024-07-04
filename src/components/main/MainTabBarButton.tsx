@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { ColorValue, StyleSheet, View, ViewStyle } from 'react-native';
-import CustomText from '../common/CustomText';
-import VectorIcon, { iconProviderType } from '../common/VectorIcon';
+import CustomText from 'components/common/CustomText';
+import VectorIcon, { iconProviderType } from 'components/common/VectorIcon';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
-import useDimensions from '../../hooks/useDimensions';
-import PushAnimatedPressable from '../common/PushAnimatedPressable';
+import useCustomTheme from 'hooks/useCustomTheme';
+import useDimensions from 'hooks/useDimensions';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
 
 type Props = {
     tabName: string;

@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import VectorIcon from './VectorIcon';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 import CustomText from './CustomText';
-import { commonStyles } from '../../style';
+import { commonStyles } from 'style';
 
 type Props = TextInputProps & {
     textStyle?: StyleProp<ViewStyle>;

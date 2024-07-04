@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { Image, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import PushAnimatedPressable from '../common/PushAnimatedPressable';
-import VectorIcon from '../common/VectorIcon';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
+import VectorIcon from 'components/common/VectorIcon';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 
 type Props = {
     onPress: () => void;

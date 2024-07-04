@@ -5,7 +5,7 @@ import NaverIcon from '../../../assets/images/logos/profile_sso_naver.png';
 import KakaoIcon from '../../../assets/images/logos/profile_sso_kakao.png';
 
 import { Image, ImageStyle, StyleProp } from 'react-native';
-import { SsoProviderType } from '../../@types/models/user';
+import { SsoProviderType } from '@types/models/user';
 
 import PushAnimatedPressable from './PushAnimatedPressable';
 

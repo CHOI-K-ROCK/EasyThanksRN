@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { Text, Platform, StyleSheet, TextProps, TextStyle } from 'react-native';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 
-import { convertFontWeightToFontFamily } from '../../utils/fonts';
+import { convertFontWeightToFontFamily } from 'utils/fonts';
 
 type FontWeightType = TextStyle['fontWeight'];
 

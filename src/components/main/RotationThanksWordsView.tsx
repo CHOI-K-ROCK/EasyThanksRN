@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import CustomText from '../common/CustomText';
-import { THANKS_MAXIMS } from '../../constant/string';
-import VectorIcon from '../common/VectorIcon';
+import CustomText from 'components/common/CustomText';
+import { THANKS_MAXIMS } from 'constant/string';
+import VectorIcon from 'components/common/VectorIcon';
 
 import Animated, { withDelay, withTiming } from 'react-native-reanimated';
 
-import { getRandomArrayValue } from '../../utils/data';
+import { getRandomArrayValue } from 'utils/data';
 
 type Props = {
     rotate?: boolean;

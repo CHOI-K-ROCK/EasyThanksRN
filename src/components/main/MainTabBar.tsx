@@ -1,13 +1,13 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
-import { commonStyles } from '../../style';
+import { commonStyles } from 'style';
 import MainTabBarButton from './MainTabBarButton';
 import MainTabBarComposeButton from './MainTabBarComposeButton';
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 
 const MainTabBar = (props: BottomTabBarProps) => {
     const { colors } = useCustomTheme();

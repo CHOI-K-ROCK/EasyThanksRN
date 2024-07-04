@@ -2,18 +2,18 @@ import React, { useCallback, useMemo } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 
-import SafeAreaView from '../../components/common/SafeAreaView';
-import CustomText from '../../components/common/CustomText';
-import SsoIcon from '../../components/common/SsoIcon';
+import SafeAreaView from 'components/common/SafeAreaView';
+import CustomText from 'components/common/CustomText';
+import SsoIcon from 'components/common/SsoIcon';
 
-import { SsoProviderType } from '../../@types/models/user';
+import { SsoProviderType } from '@types/models/user';
 
-import useDimensions from '../../hooks/useDimensions';
-import useCustomTheme from '../../hooks/useCustomTheme';
-import useLoading from '../../hooks/useLoading';
-import useAuth from '../../hooks/useAuth';
+import useDimensions from 'hooks/useDimensions';
+import useCustomTheme from 'hooks/useCustomTheme';
+import useLoading from 'hooks/useLoading';
+import useAuth from 'hooks/useAuth';
 
-import { commonStyles } from '../../style';
+import { commonStyles } from 'style';
 
 const LoginScreen = () => {
     const { colors } = useCustomTheme();

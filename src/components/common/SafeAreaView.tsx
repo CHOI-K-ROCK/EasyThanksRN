@@ -3,7 +3,7 @@ import React from 'react';
 import { ColorValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
+import useCustomTheme from 'hooks/useCustomTheme';
 
 type Props = SafeAreaViewProps & {
     topAreaBackgroundColor?: ColorValue;

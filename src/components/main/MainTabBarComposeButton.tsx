@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { StyleSheet, ViewStyle } from 'react-native';
-import PushAnimatedPressable from '../common/PushAnimatedPressable';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
 
-import useCustomTheme from '../../hooks/useCustomTheme';
-import VectorIcon from '../common/VectorIcon';
+import useCustomTheme from 'hooks/useCustomTheme';
+import VectorIcon from 'components/common/VectorIcon';
 
 type Props = {
     containerStyle?: ViewStyle;

@@ -3,10 +3,10 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import MainTabBar from '../components/main/MainTabBar';
+import MainTabBar from 'components/main/MainTabBar';
 
-import MainScreen from '../screens/main/MainScreen';
-import PostScreen from '../screens/post/PostScreen';
+import MainScreen from 'screens/main/MainScreen';
+import PostScreen from 'screens/post/PostScreen';
 
 import ComposeStack from './ComposeStack';
 import SettingStack from './SettingStack';

@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import BadgeButton from '../common/BadgeButton';
-import CustomText from '../common/CustomText';
-import VectorIcon from '../common/VectorIcon';
+import BadgeButton from 'components/common/BadgeButton';
+import CustomText from 'components/common/CustomText';
+import VectorIcon from 'components/common/VectorIcon';
 
-import { getDateStrings, getDayOfWeekName } from '../../utils/date';
-import { commonStyles } from '../../style';
+import { getDateStrings, getDayOfWeekName } from 'utils/date';
+import { commonStyles } from 'style';
 
 type Props = {
     date: Date;
