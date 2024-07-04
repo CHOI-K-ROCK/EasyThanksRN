@@ -1,7 +1,12 @@
 import React, { useCallback } from 'react';
 
 import { Pressable, StyleSheet, View } from 'react-native';
-import Animated, { Easing, withTiming } from 'react-native-reanimated';
+import Animated, {
+    Easing,
+    withTiming,
+    useAnimatedKeyboard,
+    useAnimatedStyle,
+} from 'react-native-reanimated';
 import CustomText from '../../common/CustomText';
 
 import FullWidthButton from '../../common/FullWidthButton';
@@ -21,7 +26,8 @@ const CommonModal = (props: ModalType) => {
     const { wp, hp } = useDimensions();
     const { colors } = useCustomTheme();
 
-    const { isShow, dismiss, keyboardHeight } = useKeyboard();
+    const { isShow, dismiss } = useKeyboard();
+    const { height } = useAnimatedKeyboard();
 
     const {
         buttons,
@@ -40,6 +46,9 @@ const CommonModal = (props: ModalType) => {
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
 
     // animation
+    const animatedBottom = useAnimatedStyle(() => ({
+        bottom: height.value,
+    }));
 
     const backdropEntering = useCallback(() => {
         'worklet';
@@ -151,11 +160,12 @@ const CommonModal = (props: ModalType) => {
     }, [buttons, colors]);
 
     return (
-        <View
+        <Animated.View
             style={[
                 StyleSheet.absoluteFill,
                 commonStyles.centered,
-                { zIndex: 999, bottom: keyboardHeight },
+                { zIndex: 999 },
+                animatedBottom,
             ]}
         >
             <AnimatedPressable
@@ -200,7 +210,7 @@ const CommonModal = (props: ModalType) => {
 
                 <View style={styles.buttonContainer}>{renderButtons()}</View>
             </Animated.View>
-        </View>
+        </Animated.View>
     );
 };
 
