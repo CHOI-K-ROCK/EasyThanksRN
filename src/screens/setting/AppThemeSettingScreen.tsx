@@ -7,7 +7,7 @@ import SettingListItem from 'components/setting/SettingListItem';
 import ScreenLayout from 'components/common/ScreenLayout';
 import CheckBox from 'components/common/CheckBox';
 
-import { AppThemeSettingScreenNavigationProps } from '@types/navigations/settingStack';
+import { AppThemeSettingScreenNavigationProps } from 'types/navigations/settingStack';
 
 import { useNavigation } from '@react-navigation/native';
 import { AppThemeType } from 'hooks/useCustomTheme';

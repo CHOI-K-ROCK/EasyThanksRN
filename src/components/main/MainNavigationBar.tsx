@@ -3,14 +3,14 @@ import { StyleSheet, View } from 'react-native';
 
 import CustomText from 'components/common/CustomText';
 
-import { commonStyles } from 'style';
+import { commonStyles } from 'styles';
 
 import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
 import { convertDateToString } from 'utils/date';
 import { getRandomArrayValue } from 'utils/data';
 
-import { EMOJI_SET } from 'constant/string';
+import { EMOJI_SET } from 'constants/string';
 
 type Props = {
     leftComponent?: React.ReactElement;

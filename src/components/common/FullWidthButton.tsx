@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 
 import { PressableProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
-import PushAnimatedPressable from './PushAnimatedPressable';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
 
 import useCustomTheme from 'hooks/useCustomTheme';
-import CustomText from './CustomText';
+import CustomText from 'components/common/CustomText';
 
 type Props = PressableProps & {
     title: string;

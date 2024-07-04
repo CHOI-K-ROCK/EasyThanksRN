@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { isLoadingAtom } from 'recoil/ui';
+import { isLoadingAtom } from 'states/ui';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
@@ -10,7 +10,7 @@ import Animated, { withDelay, withRepeat, withSequence, withTiming } from 'react
 import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
 
-import { commonStyles } from 'style';
+import { commonStyles } from 'styles';
 
 const LoadingProvider = () => {
     const loadingState = useRecoilValue(isLoadingAtom);

@@ -1,4 +1,4 @@
-import { CustomColorType, DARK_COLOR, LIGHT_COLOR } from '../constant/colors';
+import { CustomColorType, DARK_COLOR, LIGHT_COLOR } from '../constants/colors';
 import { Theme, useTheme } from '@react-navigation/native';
 
 export type AppThemeType = 'light' | 'dark' | 'device';

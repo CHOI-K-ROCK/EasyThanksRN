@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
-import { commonStyles } from 'style';
+import { commonStyles } from 'styles';
 import VectorIcon from 'components/common/VectorIcon';
 import useCustomTheme from 'hooks/useCustomTheme';
 

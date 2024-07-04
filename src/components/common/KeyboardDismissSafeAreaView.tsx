@@ -6,7 +6,7 @@ import {
     ColorValue,
     ViewStyle,
 } from 'react-native';
-import SafeAreaView from './SafeAreaView';
+import SafeAreaView from 'components/common/SafeAreaView';
 import { SafeAreaViewProps, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = SafeAreaViewProps & {

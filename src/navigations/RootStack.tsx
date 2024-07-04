@@ -8,8 +8,8 @@ import MainTabBar from 'components/main/MainTabBar';
 import MainScreen from 'screens/main/MainScreen';
 import PostScreen from 'screens/post/PostScreen';
 
-import ComposeStack from './ComposeStack';
-import SettingStack from './SettingStack';
+import ComposeStack from 'navigations/ComposeStack';
+import SettingStack from 'navigations/SettingStack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

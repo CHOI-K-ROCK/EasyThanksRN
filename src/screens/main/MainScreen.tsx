@@ -4,7 +4,7 @@ import SafeAreaView from 'components/common/SafeAreaView';
 import MainNavigationBar from 'components/main/MainNavigationBar';
 import VectorIcon from 'components/common/VectorIcon';
 
-import { RootStackNavigationProps } from '@types/navigations/rootStack';
+import { RootStackNavigationProps } from 'types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';

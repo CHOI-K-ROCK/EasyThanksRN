@@ -1,14 +1,15 @@
 import React, { ReactElement } from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import CustomText from './CustomText';
-import PushAnimatedPressable from './PushAnimatedPressable';
-import VectorIcon from './VectorIcon';
+import CustomText from 'components/common/CustomText';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
+import VectorIcon from 'components/common/VectorIcon';
+import HorizontalDivider from 'components/common/HorizontalDivider';
 
 import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
-import { HORIZONTAL_GAP } from 'constant/style';
-import HorizontalDivider from './HorizontalDivider';
+
+import { HORIZONTAL_GAP } from 'constants/style';
 
 type Props = {
     screenTitle: string;

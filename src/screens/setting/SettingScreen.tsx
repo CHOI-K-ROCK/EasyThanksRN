@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { userDataAtom } from 'recoil/user';
+import { userDataAtom } from 'states/user';
 
 import { StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
@@ -12,15 +12,15 @@ import SettingFooter from 'components/setting/SettingFooter';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import CommonModal from 'components/modal/common/CommonModal';
 
-import { SettingScreenNavigationProps } from '@types/navigations/settingStack';
-import { UserEditDataType } from '@types/models/user';
+import { SettingScreenNavigationProps } from 'types/navigations/settingStack';
+import { UserEditDataType } from 'types/models/user';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useAuth from 'hooks/useAuth';
 import useModal from 'hooks/useModal';
 
-import { HORIZONTAL_GAP } from 'constant/style';
+import { HORIZONTAL_GAP } from 'constants/style';
 
 export type SettingListType = {
     title: string;

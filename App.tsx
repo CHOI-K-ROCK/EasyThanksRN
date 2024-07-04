@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect } from 'react';
 
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
-import { isSignedAtom } from 'recoil/system';
+import { isSignedAtom } from 'states/system';
 
 import { Appearance, StatusBar, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import RootStack from 'navigation/RootStack';
-import AuthStack from 'navigation/AuthStack';
+import RootStack from 'navigations/RootStack';
+import AuthStack from 'navigations/AuthStack';
 
 import ToastProvider from 'components/provider/ToastProvider';
 import ModalProvider from 'components/provider/ModalProvider';

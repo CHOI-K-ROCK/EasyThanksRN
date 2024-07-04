@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { commonStyles } from 'style';
-import { SAMPLE_IMAGE } from 'constant/dummy';
+import { commonStyles } from 'styles';
+import { SAMPLE_IMAGE } from 'constants/dummy';
 
 type Props = { uri: string | null | undefined; style?: StyleProp<ViewStyle> };
 

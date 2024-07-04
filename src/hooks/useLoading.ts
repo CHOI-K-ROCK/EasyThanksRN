@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { isLoadingAtom } from '../recoil/ui';
+import { isLoadingAtom } from '../states/ui';
 
 /**
  *

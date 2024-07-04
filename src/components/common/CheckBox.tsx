@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import MaskedView from '@react-native-masked-view/masked-view';
-import VectorIcon from './VectorIcon';
+import VectorIcon from 'components/common/VectorIcon';
 
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 

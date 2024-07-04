@@ -8,13 +8,13 @@ import VectorIcon from 'components/common/VectorIcon';
 import useDimensions from 'hooks/useDimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ToastType } from '@types/models/toast';
+import { ToastType } from 'types/models/toast';
 
 import { delay } from 'utils/data';
 import useToast from 'hooks/useToast';
 import useCustomTheme from 'hooks/useCustomTheme';
 
-import { commonStyles } from 'style';
+import { commonStyles } from 'styles';
 import useKeyboard from 'hooks/useKeyboard';
 
 const Toast = (props: ToastType) => {

@@ -1,6 +1,6 @@
 import { useSetRecoilState } from 'recoil';
 
-import { modalsAtom } from '../recoil/ui';
+import { modalsAtom } from '../states/ui';
 
 import useUuid from './useUuid';
 import React, { useCallback } from 'react';

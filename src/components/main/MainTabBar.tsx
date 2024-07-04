@@ -1,9 +1,9 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
-import { commonStyles } from 'style';
-import MainTabBarButton from './MainTabBarButton';
-import MainTabBarComposeButton from './MainTabBarComposeButton';
+import { commonStyles } from 'styles';
+import MainTabBarButton from 'components/main/MainTabBarButton';
+import MainTabBarComposeButton from 'components/main/MainTabBarComposeButton';
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 

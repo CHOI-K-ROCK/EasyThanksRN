@@ -1,6 +1,6 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userDataAtom } from '../recoil/user';
-import { isSignedAtom } from '../recoil/system';
+import { userDataAtom } from '../states/user';
+import { isSignedAtom } from '../states/system';
 
 // kakao
 import { logout as kakaoLogout } from '@react-native-seoul/kakao-login';

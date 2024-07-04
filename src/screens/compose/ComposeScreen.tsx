@@ -17,13 +17,13 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {
     ComposeScreenNavigationProps,
     ComposeScreenRouteProps,
-} from '@types/navigations/composeStack';
+} from 'types/navigations/composeStack';
 
 import useInput from 'hooks/useInput';
 
-import { commonStyles } from 'style';
-import { HORIZONTAL_GAP } from 'constant/style';
-import { SAMPLE_IMAGE } from 'constant/dummy';
+import { commonStyles } from 'styles';
+import { HORIZONTAL_GAP } from 'constants/style';
+import { SAMPLE_IMAGE } from 'constants/dummy';
 import useModal from 'hooks/useModal';
 import CommonModal from 'components/modal/common/CommonModal';
 import useKeyboard from 'hooks/useKeyboard';

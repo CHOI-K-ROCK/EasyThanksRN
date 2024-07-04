@@ -6,7 +6,7 @@ import CustomText from 'components/common/CustomText';
 import VectorIcon from 'components/common/VectorIcon';
 
 import { getDateStrings, getDayOfWeekName } from 'utils/date';
-import { commonStyles } from 'style';
+import { commonStyles } from 'styles';
 
 type Props = {
     date: Date;

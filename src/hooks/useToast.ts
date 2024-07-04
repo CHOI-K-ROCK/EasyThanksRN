@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useSetRecoilState } from 'recoil';
-import { toastsAtom } from '../recoil/ui';
+import { toastsAtom } from '../states/ui';
 
 import { ToastCreateType } from '../@types/models/toast';
 

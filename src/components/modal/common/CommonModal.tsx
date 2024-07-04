@@ -11,13 +11,13 @@ import CustomText from 'components/common/CustomText';
 
 import FullWidthButton from 'components/common/FullWidthButton';
 
-// import { ModalType } from '@types/models/modal';
+import { ModalType } from 'types/models/modal';
 
 import useCustomTheme from 'hooks/useCustomTheme';
 import useDimensions from 'hooks/useDimensions';
 import useKeyboard from 'hooks/useKeyboard';
 
-import { commonStyles } from 'style';
+import { commonStyles } from 'styles';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);

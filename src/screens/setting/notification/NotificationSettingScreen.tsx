@@ -1,16 +1,16 @@
 import React from 'react';
 
 import SafeAreaView from 'components/common/SafeAreaView';
-import TempScreen from 'components/common/TempScreen';
+import { View } from 'react-native';
 
 type Props = {};
 
 const NotificationSettingScreen = (props: Props) => {
-    const { } = props;
+    // const { } = props;
 
     return (
         <SafeAreaView>
-            <TempScreen title="NotificationSettingScreen" />
+            <View />
         </SafeAreaView>
     );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { useRecoilValue } from 'recoil';
-import { toastsAtom } from 'recoil/ui';
+import { toastsAtom } from 'states/ui';
 
 import Toast from 'components/modal/common/Toast';
-import { ToastType } from '@types/models/toast';
+import { ToastType } from 'types/models/toast';
 
 const ToastProvider = () => {
     const openedToasts = useRecoilValue(toastsAtom);

@@ -10,11 +10,11 @@ import {
     View,
     ViewStyle,
 } from 'react-native';
-import VectorIcon from './VectorIcon';
+import VectorIcon from 'components/common/VectorIcon';
 
 import useCustomTheme from 'hooks/useCustomTheme';
-import CustomText from './CustomText';
-import { commonStyles } from 'style';
+import CustomText from 'components/common/CustomText';
+import { commonStyles } from 'styles';
 
 type Props = TextInputProps & {
     textStyle?: StyleProp<ViewStyle>;

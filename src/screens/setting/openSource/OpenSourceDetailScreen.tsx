@@ -10,11 +10,11 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import {
     OpenSourceDetailScreenRouteProps,
     OpenSourceScreenNavigationProps,
-} from '@types/navigations/settingStack';
+} from 'types/navigations/settingStack';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import { openUrl } from 'utils/linking';
-import { HORIZONTAL_GAP } from 'constant/style';
-import { commonStyles } from 'style';
+import { HORIZONTAL_GAP } from 'constants/style';
+import { commonStyles } from 'styles';
 
 const OpenSourceDetailScreen = () => {
     const { goBack } = useNavigation<OpenSourceScreenNavigationProps>();

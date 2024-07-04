@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
-import { THANKS_MAXIMS } from 'constant/string';
+import { THANKS_MAXIMS } from 'constants/string';
 import VectorIcon from 'components/common/VectorIcon';
 
 import Animated, { withDelay, withTiming } from 'react-native-reanimated';
