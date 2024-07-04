@@ -16,6 +16,7 @@ import LoadingProvider from './src/components/provider/LoadingProvider';
 
 import { AppThemeType, customTheme } from './src/hooks/useCustomTheme';
 import { checkStroageValue, getAppTheme, getUserId } from './src/utils/storage';
+import { KeyboardContextProvider } from './src/contexts/KeyboardContext';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);
@@ -47,15 +48,17 @@ function App(): React.JSX.Element {
 
     return (
         <SafeAreaProvider>
-            <NavigationContainer theme={theme}>
-                <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-                {isSigned ? <RootStack /> : <AuthStack />}
+            <KeyboardContextProvider>
+                <NavigationContainer theme={theme}>
+                    <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+                    {isSigned ? <RootStack /> : <AuthStack />}
 
-                {/* Providers */}
-                <ModalProvider />
-                <ToastProvider />
-                <LoadingProvider />
-            </NavigationContainer>
+                    {/* Providers */}
+                    <ModalProvider />
+                    <ToastProvider />
+                    <LoadingProvider />
+                </NavigationContainer>
+            </KeyboardContextProvider>
         </SafeAreaProvider>
     );
 }
