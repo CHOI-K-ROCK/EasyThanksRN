@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer, useState } from 'react';
 
 import SafeAreaView from 'components/common/SafeAreaView';
 import MainNavigationBar from 'components/main/MainNavigationBar';
@@ -16,6 +16,8 @@ import useAuth from 'hooks/useAuth';
 import useAppTheme from 'hooks/useAppTheme';
 import useLoading from 'hooks/useLoading';
 import useDelay from 'hooks/useDelay';
+import BottomSheet from 'components/modal/common/BottomSheet';
+import useToast from 'hooks/useToast';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
@@ -39,6 +41,14 @@ const MainScreen = () => {
         setLoading(false);
     };
 
+    const [visible, toggleVisible] = useReducer(prev => !prev, false);
+    console.log(visible);
+
+    const { openToast } = useToast();
+    const open = () => {
+        openToast({ text: 'hell' });
+    };
+
     return (
         <SafeAreaView topAreaBackgroundColor={colors.tabBarBackground}>
             <MainNavigationBar
@@ -47,28 +57,24 @@ const MainScreen = () => {
                 }
             />
             <View style={{ gap: 20 }}>
-                <CustomText style={{ fontSize: 25 }} onPress={handleLogout}>
-                    handleLogout
-                </CustomText>
-                <CustomText style={{ fontSize: 25 }} onPress={() => setCurrentAppTheme('device')}>
-                    dev
-                </CustomText>
-                <CustomText style={{ fontSize: 25 }} onPress={() => setCurrentAppTheme('light')}>
-                    lig
-                </CustomText>
-                <CustomText style={{ fontSize: 25 }} onPress={() => setCurrentAppTheme('dark')}>
-                    dar
+                <CustomText style={{ fontSize: 25, marginTop: 20 }} onPress={toggleVisible}>
+                    toggleBottomSheet
                 </CustomText>
             </View>
-            {/* <ScrollView horizontal snapToEnd snapToInterval={wp(100)} decelerationRate={'fast'}>
-                <KakaoTestScreen />
-                <NaverTestScreen />
-                <GoogleTestScreen />
-            </ScrollView> */}
-            {/* <ScreenLayout> */}
-            {/* <RotationThanksWordsView /> */}
-
-            {/* </ScreenLayout> */}
+            <BottomSheet visible={visible} onPressBackdrop={toggleVisible}>
+                <View
+                    style={{
+                        height: 200,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#DDD',
+                    }}
+                >
+                    <CustomText onPress={open} style={{ fontSize: 24, fontWeight: 700 }}>
+                        bottom sheet content
+                    </CustomText>
+                </View>
+            </BottomSheet>
         </SafeAreaView>
     );
 };

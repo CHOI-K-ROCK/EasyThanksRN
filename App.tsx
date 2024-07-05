@@ -54,6 +54,8 @@ function App(): React.JSX.Element {
                     {isSigned ? <RootStack /> : <AuthStack />}
 
                     {/* Providers */}
+                    {/* Provider 로 쓸건지 고민. */}
+                    {/* <BottomSheetProvider /> */}
                     <ModalProvider />
                     <ToastProvider />
                     <LoadingProvider />
