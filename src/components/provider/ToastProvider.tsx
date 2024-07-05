@@ -10,7 +10,7 @@ const ToastProvider = () => {
     const openedToasts = useRecoilValue(toastsAtom);
 
     return openedToasts.map((toast: ToastType, idx) => {
-        return <Toast key={toast.id} idx={idx} {...toast} />;
+        return <Toast key={toast.id} position={openedToasts.length - 1 - idx} {...toast} />;
     });
 };
 

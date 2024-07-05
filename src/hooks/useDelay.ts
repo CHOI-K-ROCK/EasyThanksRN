@@ -11,7 +11,6 @@ export const useDelay = () => {
     useEffect(() => {
         return () => {
             clearTimeout(timeoutId.current as NodeJS.Timeout);
-            console.log('bye~');
         };
     }, []);
 

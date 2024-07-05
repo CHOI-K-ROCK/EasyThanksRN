@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { ColorValue, StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
@@ -14,39 +14,50 @@ import useDelay from 'hooks/useDelay';
 import useKeyboard from 'hooks/useKeyboard';
 
 import { commonStyles } from 'styles';
+import useDimensions from 'hooks/useDimensions';
 
-const Toast = (props: ToastType & { idx: number }) => {
+const Toast = (props: ToastType & { position: number }) => {
     const { closeToast } = useToast();
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
     const { keyboardHeight } = useKeyboard();
+    const { wp } = useDimensions();
 
-    const { type = 'common', id, text, component, duration = 3500, idx } = props;
+    const delay = useDelay();
+
+    const { type = 'common', id, text, component, duration = 3500, position } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
-    const newDelay = useDelay();
     // variables
-
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
-    const APPEAR_HEIGHT = keyboardHeight + bottom;
+    const TOAST_GAP = 5;
 
     useEffect(() => {
         const handleToast = async () => {
             setVisible(true);
 
-            await newDelay(ANIMATION_DURATION);
-            await newDelay(duration);
+            await delay(ANIMATION_DURATION);
+            await delay(duration);
 
             setVisible(false);
-            await newDelay(ANIMATION_DURATION);
+            await delay(ANIMATION_DURATION);
             closeToast(id);
         };
 
+        const checkOverTwoToastAndClose = async () => {
+            if (position > 2) {
+                setVisible(false);
+                await delay(ANIMATION_DURATION);
+                closeToast(id);
+            }
+        };
+
         handleToast();
-    }, [closeToast, duration, id, newDelay]);
+        checkOverTwoToastAndClose();
+    }, [closeToast, duration, id, position, delay]);
 
     // animation
 
@@ -58,30 +69,34 @@ const Toast = (props: ToastType & { idx: number }) => {
             }),
             transform: [
                 {
-                    translateY: withTiming(visible ? 0 : APPEAR_HEIGHT, {
-                        duration: ANIMATION_DURATION,
-                        easing: EASING_BEZIER,
-                    }),
+                    translateY: withTiming(
+                        visible
+                            ? -bottom -
+                            keyboardHeight -
+                            (messageSize.h * position + TOAST_GAP * position)
+                            : 0,
+                        { duration: ANIMATION_DURATION }
+                    ),
                 },
-                { translateX: -messageSize.w / 2 },
             ],
         };
-    }, [visible, messageSize]);
+    }, [visible, messageSize, keyboardHeight, position]);
 
     // handler
-    const handlecloseToast = useCallback(async () => {
+    const handleCloseToast = useCallback(async () => {
         setVisible(false);
-        await newDelay(ANIMATION_DURATION);
-
+        await delay(ANIMATION_DURATION);
         closeToast(id);
-    }, [closeToast, id, newDelay]);
+    }, [closeToast, delay, id]);
 
     return (
         <Animated.View
             style={[
                 {
-                    bottom: APPEAR_HEIGHT,
                     backgroundColor: colors.toastBackground,
+                    zIndex: 999,
+                    bottom: 0,
+                    left: wp(50) - messageSize.w / 2,
                 },
                 styles.container,
                 commonStyles.rowCenter,
@@ -101,7 +116,7 @@ const Toast = (props: ToastType & { idx: number }) => {
                     color={'#000'}
                     size={15}
                     style={styles.closeButton}
-                    onPress={handlecloseToast}
+                    onPress={handleCloseToast}
                 />
             </View>
         </Animated.View>
@@ -157,7 +172,6 @@ const styles = StyleSheet.create({
     },
     container: {
         position: 'absolute',
-        left: '50%',
         paddingLeft: 15,
         paddingRight: 10,
 
