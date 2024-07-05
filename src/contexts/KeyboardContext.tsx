@@ -23,8 +23,8 @@ const KeyboardContextProvider = ({ children }: { children: ReactNode }) => {
             setIsShow(false);
         };
 
-        const showSubscription = Keyboard.addListener('keyboardDidShow', onKeyboardShow);
-        const hideSubscription = Keyboard.addListener('keyboardDidHide', onKeyboardHide);
+        const showSubscription = Keyboard.addListener('keyboardWillShow', onKeyboardShow);
+        const hideSubscription = Keyboard.addListener('keyboardWillHide', onKeyboardHide);
 
         return () => {
             showSubscription.remove();

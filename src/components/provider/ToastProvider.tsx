@@ -9,8 +9,8 @@ import { ToastType } from 'types/models/toast';
 const ToastProvider = () => {
     const openedToasts = useRecoilValue(toastsAtom);
 
-    return openedToasts.map((toast: ToastType) => {
-        return <Toast key={toast.id} {...toast} />;
+    return openedToasts.map((toast: ToastType, idx) => {
+        return <Toast key={toast.id} idx={idx} {...toast} />;
     });
 };
 

@@ -15,5 +15,4 @@ export type ToastCreateType = ToastBaseType & {
 
 export type ToastType = ToastBaseType & {
     id: string;
-    top: number;
 };

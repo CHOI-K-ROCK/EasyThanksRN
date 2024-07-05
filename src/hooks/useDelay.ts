@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 // useDelay.ts
 /**
@@ -11,16 +11,22 @@ export const useDelay = () => {
     useEffect(() => {
         return () => {
             clearTimeout(timeoutId.current as NodeJS.Timeout);
+            console.log('bye~');
         };
     }, []);
 
-    return (delay: number, callback?: () => void) =>
-        new Promise<void>(resolve => {
-            timeoutId.current = setTimeout(() => {
-                callback && callback();
-                resolve();
-            }, delay);
-        });
+    const delayFn = useCallback(
+        (delay: number, callback?: () => void) =>
+            new Promise<void>(resolve => {
+                timeoutId.current = setTimeout(() => {
+                    callback && callback();
+                    resolve();
+                }, delay);
+            }),
+        []
+    );
+
+    return delayFn;
 };
 
 export default useDelay;

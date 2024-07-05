@@ -5,33 +5,28 @@ import CustomText from 'components/common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import VectorIcon from 'components/common/VectorIcon';
 
-import useDimensions from 'hooks/useDimensions';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
 import { ToastType } from 'types/models/toast';
 
-import { delay } from 'utils/data';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useToast from 'hooks/useToast';
 import useCustomTheme from 'hooks/useCustomTheme';
-
-import { commonStyles } from 'styles';
+import useDelay from 'hooks/useDelay';
 import useKeyboard from 'hooks/useKeyboard';
 
-const Toast = (props: ToastType) => {
+import { commonStyles } from 'styles';
+
+const Toast = (props: ToastType & { idx: number }) => {
     const { closeToast } = useToast();
-    const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
     const { keyboardHeight } = useKeyboard();
 
-    const { type = 'common', id, text, component, duration = 2000, top } = props;
+    const { type = 'common', id, text, component, duration = 3500, idx } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
-    const animatedTimer = useRef<NodeJS.Timeout | null>(null);
-    const durationTimer = useRef<NodeJS.Timeout | null>(null);
-
+    const newDelay = useDelay();
     // variables
 
     const ANIMATION_DURATION = 300;
@@ -42,21 +37,16 @@ const Toast = (props: ToastType) => {
         const handleToast = async () => {
             setVisible(true);
 
-            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
-            await new Promise(res => (durationTimer.current = setTimeout(res, duration)));
+            await newDelay(ANIMATION_DURATION);
+            await newDelay(duration);
 
             setVisible(false);
-            await new Promise(res => (animatedTimer.current = setTimeout(res, ANIMATION_DURATION)));
+            await newDelay(ANIMATION_DURATION);
             closeToast(id);
         };
 
         handleToast();
-
-        return () => {
-            clearTimeout(animatedTimer.current as NodeJS.Timeout);
-            clearTimeout(durationTimer.current as NodeJS.Timeout);
-        };
-    }, [closeToast, duration, id]);
+    }, [closeToast, duration, id, newDelay]);
 
     // animation
 
@@ -79,58 +69,12 @@ const Toast = (props: ToastType) => {
     }, [visible, messageSize]);
 
     // handler
-
     const handlecloseToast = useCallback(async () => {
-        clearTimeout(animatedTimer.current as NodeJS.Timeout);
-        clearTimeout(durationTimer.current as NodeJS.Timeout);
-
         setVisible(false);
-        await delay(ANIMATION_DURATION);
+        await newDelay(ANIMATION_DURATION);
 
         closeToast(id);
-    }, [closeToast, id]);
-
-    // ui
-
-    const renderIcon = useCallback(() => {
-        let name: string = '';
-        let backgroundColor: ColorValue = '#000';
-
-        switch (type) {
-            case 'complete': {
-                name = 'check';
-                backgroundColor = colors.complete;
-                break;
-            }
-            case 'caution': {
-                name = 'exclamation';
-                backgroundColor = colors.caution;
-                break;
-            }
-            case 'error': {
-                name = 'close';
-                backgroundColor = colors.warning;
-                break;
-            }
-            case 'common': {
-                return <></>;
-            }
-        }
-
-        return (
-            <VectorIcon
-                name={name}
-                color={'#FFF'}
-                size={17}
-                style={[
-                    {
-                        backgroundColor,
-                    },
-                    styles.typeIcon,
-                ]}
-            />
-        );
-    }, [colors, type]);
+    }, [closeToast, id, newDelay]);
 
     return (
         <Animated.View
@@ -149,7 +93,7 @@ const Toast = (props: ToastType) => {
             }}
         >
             <View style={[commonStyles.rowCenter, { gap: 10 }]}>
-                {renderIcon()}
+                <ToastIcon type={type} />
                 {text && <CustomText style={styles.text}>{text}</CustomText>}
                 {component && component}
                 <VectorIcon
@@ -161,6 +105,48 @@ const Toast = (props: ToastType) => {
                 />
             </View>
         </Animated.View>
+    );
+};
+
+const ToastIcon = ({ type }: { type: ToastType['type'] }) => {
+    const { colors } = useCustomTheme();
+
+    let name: string = '';
+    let backgroundColor: ColorValue = '#000';
+
+    switch (type) {
+        case 'complete': {
+            name = 'check';
+            backgroundColor = colors.complete;
+            break;
+        }
+        case 'caution': {
+            name = 'exclamation';
+            backgroundColor = colors.caution;
+            break;
+        }
+        case 'error': {
+            name = 'close';
+            backgroundColor = colors.warning;
+            break;
+        }
+        case 'common': {
+            return <></>;
+        }
+    }
+
+    return (
+        <VectorIcon
+            name={name}
+            color={'#FFF'}
+            size={17}
+            style={[
+                {
+                    backgroundColor,
+                },
+                styles.typeIcon,
+            ]}
+        />
     );
 };
 
@@ -191,6 +177,3 @@ const styles = StyleSheet.create({
 });
 
 export default Toast;
-
-// 키보드 훅은 context - provider 로 확장 * 1
-// 전체 View 에서 동일한 값을 가져오지 못하는 문제 해결을 위함. *
