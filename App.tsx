@@ -17,32 +17,33 @@ import LoadingProvider from 'components/provider/LoadingProvider';
 import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
 import { checkStroageValue, getAppTheme } from 'utils/storage';
 import { KeyboardContextProvider } from 'contexts/KeyboardContext';
+import BottomSheetProvider from 'components/provider/BottomSheetProvider';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);
+    // const isSigned = true;
     const isDark = useColorScheme() === 'dark';
 
     const theme = isDark ? customTheme.dark : customTheme.light;
 
-    const initApp = useCallback(() => {
-        // 이후에 훅으로 분리
-        async () => {
-            try {
-                console.log('init app');
+    const initApp = async () => {
+        try {
+            console.log('init app');
 
-                //  앱 테마 체크
-                const appTheme = (await getAppTheme()) as AppThemeType | null;
-                const appThemeScheme = appTheme === 'device' ? null : appTheme;
-                Appearance.setColorScheme(appThemeScheme);
-            } catch (e) {
-                console.log('app init error :', e);
-            }
-        };
-    }, []);
+            //  앱 테마 체크
+            const appTheme = (await getAppTheme()) as AppThemeType | null;
+            const appThemeScheme = appTheme === 'device' ? null : appTheme;
+
+            console.log('appThemeScheme', appThemeScheme);
+            Appearance.setColorScheme(appThemeScheme);
+        } catch (e) {
+            console.log('app init error :', e);
+        }
+    };
 
     useEffect(() => {
         initApp();
-    }, [initApp]);
+    }, []);
 
     checkStroageValue('asUserId');
 
@@ -53,9 +54,8 @@ function App(): React.JSX.Element {
                     <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
                     {isSigned ? <RootStack /> : <AuthStack />}
 
-                    {/* Providers */}
-                    {/* Provider 로 쓸건지 고민. */}
-                    {/* <BottomSheetProvider /> */}
+                    {/* Overlay Providers */}
+                    <BottomSheetProvider />
                     <ModalProvider />
                     <ToastProvider />
                     <LoadingProvider />

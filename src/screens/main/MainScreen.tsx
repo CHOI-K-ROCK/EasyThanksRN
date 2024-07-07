@@ -1,32 +1,50 @@
 import React, { useReducer, useState } from 'react';
 
+import { View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import MainNavigationBar from 'components/main/MainNavigationBar';
 import VectorIcon from 'components/common/VectorIcon';
+import CustomText from 'components/common/CustomText';
 
 import { RootStackNavigationProps } from 'types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
-import CustomText from 'components/common/CustomText';
+import useBottomSheet from 'hooks/useBottomSheet';
+import FullWidthButton from 'components/common/FullWidthButton';
 
-import { View } from 'react-native';
-import useDimensions from 'hooks/useDimensions';
-import useAuth from 'hooks/useAuth';
-import useAppTheme from 'hooks/useAppTheme';
-import useLoading from 'hooks/useLoading';
-import useDelay from 'hooks/useDelay';
-import BottomSheet from 'components/modal/common/BottomSheet';
-import useToast from 'hooks/useToast';
+const Re = ({ closeModal }: { closeModal: () => void }) => {
+    const [newCount, setNewCount] = useState(2);
+    const { closeBottomSheet } = useBottomSheet();
+    return (
+        <View
+            style={{
+                height: 200,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            <CustomText
+                onPress={() => setNewCount(prev => prev + 1)}
+                style={{ fontSize: 24, fontWeight: 700 }}
+            >
+                {newCount}
+            </CustomText>
+            <FullWidthButton
+                title="close"
+                onPress={closeBottomSheet}
+                style={{ backgroundColor: '#DDD' }}
+            />
+        </View>
+    );
+};
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
-    const { setLoading } = useLoading();
-    const { logout } = useAuth();
-    const delay = useDelay();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
-    const { setCurrentAppTheme } = useAppTheme();
+
+    const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
     const toAppMenu = () => {
         navigate('SettingStack', {
@@ -34,19 +52,8 @@ const MainScreen = () => {
         });
     };
 
-    const handleLogout = async () => {
-        setLoading(true);
-        await delay(500);
-        await logout();
-        setLoading(false);
-    };
-
-    const [visible, toggleVisible] = useReducer(prev => !prev, false);
-    console.log(visible);
-
-    const { openToast } = useToast();
     const open = () => {
-        openToast({ text: 'hell' });
+        openBottomSheet(() => <Re closeModal={closeBottomSheet} />);
     };
 
     return (
@@ -57,24 +64,10 @@ const MainScreen = () => {
                 }
             />
             <View style={{ gap: 20 }}>
-                <CustomText style={{ fontSize: 25, marginTop: 20 }} onPress={toggleVisible}>
+                <CustomText style={{ fontSize: 25, marginTop: 20 }} onPress={open}>
                     toggleBottomSheet
                 </CustomText>
             </View>
-            <BottomSheet visible={visible} onPressBackdrop={toggleVisible}>
-                <View
-                    style={{
-                        height: 200,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#DDD',
-                    }}
-                >
-                    <CustomText onPress={open} style={{ fontSize: 24, fontWeight: 700 }}>
-                        bottom sheet content
-                    </CustomText>
-                </View>
-            </BottomSheet>
         </SafeAreaView>
     );
 };

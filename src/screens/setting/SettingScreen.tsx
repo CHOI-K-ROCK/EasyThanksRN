@@ -39,7 +39,7 @@ const SettingScreen = () => {
     const { colors } = useCustomTheme();
     const { logout } = useAuth();
 
-    const userData = useRecoilValue(userDataAtom) as UserEditDataType;
+    const userData = useRecoilValue(userDataAtom) as UserEditDataType | null;
 
     const { openModal, closeModal } = useModal(() => (
         <CommonModal
@@ -54,7 +54,7 @@ const SettingScreen = () => {
     ));
 
     const onPressEditUserProfile = () => {
-        navigate('UserProfileEditScreen', { userData: userData });
+        navigate('UserProfileEditScreen', { userData: userData! });
     };
 
     const onPressOpenSource = () => {
@@ -70,17 +70,17 @@ const SettingScreen = () => {
         logout();
     };
 
-    if (userData === null) return <></>;
-
     return (
         <SafeAreaView bottomAreaBackgroundColor={colors.divider}>
             <InnerNavigationBar screenTitle={'설정'} goBack={goBack} />
             <View style={styles.container}>
-                <UserProfileView
-                    userData={userData}
-                    onPressEdit={onPressEditUserProfile}
-                    style={styles.header}
-                />
+                {userData !== null && (
+                    <UserProfileView
+                        userData={userData}
+                        onPressEdit={onPressEditUserProfile}
+                        style={styles.header}
+                    />
+                )}
                 <HorizontalDivider type={'block'} />
                 <SettingListItem
                     title={'감사 알림'}
