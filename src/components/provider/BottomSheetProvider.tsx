@@ -12,7 +12,7 @@ const BottomSheetProvider = () => {
     const { component, visible, options } = bottomSheetState;
 
     return (
-        <BottomSheet visible={visible} onPressBackdrop={closeBottomSheet} {...options}>
+        <BottomSheet visible={visible} onPressBackdrop={closeBottomSheet} options={options}>
             {component ? <Component component={component} /> : <></>}
         </BottomSheet>
     );

@@ -6,12 +6,13 @@ import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-rea
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
+import { BottomSheetOptionsType } from 'types/models/bottomSheet';
 
 type Props = {
     visible: boolean;
     children: ReactElement;
     onPressBackdrop: () => void;
-    rawElement?: boolean;
+    options: BottomSheetOptionsType;
 };
 
 const AnimatedPressble = Animated.createAnimatedComponent(Pressable);
@@ -21,7 +22,8 @@ const BottomSheet = (props: Props) => {
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
 
-    const { children, visible = false, onPressBackdrop, rawElement = false } = props;
+    const { children, visible = false, onPressBackdrop, options } = props;
+    const { rawElement = false } = options;
 
     const [sheetHeight, setSheetHeight] = useState<number>(0);
 
@@ -92,7 +94,7 @@ const BottomSheet = (props: Props) => {
                     <Animated.View
                         style={[
                             {
-                                backgroundColor: colors.caution,
+                                backgroundColor: colors.tabBarBackground,
                                 paddingBottom: bottom,
                             },
                             styles.contentContainer,
