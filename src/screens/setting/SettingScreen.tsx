@@ -21,6 +21,7 @@ import useAuth from 'hooks/useAuth';
 import useOverlay from 'hooks/useOverlay';
 
 import { HORIZONTAL_GAP } from 'constants/style';
+import useToast from 'hooks/useToast';
 
 export type SettingListType = {
     title: string;
@@ -41,6 +42,7 @@ const SettingScreen = () => {
 
     const userData = useRecoilValue(userDataAtom) as UserEditDataType | null;
 
+    const { openToast } = useToast();
     const { openOverlay, closeOverlay } = useOverlay(() => (
         <CommonModal
             title="로그아웃"
@@ -65,9 +67,10 @@ const SettingScreen = () => {
         openOverlay();
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         closeOverlay();
-        logout();
+        await logout();
+        openToast({ text: '로그아웃 완료', type: 'complete' });
     };
 
     return (

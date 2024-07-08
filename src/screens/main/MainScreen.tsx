@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 
 import { View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';

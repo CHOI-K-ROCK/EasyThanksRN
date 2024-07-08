@@ -41,6 +41,7 @@ const CheckBox = (props: Props) => {
     return (
         <AnimatedTouchableOpacity
             onPress={_onPress}
+            disabled={!onPress}
             style={[
                 {
                     backgroundColor: checked ? ACTIVE_BACKGROUND_COLOR : DISABLED_BACKGROUND_COLOR,

@@ -12,12 +12,14 @@ import { AppThemeSettingScreenNavigationProps } from 'types/navigations/settingS
 import { useNavigation } from '@react-navigation/native';
 import { AppThemeType } from 'hooks/useCustomTheme';
 import useAppTheme from 'hooks/useAppTheme';
+import useToast from 'hooks/useToast';
 
 const AppThemeSettingScreen = () => {
     const { goBack } = useNavigation<AppThemeSettingScreenNavigationProps>();
     const [appTheme, setAppTheme] = useState<AppThemeType>('device');
 
     const { setCurrentAppTheme, getCurrentAppTheme } = useAppTheme();
+    const { openToast } = useToast();
 
     useEffect(() => {
         const checkCurrentAppTheme = async () => {
@@ -30,11 +32,29 @@ const AppThemeSettingScreen = () => {
 
     const handleChangeAppTheme = useCallback(
         (type: AppThemeType) => {
+            if (appTheme === type) return;
+
             setCurrentAppTheme(type);
             setAppTheme(type);
+
+            openToast({ text: getThemeName(type), type: 'complete' });
         },
-        [setCurrentAppTheme]
+        [appTheme, openToast, setCurrentAppTheme]
     );
+
+    const getThemeName = (type: AppThemeType) => {
+        switch (type) {
+            case 'light': {
+                return '라이트 모드로 설정 되었어요';
+            }
+            case 'dark': {
+                return '다크 모드로 설정 되었어요';
+            }
+            case 'device': {
+                return '기기 설정으로 설정 되었어요';
+            }
+        }
+    };
 
     const deviceOnPress = useCallback(() => handleChangeAppTheme('device'), [handleChangeAppTheme]);
     const lightOnPress = useCallback(() => handleChangeAppTheme('light'), [handleChangeAppTheme]);
