@@ -38,12 +38,16 @@ const MainScreen = () => {
 
     // ui
     const renderHeader = useCallback(() => {
-        return <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>;
+        return <CustomText style={styles.sectionTitle}>오늘 작성한 감사일기</CustomText>;
     }, []);
 
     // flatlist
     const _renderItem = useCallback(({ item }: { item: PostDataType }) => {
-        return <PostThumbnail data={item} />;
+        return (
+            <View style={styles.thumbnailContainer}>
+                <PostThumbnail data={item} onPress={() => console.log('move')} />
+            </View>
+        );
     }, []);
 
     const _keyExtractor = useCallback((item: PostDataType) => {
@@ -71,8 +75,15 @@ const MainScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    sectionTitle: {
+        ...commonStyles.subject,
+        marginBottom: 10,
+    },
     headerContainer: {
         paddingTop: 20,
+    },
+    thumbnailContainer: {
+        marginBottom: 15,
     },
 });
 
