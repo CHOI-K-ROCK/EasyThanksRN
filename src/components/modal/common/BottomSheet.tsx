@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { LayoutChangeEvent, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -9,7 +9,6 @@ import useCustomTheme from 'hooks/useCustomTheme';
 import { BottomSheetOptionsType } from 'types/models/bottomSheet';
 
 type Props = {
-    visible: boolean;
     children: ReactElement;
     onPressBackdrop: () => void;
     options: BottomSheetOptionsType;
@@ -22,10 +21,17 @@ const BottomSheet = (props: Props) => {
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
 
-    const { children, visible = false, onPressBackdrop, options } = props;
+    const { children, onPressBackdrop, options } = props;
     const { rawElement = false } = options;
 
+    const [visible, setVisible] = useState<boolean>(false);
+
     const [sheetHeight, setSheetHeight] = useState<number>(0);
+
+    useEffect(() => {
+        setVisible(true);
+        // 초기 애니메이션 재생
+    }, []);
 
     const _onLayout = (e: LayoutChangeEvent) => {
         setSheetHeight(e.nativeEvent.layout.height);
@@ -37,6 +43,7 @@ const BottomSheet = (props: Props) => {
     // entering 을 사용안하는 이유
     // entering 애니메이션 메소드가 생성되고 적용되는 타이밍 보다
     // sheetHeight 설정되는 타이밍이 늦으므로, 정상적인 동작 X
+
     const animatedOpacity = useAnimatedStyle(() => {
         return {
             opacity: withTiming(visible ? 1 : 0, {
@@ -59,30 +66,85 @@ const BottomSheet = (props: Props) => {
         return {
             transform: [
                 {
-                    translateY: withTiming(visible ? -sheetHeight : 0, {
+                    translateY: withTiming(-sheetHeight, {
                         duration: ANIMATION_DURATION,
                         easing: EASING_BEZIER,
                     }),
                 },
             ],
         };
-    }, [visible, sheetHeight]);
+    }, [sheetHeight]);
+
+    const backdropExiting = useCallback(() => {
+        'worklet';
+        const animations = {
+            opacity: withTiming(0, {
+                duration: ANIMATION_DURATION,
+                easing: EASING_BEZIER,
+            }),
+        };
+        const initialValues = {
+            opacity: 1,
+        };
+
+        return { animations, initialValues };
+    }, [EASING_BEZIER]);
+
+    const bottomSheetExiting = useCallback(() => {
+        'worklet';
+        const animations = {
+            transform: [
+                {
+                    translateY: withTiming(0, {
+                        duration: 300,
+                        easing: EASING_BEZIER,
+                    }),
+                },
+            ],
+        };
+        const initialValues = {
+            transform: [{ translateY: -sheetHeight }],
+        };
+
+        return { animations, initialValues };
+    }, [EASING_BEZIER, sheetHeight]);
+
+    const contentExiting = useCallback(() => {
+        'worklet';
+
+        const animations = {
+            opacity: withTiming(0, {
+                duration: 100,
+                easing: EASING_BEZIER,
+            }),
+            temp: withTiming(0),
+            // 위의 duration 이 종료되는 경우 컴포넌트가 언마운트되므로,
+            // 임시 속성으로 언마운트 지연
+        };
+        const initialValues = {
+            opacity: 1,
+            temp: 0,
+        };
+        return { animations, initialValues };
+    }, [EASING_BEZIER]);
 
     return (
-        <View style={[StyleSheet.absoluteFill]} pointerEvents={visible ? 'auto' : 'none'}>
+        <View style={[StyleSheet.absoluteFill, { zIndex: 999 }]}>
             <AnimatedPressble
                 onPress={onPressBackdrop}
+                exiting={backdropExiting}
                 style={[
                     StyleSheet.absoluteFill,
-                    { backgroundColor: 'rgba(0,0,0,0.4)', zIndex: 100 },
+                    { backgroundColor: 'rgba(0,0,0,0.4)', zIndex: 999 },
                     animatedOpacity,
                 ]}
             />
             <Animated.View
+                exiting={bottomSheetExiting}
                 style={[
                     {
                         top: hp(100),
-                        zIndex: 100,
+                        zIndex: 999,
                     },
                     animatedAppear,
                 ]}
@@ -100,7 +162,9 @@ const BottomSheet = (props: Props) => {
                             styles.contentContainer,
                         ]}
                     >
-                        <Animated.View style={animatedContentOpacity}>{children}</Animated.View>
+                        <Animated.View exiting={contentExiting} style={[animatedContentOpacity]}>
+                            {children}
+                        </Animated.View>
                     </Animated.View>
                 )}
             </Animated.View>

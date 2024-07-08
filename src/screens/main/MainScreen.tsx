@@ -5,17 +5,19 @@ import SafeAreaView from 'components/common/SafeAreaView';
 import MainNavigationBar from 'components/main/MainNavigationBar';
 import VectorIcon from 'components/common/VectorIcon';
 import CustomText from 'components/common/CustomText';
+import FullWidthButton from 'components/common/FullWidthButton';
+import BottomSheet from 'components/modal/common/BottomSheet';
 
 import { RootStackNavigationProps } from 'types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useBottomSheet from 'hooks/useBottomSheet';
-import FullWidthButton from 'components/common/FullWidthButton';
+import useModal from 'hooks/useModal';
 
-const Re = ({ closeModal }: { closeModal: () => void }) => {
+const Re = ({ closeBottomSheet }: { closeBottomSheet: () => void }) => {
     const [newCount, setNewCount] = useState(2);
-    const { closeBottomSheet } = useBottomSheet();
+
     return (
         <View
             style={{
@@ -44,7 +46,14 @@ const MainScreen = () => {
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
-    const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+    const { openModal, closeModal } = useModal(() => (
+        <BottomSheet onPressBackdrop={closeModal} options={{}}>
+            <Re closeBottomSheet={closeModal} />
+        </BottomSheet>
+    ));
+    const { openBottomSheet, closeBottomSheet } = useBottomSheet(() => (
+        <Re closeBottomSheet={closeBottomSheet} />
+    ));
 
     const toAppMenu = () => {
         navigate('SettingStack', {
@@ -53,7 +62,7 @@ const MainScreen = () => {
     };
 
     const open = () => {
-        openBottomSheet(() => <Re closeModal={closeBottomSheet} />);
+        openModal();
     };
 
     return (

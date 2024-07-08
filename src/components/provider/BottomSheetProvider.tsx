@@ -1,4 +1,4 @@
-import BottomSheet from 'components/modal/common/BottomSheet';
+import BottomSheet from 'components/modal/common/BottomSheet.1';
 import useBottomSheet from 'hooks/useBottomSheet';
 
 import React from 'react';
@@ -12,9 +12,10 @@ const BottomSheetProvider = () => {
     const { component, visible, options } = bottomSheetState;
 
     return (
-        <BottomSheet visible={visible} onPressBackdrop={closeBottomSheet} options={options}>
-            {component ? <Component component={component} /> : <></>}
-        </BottomSheet>
+        <></>
+        // <BottomSheet visible={visible} onPressBackdrop={closeBottomSheet} options={options}>
+        //     {component ? <Component component={component} /> : <></>}
+        // </BottomSheet>
     );
 };
 

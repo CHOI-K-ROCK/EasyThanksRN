@@ -14,15 +14,12 @@ import { delay } from 'utils/data';
  *
  */
 
-const useBottomSheet = () => {
+const useBottomSheet = (component: React.FC, options?: BottomSheetOptionsType) => {
     const setBottomSheetAtom = useSetRecoilState(bottomSheetAtom);
 
-    const openBottomSheet = useCallback(
-        (component: React.FC, options?: BottomSheetOptionsType) => {
-            setBottomSheetAtom({ component, options: options || {}, visible: true });
-        },
-        [setBottomSheetAtom]
-    );
+    const openBottomSheet = useCallback(() => {
+        setBottomSheetAtom({ component, options: options || {}, visible: true });
+    }, [component, options, setBottomSheetAtom]);
 
     const closeBottomSheet = useCallback(async () => {
         setBottomSheetAtom(prev => ({ ...prev, visible: false } as BottomSheetType));
