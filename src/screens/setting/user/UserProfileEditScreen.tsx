@@ -18,7 +18,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useInput from 'hooks/useInput';
-import useModal from 'hooks/useModal';
+import useOverlay from 'hooks/useOverlay';
 import useToast from 'hooks/useToast';
 
 import { HORIZONTAL_GAP } from 'constants/style';
@@ -39,8 +39,8 @@ const UserProfileEditScreen = () => {
 
     const { value, handleChange, clearValue } = useInput(username);
 
-    const { openModal, closeModal } = useModal(() => (
-        <OptOutDialogModal closeModal={closeModal} onConfirm={onConfirmOptOut} />
+    const { openOverlay, closeOverlay } = useOverlay(() => (
+        <OptOutDialogModal closeOverlay={closeOverlay} onConfirm={onConfirmOptOut} />
     ));
 
     const isValidNickName = username !== value;
@@ -60,7 +60,7 @@ const UserProfileEditScreen = () => {
     };
 
     const onPressOptOut = () => {
-        openModal();
+        openOverlay();
     };
 
     const onConfirmOptOut = useCallback(async () => {
@@ -73,12 +73,12 @@ const UserProfileEditScreen = () => {
             setLoading(false);
             console.log('탈퇴 완료, 로그아웃 진행');
 
-            closeModal();
+            closeOverlay();
             logout(); // 실질적으로는 회원 탈퇴 로직이여야함.
         } catch (error: any) {
             console.log('opt out error : ', error.message);
         }
-    }, [closeModal, logout, setLoading]);
+    }, [closeOverlay, logout, setLoading]);
 
     if (params.userData === null) return <></>;
 

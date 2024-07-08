@@ -12,7 +12,7 @@ import { RootStackNavigationProps } from 'types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
-import useModal from 'hooks/useModal';
+import useOverlay from 'hooks/useOverlay';
 
 const Re = ({ closeBottomSheet }: { closeBottomSheet: () => void }) => {
     const [newCount, setNewCount] = useState(2);
@@ -45,9 +45,9 @@ const MainScreen = () => {
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
-    const { openModal, closeModal } = useModal(() => (
-        <BottomSheet onPressBackdrop={closeModal} options={{}}>
-            <Re closeBottomSheet={closeModal} />
+    const { openOverlay, closeOverlay } = useOverlay(() => (
+        <BottomSheet onPressBackdrop={closeOverlay} options={{}}>
+            <Re closeBottomSheet={closeOverlay} />
         </BottomSheet>
     ));
 
@@ -58,7 +58,7 @@ const MainScreen = () => {
     };
 
     const open = () => {
-        openModal();
+        openOverlay();
     };
 
     return (

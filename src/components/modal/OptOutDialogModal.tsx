@@ -12,13 +12,13 @@ import { StyleSheet, View } from 'react-native';
 
 type Props = {
     onConfirm: () => void;
-    closeModal: () => void;
+    closeOverlay: () => void;
 };
 
 const OptOutDialogModal = (props: Props) => {
     const { colors } = useCustomTheme();
     const { value, handleChange } = useInput();
-    const { onConfirm, closeModal } = props;
+    const { onConfirm, closeOverlay } = props;
 
     const buttons: ModalButtonType[] = useMemo(
         () => [
@@ -31,16 +31,16 @@ const OptOutDialogModal = (props: Props) => {
             },
             {
                 content: '좀 더 생각해볼게요',
-                onPress: closeModal,
+                onPress: closeOverlay,
             },
         ],
-        [closeModal, colors.warning, onConfirm, value]
+        [closeOverlay, colors.warning, onConfirm, value]
     );
 
     return (
         <CommonModal
             buttons={buttons}
-            onPressBackdrop={closeModal}
+            onPressBackdrop={closeOverlay}
             title="회원탈퇴"
             text={'정말로 탈퇴하시겠어요?\n모든 데이터가 초기화 되고 \n되돌릴 수 없습니다!'}
         >

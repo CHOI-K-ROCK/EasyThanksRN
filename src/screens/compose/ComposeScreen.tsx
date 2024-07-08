@@ -24,7 +24,7 @@ import useInput from 'hooks/useInput';
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
 import { SAMPLE_IMAGE } from 'constants/dummy';
-import useModal from 'hooks/useModal';
+import useOverlay from 'hooks/useOverlay';
 import CommonModal from 'components/modal/common/CommonModal';
 import useKeyboard from 'hooks/useKeyboard';
 
@@ -43,13 +43,13 @@ const ComposeScreen = () => {
 
     const { dismiss } = useKeyboard();
 
-    const { openModal, closeModal } = useModal(() => (
+    const { openOverlay, closeOverlay } = useOverlay(() => (
         <CommonModal
             text={'변경된 내용이 있어요!\n작성을 취소하시겠어요?'}
             // title="작성 취소"
             buttons={[
                 { content: '네', onPress: handleCancelWhileCompose, type: 'cancel' },
-                { content: '아니요', onPress: closeModal },
+                { content: '아니요', onPress: closeOverlay },
             ]}
         />
     ));
@@ -58,7 +58,7 @@ const ComposeScreen = () => {
         if (content) {
             //글 뿐 아니라 날짜, 시간 등 수동으로 변경한 내용이 있는 경우 isWrote 로 관리하기
             dismiss();
-            openModal();
+            openOverlay();
             return;
         }
 
@@ -66,9 +66,9 @@ const ComposeScreen = () => {
     };
 
     const handleCancelWhileCompose = useCallback(() => {
-        closeModal();
+        closeOverlay();
         goBack();
-    }, [closeModal, goBack]);
+    }, [closeOverlay, goBack]);
 
     const onPressEditDate = () => {
         console.log('edit date');

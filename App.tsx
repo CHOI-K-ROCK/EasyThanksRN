@@ -11,7 +11,7 @@ import RootStack from 'navigations/RootStack';
 import AuthStack from 'navigations/AuthStack';
 
 import ToastProvider from 'components/provider/ToastProvider';
-import ModalProvider from 'components/provider/ModalProvider';
+import OverlayProvider from 'components/provider/OverlayProvider';
 import LoadingProvider from 'components/provider/LoadingProvider';
 
 import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
@@ -54,7 +54,7 @@ function App(): React.JSX.Element {
                     {isSigned ? <RootStack /> : <AuthStack />}
 
                     {/* Overlay Providers */}
-                    <ModalProvider />
+                    <OverlayProvider />
                     <ToastProvider />
                     <LoadingProvider />
                 </NavigationContainer>

@@ -18,7 +18,7 @@ import { UserEditDataType } from 'types/models/user';
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useAuth from 'hooks/useAuth';
-import useModal from 'hooks/useModal';
+import useOverlay from 'hooks/useOverlay';
 
 import { HORIZONTAL_GAP } from 'constants/style';
 
@@ -41,13 +41,13 @@ const SettingScreen = () => {
 
     const userData = useRecoilValue(userDataAtom) as UserEditDataType | null;
 
-    const { openModal, closeModal } = useModal(() => (
+    const { openOverlay, closeOverlay } = useOverlay(() => (
         <CommonModal
             title="로그아웃"
             text="로그아웃 하시겠어요?"
-            onPressBackdrop={closeModal}
+            onPressBackdrop={closeOverlay}
             buttons={[
-                { content: '아니요', onPress: closeModal },
+                { content: '아니요', onPress: closeOverlay },
                 { content: '네', type: 'cancel', onPress: handleLogout },
             ]}
         />
@@ -62,11 +62,11 @@ const SettingScreen = () => {
     };
 
     const onPressLogout = () => {
-        openModal();
+        openOverlay();
     };
 
     const handleLogout = () => {
-        closeModal();
+        closeOverlay();
         logout();
     };
 
