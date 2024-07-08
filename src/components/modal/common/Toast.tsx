@@ -25,7 +25,7 @@ const Toast = (props: ToastType & { position: number }) => {
 
     const delay = useDelay();
 
-    const { type = 'common', id, text, component, duration = 3500, position } = props;
+    const { type = 'common', id, text, component, duration = 1000, position } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
@@ -34,6 +34,7 @@ const Toast = (props: ToastType & { position: number }) => {
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
     const TOAST_GAP = 5;
+    const MAXIMUM_TOAST_AMOUNT = 2;
 
     useEffect(() => {
         const handleToast = async () => {
@@ -47,8 +48,8 @@ const Toast = (props: ToastType & { position: number }) => {
             closeToast(id);
         };
 
-        const checkOverTwoToastAndClose = async () => {
-            if (position > 2) {
+        const removeOlderToast = async () => {
+            if (position > MAXIMUM_TOAST_AMOUNT) {
                 setVisible(false);
                 await delay(ANIMATION_DURATION);
                 closeToast(id);
@@ -56,10 +57,16 @@ const Toast = (props: ToastType & { position: number }) => {
         };
 
         handleToast();
-        checkOverTwoToastAndClose();
+        removeOlderToast();
     }, [closeToast, duration, id, position, delay]);
 
     // animation
+
+    const toastAppearHeight = -bottom - keyboardHeight;
+    // 토스트 메시지를 상단 기준 기기 화면 높이 만큼 아래로 밀어놓았기 때문에
+    // 토스트가 떠오르는데 필요한 만큼의 높이를 빼야함.
+    const toastOffset = (messageSize.h + TOAST_GAP) * position;
+    //  토스트 메시지 높이 + 설정한 갭 * 현재 포지션
 
     const animatedAppear = useAnimatedStyle(() => {
         return {
@@ -70,11 +77,7 @@ const Toast = (props: ToastType & { position: number }) => {
             transform: [
                 {
                     translateY: withTiming(
-                        visible
-                            ? -bottom -
-                            keyboardHeight -
-                            (messageSize.h * position + TOAST_GAP * position)
-                            : 0,
+                        visible ? toastAppearHeight - toastOffset : -keyboardHeight,
                         { duration: ANIMATION_DURATION }
                     ),
                 },

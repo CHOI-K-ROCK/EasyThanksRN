@@ -10,10 +10,11 @@ type Props = {
 const PostThumbnail = (props: Props) => {
     const { data } = props;
 
-    const { content, photos, createdAt } = data;
+    const { title, content, photos, createdAt } = data;
 
     return (
         <View>
+            <CustomText>{title}</CustomText>
             <CustomText>{content}</CustomText>
         </View>
     );

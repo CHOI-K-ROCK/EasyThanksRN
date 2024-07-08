@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import MainNavigationBar from 'components/main/MainNavigationBar';
 import VectorIcon from 'components/common/VectorIcon';
@@ -19,8 +19,9 @@ import {
     DUMMY_POST_NONE_IMAGE,
     DUMMY_POST_SINGLE_IMAGE,
 } from 'constants/dummy';
-import { PostDataType } from 'types/models/compose';
+
 import PostThumbnail from 'components/common/PostThumbnail';
+import { PostDataType } from 'types/models/compose';
 
 const DUMMY_POSTS = [DUMMY_POST_NONE_IMAGE, DUMMY_POST_SINGLE_IMAGE, DUMMY_POST_MULTI_IMAGE];
 
@@ -35,6 +36,20 @@ const MainScreen = () => {
         });
     };
 
+    // ui
+    const renderHeader = useCallback(() => {
+        return <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>;
+    }, []);
+
+    // flatlist
+    const _renderItem = useCallback(({ item }: { item: PostDataType }) => {
+        return <PostThumbnail data={item} />;
+    }, []);
+
+    const _keyExtractor = useCallback((item: PostDataType) => {
+        return item.postId;
+    }, []);
+
     return (
         <SafeAreaView topAreaBackgroundColor={colors.tabBarBackground}>
             <MainNavigationBar
@@ -43,15 +58,22 @@ const MainScreen = () => {
                 }
             />
             <ScreenLayout>
-                <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>
-                <View>
-                    {DUMMY_POSTS.map((post: any) => {
-                        return <PostThumbnail data={post} />;
-                    })}
-                </View>
+                <FlatList
+                    data={DUMMY_POSTS}
+                    renderItem={_renderItem}
+                    keyExtractor={_keyExtractor}
+                    ListHeaderComponent={renderHeader}
+                    ListHeaderComponentStyle={styles.headerContainer}
+                />
             </ScreenLayout>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    headerContainer: {
+        paddingTop: 20,
+    },
+});
 
 export default MainScreen;

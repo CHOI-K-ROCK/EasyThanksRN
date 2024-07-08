@@ -2,6 +2,7 @@ export type PostDataType = {
     authorId: string;
     postId: string;
 
+    title: string;
     content: string;
     photos: string[]; // uris
 
@@ -16,6 +17,7 @@ export type PostCommentType = {
     postId: string;
     commentId: string;
 
+    title: string;
     content: string;
 
     createdAt: string;

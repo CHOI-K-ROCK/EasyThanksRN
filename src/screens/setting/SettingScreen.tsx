@@ -86,8 +86,8 @@ const SettingScreen = () => {
                 )}
                 <HorizontalDivider type={'block'} />
                 <SettingListItem
-                    title={'감사 알림'}
-                    subTitle={'설정한 감사 알림을 확인 할 수 있습니다.'}
+                    title={'감사 리마인더 설정'}
+                    subTitle={'설정한 시간에 감사일기를 쓸 수 있도록 알림을 드려요!'}
                     onPress={() => navigate('NotificationScreen')}
                     chevron
                 />
