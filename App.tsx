@@ -17,7 +17,6 @@ import LoadingProvider from 'components/provider/LoadingProvider';
 import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
 import { checkStroageValue, getAppTheme } from 'utils/storage';
 import { KeyboardContextProvider } from 'contexts/KeyboardContext';
-import BottomSheetProvider from 'components/provider/BottomSheetProvider';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);
@@ -55,7 +54,6 @@ function App(): React.JSX.Element {
                     {isSigned ? <RootStack /> : <AuthStack />}
 
                     {/* Overlay Providers */}
-                    <BottomSheetProvider />
                     <ModalProvider />
                     <ToastProvider />
                     <LoadingProvider />

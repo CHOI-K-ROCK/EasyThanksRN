@@ -12,7 +12,6 @@ import { RootStackNavigationProps } from 'types/navigations/rootStack';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
-import useBottomSheet from 'hooks/useBottomSheet';
 import useModal from 'hooks/useModal';
 
 const Re = ({ closeBottomSheet }: { closeBottomSheet: () => void }) => {
@@ -50,9 +49,6 @@ const MainScreen = () => {
         <BottomSheet onPressBackdrop={closeModal} options={{}}>
             <Re closeBottomSheet={closeModal} />
         </BottomSheet>
-    ));
-    const { openBottomSheet, closeBottomSheet } = useBottomSheet(() => (
-        <Re closeBottomSheet={closeBottomSheet} />
     ));
 
     const toAppMenu = () => {
