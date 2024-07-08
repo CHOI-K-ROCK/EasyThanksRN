@@ -44,8 +44,8 @@ export const getDateStrings = (initialDate: Date, use24hours?: boolean) => {
     const convertedHour = use24hours
         ? hourDefault
         : hourDefault > 12
-        ? hourDefault - 12
-        : hourDefault;
+            ? hourDefault - 12
+            : hourDefault;
 
     return {
         year: '' + date.getFullYear(),
@@ -63,4 +63,11 @@ export const getDayOfWeekName = (day: number) => {
     const daysStringArr = ['일', '월', '화', '수', '목', '금', '토'];
 
     return daysStringArr[day];
+};
+
+export const getInitialPostNameByDate = (date: Date) => {
+    const dateStrings = getDateStrings(date);
+    const { year, month, day } = dateStrings;
+
+    return `${year.slice(2)}년 ${month}월 ${day}일의 감사일기`;
 };

@@ -12,6 +12,7 @@ import HorizontalDivider from 'components/common/HorizontalDivider';
 import FullWidthButton from 'components/common/FullWidthButton';
 import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import ComposePhotoButton from 'components/compose/ComposePhotoButton';
+import CommonModal from 'components/modal/common/CommonModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
@@ -20,28 +21,34 @@ import {
 } from 'types/navigations/composeStack';
 
 import useInput from 'hooks/useInput';
+import useOverlay from 'hooks/useOverlay';
+import useKeyboard from 'hooks/useKeyboard';
+
+import { getInitialPostNameByDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
 import { SAMPLE_IMAGE } from 'constants/dummy';
-import useOverlay from 'hooks/useOverlay';
-import CommonModal from 'components/modal/common/CommonModal';
-import useKeyboard from 'hooks/useKeyboard';
 
 const ComposeScreen = () => {
     const { navigate, goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
+    const { dismiss } = useKeyboard();
 
-    const isEdit = params?.initialData !== undefined;
     const initialData = params?.initialData || {};
+    const isEdit = params?.initialData !== undefined;
 
     const { initialImage, initialDate, content: initialContent } = initialData;
 
-    const { value: content, handleChange: setContent } = useInput(initialContent);
     const [photos, setPhotos] = useState<string | undefined>(initialImage || undefined); // 사진 blob
     const [date, setDate] = useState<Date>(initialDate || new Date()); // 작성 Date
 
-    const { dismiss } = useKeyboard();
+    const {
+        value: title,
+        handleChange: setTitle,
+        clearValue: clearTitle,
+    } = useInput(getInitialPostNameByDate(date));
+    const { value: content, handleChange: setContent } = useInput(initialContent);
 
     const { openOverlay, closeOverlay } = useOverlay(() => (
         <CommonModal
@@ -86,12 +93,12 @@ const ComposeScreen = () => {
 
     const handleAddPhoto = () => {
         console.log('add Photo');
-        setPhotos(p => SAMPLE_IMAGE);
+        setPhotos(SAMPLE_IMAGE);
     };
 
     const handleDeletePhoto = () => {
         console.log('delete Photo');
-        setPhotos(p => undefined);
+        setPhotos(undefined);
     };
 
     const handleWritePost = () => {
@@ -117,26 +124,24 @@ const ComposeScreen = () => {
                 extraHeight={(Platform.OS === 'ios' && 150) || undefined}
                 style={styles.container}
             >
-                <View onStartShouldSetResponder={() => true}>
-                    <ComposeSummaryView
-                        date={date}
-                        onPressEditDate={onPressEditDate}
-                        onPressEditTime={onPressEditTime}
-                        locationString={locationString}
-                        onPressEditLocation={onPressEditLocation}
-                    />
-
-                    <HorizontalDivider style={styles.divider} />
-
-                    <CustomText style={styles.addPhotoTitle}>
-                        {'오늘 가장 기억에 남는 순간이 언제인가요? (선택)'}
-                    </CustomText>
-
-                    <ComposePhotoButton
-                        imgBlob={photos}
-                        onPress={handleAddPhoto}
-                        onPressClose={handleDeletePhoto}
-                        style={{ marginBottom: 20 }}
+                <ComposeSummaryView
+                    date={date}
+                    onPressEditDate={onPressEditDate}
+                    onPressEditTime={onPressEditTime}
+                    locationString={locationString}
+                    onPressEditLocation={onPressEditLocation}
+                />
+                <HorizontalDivider style={styles.divider} />
+                <View style={styles.textFieldContainer} onStartShouldSetResponder={() => true}>
+                    <CustomTextInput
+                        title="제목을 작성해주세요!"
+                        titleStyle={styles.textFieldTitle}
+                        value={title}
+                        onChangeText={setTitle}
+                        clearButton
+                        onPressClear={clearTitle}
+                        textStyle={styles.titleTextField}
+                        placeholder="제목"
                     />
 
                     <CustomTextInput
@@ -145,9 +150,21 @@ const ComposeScreen = () => {
                         value={content}
                         onChangeText={setContent}
                         multiline
-                        textStyle={styles.textField}
+                        textStyle={styles.contentTextField}
                         placeholder="내용"
                     />
+
+                    <View>
+                        <CustomText style={styles.addPhotoTitle}>
+                            {'오늘 가장 기억에 남는 순간이 언제인가요? (선택)'}
+                        </CustomText>
+
+                        <ComposePhotoButton
+                            imgBlob={photos}
+                            onPress={handleAddPhoto}
+                            onPressClose={handleDeletePhoto}
+                        />
+                    </View>
                     <View style={{ height: 50 }} />
                 </View>
             </KeyboardAwareScrollView>
@@ -171,12 +188,13 @@ const styles = StyleSheet.create({
     addPhotoTitle: {
         ...commonStyles.subject,
         marginBottom: 10,
-        marginTop: 0,
     },
+    textFieldContainer: { gap: 10 },
     textFieldTitle: {
         marginBottom: 10,
     },
-    textField: {
+    titleTextField: {},
+    contentTextField: {
         height: 250,
     },
     cancelButton: {
