@@ -10,6 +10,7 @@ import PostScreen from 'screens/post/PostScreen';
 
 import ComposeStack from 'navigations/ComposeStack';
 import SettingStack from 'navigations/SettingStack';
+import PostStack from 'navigations/PostStack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -51,6 +52,9 @@ const RootStack = () => {
                     animationDuration: 250,
                 }}
             />
+
+            {/* Post */}
+            <Stack.Screen component={PostStack} name="PostStack" />
 
             {/* AppMenu */}
             <Stack.Screen component={SettingStack} name="SettingStack" />

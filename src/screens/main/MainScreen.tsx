@@ -22,6 +22,7 @@ import {
 
 import PostThumbnail from 'components/common/PostThumbnail';
 import { PostDataType } from 'types/models/compose';
+import PostDetailScreen from 'screens/post/PostDetailScreen';
 
 const DUMMY_POSTS = [DUMMY_POST_NONE_IMAGE, DUMMY_POST_SINGLE_IMAGE, DUMMY_POST_MULTI_IMAGE];
 
@@ -42,13 +43,24 @@ const MainScreen = () => {
     }, []);
 
     // flatlist
-    const _renderItem = useCallback(({ item }: { item: PostDataType }) => {
-        return (
-            <View style={styles.thumbnailContainer}>
-                <PostThumbnail data={item} onPress={() => console.log('move')} />
-            </View>
-        );
-    }, []);
+    const _renderItem = useCallback(
+        ({ item }: { item: PostDataType }) => {
+            return (
+                <View style={styles.thumbnailContainer}>
+                    <PostThumbnail
+                        data={item}
+                        onPress={() =>
+                            navigate('PostStack', {
+                                screen: 'PostDetailScreen',
+                                params: { postData: item },
+                            })
+                        }
+                    />
+                </View>
+            );
+        },
+        [navigate]
+    );
 
     const _keyExtractor = useCallback((item: PostDataType) => {
         return item.postId;
