@@ -3467,6 +3467,20 @@
     "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/babel-plugin-macros",
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/babel-plugin-macros/LICENSE"
   },
+  "babel-plugin-module-resolver@5.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tleunen/babel-plugin-module-resolver",
+    "publisher": "Tommy Leunen",
+    "email": "tommy.leunen@gmail.com",
+    "url": "http://tommyleunen.com",
+    "name": "babel-plugin-module-resolver",
+    "version": "5.0.2",
+    "description": "Module resolver plugin for Babel",
+    "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2015 Tommy Leunen <tommy.leunen@gmail.com> (tommyleunen.com)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/babel-plugin-module-resolver",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/babel-plugin-module-resolver/LICENSE.md",
+    "copyright": "Copyright (c) 2015 Tommy Leunen <tommy.leunen@gmail.com> (tommyleunen.com)"
+  },
   "babel-plugin-polyfill-corejs2@0.4.11": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babel-polyfills",
@@ -5139,6 +5153,20 @@
     "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/finalhandler",
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/finalhandler/LICENSE",
     "copyright": "Copyright (c) 2014-2017 Douglas Christopher Wilson <doug@somethingdoug.com>"
+  },
+  "find-babel-config@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tleunen/find-babel-config",
+    "publisher": "Tommy Leunen",
+    "email": "tommy.leunen@gmail.com",
+    "url": "http://tommyleunen.com",
+    "name": "find-babel-config",
+    "version": "2.1.1",
+    "description": "Find the closest babel config based on a directory",
+    "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2016 Tommy Leunen <tommy.leunen@gmail.com> (tommyleunen.com)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/find-babel-config",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/find-babel-config/LICENSE.md",
+    "copyright": "Copyright (c) 2016 Tommy Leunen <tommy.leunen@gmail.com> (tommyleunen.com)"
   },
   "find-cache-dir@2.1.0": {
     "licenses": "MIT",
@@ -7509,6 +7537,20 @@
     "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/minimist",
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/minimist/LICENSE"
   },
+  "minipass@4.2.8": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/minipass",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "name": "minipass",
+    "version": "4.2.8",
+    "description": "minimal implementation of a PassThrough stream",
+    "licenseText": "The ISC License\n\nCopyright (c) 2017-2023 npm, Inc., Isaac Z. Schlueter, and Contributors\n\nPermission to use, copy, modify, and/or distribute this software for any\npurpose with or without fee is hereby granted, provided that the above\ncopyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES\nWITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF\nMERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR\nANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES\nWHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN\nACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR\nIN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/minipass",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/minipass/LICENSE",
+    "copyright": "Copyright (c) 2017-2023 npm, Inc., Isaac Z. Schlueter, and Contributors"
+  },
   "mixin-object@2.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jonschlinkert/mixin-object",
@@ -8180,6 +8222,19 @@
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/path-parse/LICENSE",
     "copyright": "Copyright (c) 2015 Javier Blanco"
   },
+  "path-scurry@1.11.1": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/path-scurry",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "https://blog.izs.me",
+    "name": "path-scurry",
+    "version": "1.11.1",
+    "description": "walk paths fast and efficiently",
+    "licenseText": "# Blue Oak Model License\n\nVersion 1.0.0\n\n## Purpose\n\nThis license gives everyone as much permission to work with\nthis software as possible, while protecting contributors\nfrom liability.\n\n## Acceptance\n\nIn order to receive this license, you must agree to its\nrules.  The rules of this license are both obligations\nunder that agreement and conditions to your license.\nYou must not do anything with this software that triggers\na rule that you cannot or will not follow.\n\n## Copyright\n\nEach contributor licenses you to do everything with this\nsoftware that would otherwise infringe that contributor's\ncopyright in it.\n\n## Notices\n\nYou must ensure that everyone who gets a copy of\nany part of this software from you, with or without\nchanges, also gets the text of this license or a link to\n<https://blueoakcouncil.org/license/1.0.0>.\n\n## Excuse\n\nIf anyone notifies you in writing that you have not\ncomplied with [Notices](#notices), you can keep your\nlicense by taking all practical steps to comply within 30\ndays after the notice.  If you do not do so, your license\nends immediately.\n\n## Patent\n\nEach contributor licenses you to do everything with this\nsoftware that would otherwise infringe any patent claims\nthey can license or become able to license.\n\n## Reliability\n\nNo contributor can revoke this license.\n\n## No Liability\n\n***As far as the law allows, this software comes as is,\nwithout any warranty or condition, and no contributor\nwill be liable to anyone for any damages related to this\nsoftware or this license, under any kind of legal claim.***",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/path-scurry",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/path-scurry/LICENSE.md"
+  },
   "path-type@4.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/sindresorhus/path-type",
@@ -8259,6 +8314,20 @@
     "licenseText": "MIT License\n\nCopyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
     "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/pkg-dir",
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/pkg-dir/license",
+    "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)"
+  },
+  "pkg-up@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/pkg-up",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "name": "pkg-up",
+    "version": "3.1.0",
+    "description": "Find the closest package.json file",
+    "licenseText": "MIT License\n\nCopyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/pkg-up",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/pkg-up/license",
     "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)"
   },
   "plist@3.1.0": {
@@ -8556,6 +8625,20 @@
     "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/react-native-keyboard-aware-scroll-view",
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/react-native-keyboard-aware-scroll-view/LICENSE",
     "copyright": "Copyright (c) 2015 APSL"
+  },
+  "react-native-linear-gradient@2.8.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react-native-linear-gradient/react-native-linear-gradient",
+    "publisher": "Brent Vatne",
+    "email": "brentvatne@gmail.com",
+    "url": "https://github.com/brentvatne",
+    "name": "react-native-linear-gradient",
+    "version": "2.8.3",
+    "description": "A <LinearGradient> element for React Native",
+    "licenseText": "MIT License\n\nCopyright (c) 2016 React Native Community\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/react-native-linear-gradient",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/react-native-linear-gradient/LICENSE",
+    "copyright": "Copyright (c) 2016 React Native Community"
   },
   "react-native-reanimated@3.11.0": {
     "licenses": "MIT",
@@ -8881,6 +8964,17 @@
     "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/require-main-filename",
     "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/require-main-filename/LICENSE.txt",
     "copyright": "Copyright (c) 2016, Contributors"
+  },
+  "reselect@4.1.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/reduxjs/reselect",
+    "name": "reselect",
+    "version": "4.1.8",
+    "description": "Selectors for Redux.",
+    "licenseText": "The MIT License (MIT)\r\n\r\nCopyright (c) 2015-2018 Reselect Contributors\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.",
+    "path": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/reselect",
+    "licenseFile": "/Users/rock/Desktop/Projects/EasyThanksRN/node_modules/reselect/LICENSE",
+    "copyright": "Copyright (c) 2015-2018 Reselect Contributors"
   },
   "resolve-cwd@3.0.0": {
     "licenses": "MIT",

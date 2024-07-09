@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Image, StyleSheet, View } from 'react-native';
 import CustomText from './CustomText';
+import PushAnimatedPressable from './PushAnimatedPressable';
+import LinearGradientView from './LinearGradientView';
 
 import { PostDataType } from 'types/models/compose';
 
@@ -10,7 +12,6 @@ import useCustomTheme from 'hooks/useCustomTheme';
 import { convertDateToString } from 'utils/date';
 
 import { commonStyles } from 'styles';
-import PushAnimatedPressable from './PushAnimatedPressable';
 
 type Props = {
     data: PostDataType;
@@ -18,13 +19,15 @@ type Props = {
 };
 
 const PostThumbnail = (props: Props) => {
-    const { colors } = useCustomTheme();
+    const { colors, dark } = useCustomTheme();
     const { data, onPress } = props;
 
     const { title, content, photos, createdAt } = data;
 
     const dateString = convertDateToString(new Date(createdAt));
     const defaultImage = photos[0]; // 첫번째 이미지가 썸네일에 표시된다.
+
+    const textColor = !dark && defaultImage ? '#FFF' : colors.text;
 
     return (
         <PushAnimatedPressable
@@ -34,25 +37,25 @@ const PostThumbnail = (props: Props) => {
             style={[{ backgroundColor: colors.tabBarBackground }, styles.container]}
         >
             {defaultImage && (
-                <View style={[StyleSheet.absoluteFill, { borderRadius: 10, overflow: 'hidden' }]}>
+                <View style={[StyleSheet.absoluteFill, styles.imageContainer]}>
                     <Image
                         resizeMode="cover"
                         source={{ uri: defaultImage }}
                         style={[StyleSheet.absoluteFill]}
                     />
-                    <View
-                        style={[
-                            StyleSheet.absoluteFill,
-                            { backgroundColor: colors.textReverse + '80' },
-                        ]}
+                    <LinearGradientView
+                        colors={['rgba(0,0,0,0.9)', 0]}
+                        locations={[0.1, 0.7]}
+                        gradientDirection="ltr"
+                        style={StyleSheet.absoluteFill}
                     />
                 </View>
             )}
             <View style={styles.titleContainer}>
-                <CustomText style={styles.title}>{title}</CustomText>
-                <CustomText style={styles.date}>{dateString}</CustomText>
+                <CustomText style={[{ color: textColor }, styles.title]}>{title}</CustomText>
+                <CustomText style={[{ color: textColor }, styles.date]}>{dateString}</CustomText>
             </View>
-            <CustomText style={styles.content} numberOfLines={2}>
+            <CustomText style={[{ color: textColor }, styles.content]} numberOfLines={2}>
                 {content}
             </CustomText>
         </PushAnimatedPressable>
@@ -68,10 +71,12 @@ const styles = StyleSheet.create({
 
         ...commonStyles.dropShadow,
     },
+    imageContainer: {
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
     titleContainer: {
-        // flexDirection: 'row',
         justifyContent: 'space-between',
-        // alignItems: 'flex-end',
     },
     title: {
         fontSize: 20,
