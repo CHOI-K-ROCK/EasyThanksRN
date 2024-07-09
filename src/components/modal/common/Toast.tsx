@@ -126,6 +126,31 @@ const Toast = (props: ToastType & { position: number }) => {
     );
 };
 
+const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        paddingLeft: 15,
+        paddingRight: 10,
+
+        paddingVertical: 8,
+        borderRadius: 999,
+    },
+    text: {
+        fontWeight: 600,
+        fontSize: 15,
+        color: '#FFF',
+    },
+    closeButton: {
+        backgroundColor: '#FFF',
+        borderRadius: 999,
+        padding: 4,
+    },
+});
+
+export default Toast;
+
+// deps component
+
 const ToastIcon = ({ type }: { type: ToastType['type'] }) => {
     const { colors } = useCustomTheme();
 
@@ -162,35 +187,15 @@ const ToastIcon = ({ type }: { type: ToastType['type'] }) => {
                 {
                     backgroundColor,
                 },
-                styles.typeIcon,
+                toastIconStyles.typeIcon,
             ]}
         />
     );
 };
 
-const styles = StyleSheet.create({
+const toastIconStyles = StyleSheet.create({
     typeIcon: {
         borderRadius: 6,
         padding: 2,
     },
-    container: {
-        position: 'absolute',
-        paddingLeft: 15,
-        paddingRight: 10,
-
-        paddingVertical: 8,
-        borderRadius: 999,
-    },
-    text: {
-        fontWeight: 600,
-        fontSize: 15,
-        color: '#FFF',
-    },
-    closeButton: {
-        backgroundColor: '#FFF',
-        borderRadius: 999,
-        padding: 4,
-    },
 });
-
-export default Toast;
