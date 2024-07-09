@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { useRecoilValue } from 'recoil';
 import { userDataAtom } from 'states/user';

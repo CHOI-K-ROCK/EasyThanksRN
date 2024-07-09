@@ -41,4 +41,13 @@ export const commonStyles = StyleSheet.create({
         fontWeight: 500,
         opacity: 0.6,
     },
+
+    //text
+
+    textWhite: {
+        color: '#FFF',
+    },
+    textBlack: {
+        color: '#000',
+    },
 });
