@@ -1,19 +1,13 @@
 import React, { useCallback, useState } from 'react';
 
-import {
-    ColorValue,
-    FlatList,
-    Image,
-    LayoutChangeEvent,
-    StyleSheet,
-    View,
-    ViewToken,
-} from 'react-native';
+import { ColorValue, Image, LayoutChangeEvent, StyleSheet, View, ViewToken } from 'react-native';
 import Animated, {
+    SharedValue,
     interpolate,
     useAnimatedScrollHandler,
     useAnimatedStyle,
     useSharedValue,
+    withTiming,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -30,40 +24,46 @@ const ImageCarousel = (props: Props) => {
     const { images, width, height, aspectRatio = 4 / 3, backgroundColor = '#00000050' } = props;
 
     const [layoutWidth, setLayoutWidth] = useState<number>(0);
-    const [currnetImageIndex, setCurrentImageIndex] = useState<number>(0);
+    const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
     const IS_MULTIPLE_IMAGE = images.length > 1;
 
-    const _onLayout = (e: LayoutChangeEvent) => {
+    const _onLayout = useCallback((e: LayoutChangeEvent) => {
         setLayoutWidth(e.nativeEvent.layout.width);
-    };
+    }, []);
 
-    const _onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken<string>[] }) => {
-        const { index } = viewableItems[0];
-        // 한 화면에 여러개가 보이는 경우 viewableItems 배열에 보이는 모든 요소를 담는다.
-        // 하지만, 현재는 요소의 너비를 layoutWidth 로 처리하였고, 한번에 보이는 요소가 하나 뿐 이므로
-        // 배열을 가장 첫번째 요소만을 가져와 사용한다.
-        setCurrentImageIndex(index as number);
-    };
+    const _onViewableItemsChanged = useCallback(
+        ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+            const { index } = viewableItems[0];
+            // 한 화면에 여러개가 보이는 경우 viewableItems 배열에 보이는 모든 요소를 담는다.
+            // 하지만, 현재는 요소의 너비를 layoutWidth 로 처리하였고, 한번에 보이는 요소가 하나 뿐 이므로
+            // 배열을 가장 첫번째 요소만을 가져와 사용한다.
+            setCurrentImageIndex(index as number);
+        },
+        []
+    );
+
+    // animation
+    const scrollX = useSharedValue(0);
+
+    const onAnimatedScroll = useAnimatedScrollHandler({
+        onScroll: e => {
+            scrollX.value = e.contentOffset.x;
+        },
+    });
 
     // ui
     const _renderItem = useCallback(
-        ({ item }: { item: string }) => {
-            return (
-                <Animated.View
-                    style={[
-                        {
-                            width: layoutWidth,
-
-                            aspectRatio,
-                        },
-                    ]}
-                >
-                    <Image resizeMode="contain" source={{ uri: item }} style={styles.image} />
-                </Animated.View>
-            );
-        },
-        [aspectRatio, layoutWidth]
+        ({ item, index }: { item: string; index: number }) => (
+            <FadeAnimatedCarouselImage
+                aspectRatio={aspectRatio}
+                index={index}
+                uri={item}
+                scrollX={scrollX}
+                width={layoutWidth}
+            />
+        ),
+        [aspectRatio, layoutWidth, scrollX]
     );
 
     const _keyExtractor = useCallback((item: string, index: number) => {
@@ -91,6 +91,7 @@ const ImageCarousel = (props: Props) => {
                 decelerationRate={'fast'}
                 viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
                 onViewableItemsChanged={_onViewableItemsChanged}
+                onScroll={onAnimatedScroll}
             />
             <View
                 style={[
@@ -99,25 +100,51 @@ const ImageCarousel = (props: Props) => {
                 ]}
             >
                 {IS_MULTIPLE_IMAGE && (
-                    <CarouselIndicator length={images.length} currentIndex={currnetImageIndex} />
+                    <CarouselIndicator length={images.length} currentIndex={currentImageIndex} />
                 )}
             </View>
         </View>
     );
 };
 
-export default ImageCarousel;
-
-const styles = StyleSheet.create({
-    image: {
-        flex: 1,
-    },
-    indicatorContainer: {
-        position: 'absolute',
-    },
-});
-
 // deps component
+
+const FadeAnimatedCarouselImage = (props: {
+    uri: string;
+    index: number;
+    scrollX: SharedValue<number>;
+    width: number;
+    aspectRatio: number;
+}) => {
+    const { uri, index, scrollX, width, aspectRatio } = props;
+
+    const animatedStyle = useAnimatedStyle(() => {
+        const inputRange = [
+            (index - 1) * width + width * 0.2,
+            index * width,
+            (index + 1) * width - width * 0.2,
+        ];
+        const opacity = interpolate(scrollX.value, inputRange, [0, 1, 0], 'clamp');
+
+        return {
+            opacity,
+        };
+    });
+
+    return (
+        <Animated.View
+            style={[
+                {
+                    width: width,
+                    aspectRatio,
+                },
+                animatedStyle,
+            ]}
+        >
+            <Image resizeMode="contain" source={{ uri: uri }} style={styles.image} />
+        </Animated.View>
+    );
+};
 
 const CarouselIndicator = (props: {
     length: number;
@@ -125,8 +152,8 @@ const CarouselIndicator = (props: {
 
     gap?: number;
 
-    activeColor?: ColorValue;
-    deactiveColor?: ColorValue;
+    activeColor?: string;
+    deactiveColor?: string;
 }) => {
     const {
         length,
@@ -137,19 +164,16 @@ const CarouselIndicator = (props: {
     } = props;
 
     return (
-        <View style={[{ gap }, carouselIndicatorStyles.indicatorContainer]}>
+        <View style={[{ gap }, styles.indicatorWrapper]}>
             {Array.from({ length }).map((_, idx) => {
                 const IS_ACTIVE_INDICATOR = currentIndex === idx;
 
                 return (
-                    <View
+                    <AnimatedDot
                         key={idx.toString()}
-                        style={[
-                            {
-                                backgroundColor: IS_ACTIVE_INDICATOR ? activeColor : deactiveColor,
-                            },
-                            carouselIndicatorStyles.indicator,
-                        ]}
+                        active={IS_ACTIVE_INDICATOR}
+                        activeColor={activeColor}
+                        deactiveColor={deactiveColor}
                     />
                 );
             })}
@@ -157,14 +181,32 @@ const CarouselIndicator = (props: {
     );
 };
 
-const carouselIndicatorStyles = StyleSheet.create({
+const AnimatedDot = (props: { active: boolean; activeColor: string; deactiveColor: string }) => {
+    const { active, activeColor, deactiveColor } = props;
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        backgroundColor: withTiming(active ? activeColor : deactiveColor, { duration: 200 }),
+    }));
+
+    return <Animated.View style={[styles.dot, animatedStyle]} />;
+};
+
+const styles = StyleSheet.create({
+    image: {
+        flex: 1,
+    },
     indicatorContainer: {
+        position: 'absolute',
+    },
+    indicatorWrapper: {
         flexDirection: 'row',
         justifyContent: 'center',
     },
-    indicator: {
+    dot: {
         width: 8,
         aspectRatio: 1,
         borderRadius: 999,
     },
 });
+
+export default ImageCarousel;
