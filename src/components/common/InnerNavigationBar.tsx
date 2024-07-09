@@ -10,6 +10,7 @@ import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
 
 import { HORIZONTAL_GAP } from 'constants/style';
+import { commonStyles } from 'styles';
 
 type Props = {
     screenTitle: string;
@@ -35,17 +36,16 @@ const InnerNavigationBar = (props: Props) => {
                         <CustomText style={styles.goBackBtnText}>뒤로</CustomText>
                     </PushAnimatedPressable>
                 )}
-
                 <View style={{ flex: 1 }} />
-                <View
-                    style={[{ width: wp(100) }, styles.screenTitleContainer]}
-                    pointerEvents="none"
-                >
-                    <CustomText style={styles.screenTitle}>{screenTitle}</CustomText>
-                </View>
-
                 {rightComponent && <View style={{ alignItems: 'flex-end' }}>{rightComponent}</View>}
+
+                <View style={[styles.screenTitleContainer]} pointerEvents="none">
+                    <CustomText numberOfLines={1} style={styles.screenTitle}>
+                        {screenTitle}
+                    </CustomText>
+                </View>
             </View>
+
             <HorizontalDivider
                 style={[{ opacity: 1 }, styles.divider]}
                 color={colors.tabBarBackground}
@@ -72,14 +72,14 @@ const styles = StyleSheet.create({
         fontWeight: 600,
     },
     screenTitleContainer: {
-        position: 'absolute',
+        ...StyleSheet.absoluteFillObject,
+        ...commonStyles.centered,
     },
     screenTitle: {
         fontSize: 19,
         fontWeight: 600,
 
-        alignItems: 'center',
-        textAlign: 'center',
+        maxWidth: '60%',
     },
     divider: {
         height: 2,

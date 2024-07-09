@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
 import SafeAreaView from 'components/common/SafeAreaView';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import {
     PostDetailScreenNavigationProps,
     PostDetailScreenRouteProps,
@@ -16,7 +16,7 @@ const PostDetailScreen = () => {
 
     return (
         <SafeAreaView>
-            <InnerNavigationBar screenTitle={title.repeat(2)} goBack={goBack} />
+            <InnerNavigationBar screenTitle={title} goBack={goBack} />
             <Text>PostDetailScreen</Text>
         </SafeAreaView>
     );
