@@ -52,7 +52,7 @@ const ComposePhotoButton = (props: Props) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 70,
+        width: 65,
         aspectRatio: 1,
         justifyContent: 'center',
         alignItems: 'center',

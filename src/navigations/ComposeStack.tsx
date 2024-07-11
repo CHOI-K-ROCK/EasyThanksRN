@@ -14,11 +14,7 @@ const ComposeStack = () => {
                 headerShown: false,
             }}
         >
-            <Stack.Screen
-                name="ComposeScreen"
-                component={ComposeScreen}
-                options={{ presentation: 'fullScreenModal' }}
-            />
+            <Stack.Screen name="ComposeScreen" component={ComposeScreen} />
             <Stack.Screen name="EditLocationScreen" component={EditLocationScreen} />
         </Stack.Navigator>
     );

@@ -11,7 +11,7 @@ import { BottomSheetOptionsType } from 'types/models/bottomSheet';
 type Props = {
     children: ReactElement;
     onPressBackdrop: () => void;
-    options: BottomSheetOptionsType;
+    options?: BottomSheetOptionsType;
 };
 
 const AnimatedPressble = Animated.createAnimatedComponent(Pressable);
@@ -21,7 +21,7 @@ const BottomSheet = (props: Props) => {
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
 
-    const { children, onPressBackdrop, options } = props;
+    const { children, onPressBackdrop, options = {} } = props;
     const { rawElement = false } = options;
 
     const [visible, setVisible] = useState<boolean>(false);

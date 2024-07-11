@@ -44,7 +44,7 @@ const RootStack = () => {
             {/* Compose */}
             <Stack.Screen
                 component={ComposeStack}
-                name="ComposeStack"
+                name="BottomSheetComposeStack"
                 options={{
                     presentation: 'card',
                     animation: 'slide_from_bottom',
@@ -52,6 +52,7 @@ const RootStack = () => {
                     animationDuration: 250,
                 }}
             />
+            <Stack.Screen component={ComposeStack} name="ComposeStack" />
 
             {/* Post */}
             <Stack.Screen component={PostStack} name="PostStack" />

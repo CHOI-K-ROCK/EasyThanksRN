@@ -29,25 +29,35 @@ import { getInitialPostNameByDate } from 'utils/date';
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
 import { SAMPLE_IMAGE } from 'constants/dummy';
+import { PostDataType } from 'types/models/compose';
+import Animated, { CurvedTransition, LinearTransition } from 'react-native-reanimated';
 
 const ComposeScreen = () => {
     const { navigate, goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
     const { dismiss } = useKeyboard();
 
-    const initialData = params?.initialData || {};
-    const isEdit = params?.initialData !== undefined;
+    const initialData = (params?.initialData || {}) as PostDataType;
+    const IS_CREATE_POST = params?.initialData === undefined;
 
-    const { initialImage, initialDate, content: initialContent } = initialData;
+    const {
+        content: initialContent,
+        photos: initialPhotos,
+        postId,
+        title: initialTitle,
+        createdAt: initialDate,
+    } = initialData;
 
-    const [photos, setPhotos] = useState<string | undefined>(initialImage || undefined); // 사진 blob
-    const [date, setDate] = useState<Date>(initialDate || new Date()); // 작성 Date
+    const [photos, setPhotos] = useState<string[]>(initialPhotos || []); // 사진 blob
+    // 첫 업로드 단계에서는 blob / base64 으로
+    // 이미 업로드 된 수정단계에서는 string 으로 불러오는 것으로
+    const [date, setDate] = useState<Date>(initialDate ? new Date(initialDate) : new Date()); // 작성 Date
 
     const {
         value: title,
         handleChange: setTitle,
         clearValue: clearTitle,
-    } = useInput(getInitialPostNameByDate(date));
+    } = useInput(initialTitle || getInitialPostNameByDate(date));
     const { value: content, handleChange: setContent } = useInput(initialContent);
 
     const { openOverlay, closeOverlay } = useOverlay(() => (
@@ -89,16 +99,14 @@ const ComposeScreen = () => {
         navigate('EditLocationScreen');
     };
 
-    const locationString = '인천광역시 길주로 654';
-
     const handleAddPhoto = () => {
         console.log('add Photo');
-        setPhotos(SAMPLE_IMAGE);
+        setPhotos(prev => [...prev, SAMPLE_IMAGE]);
     };
 
     const handleDeletePhoto = () => {
         console.log('delete Photo');
-        setPhotos(undefined);
+        setPhotos([]);
     };
 
     const handleWritePost = () => {
@@ -107,13 +115,13 @@ const ComposeScreen = () => {
             image: photos,
             date,
         };
-        console.log(postData);
+        console.log(postData, postId);
     };
 
     return (
         <KeyboardDismissSafeAreaView keyboardAvoiding={false}>
             <InnerNavigationBar
-                screenTitle={isEdit ? '글 수정하기' : '글 쓰기'}
+                screenTitle={IS_CREATE_POST ? '글 쓰기' : '글 수정하기'}
                 rightComponent={
                     <PushAnimatedPressable onPress={handleCancel} style={styles.cancelButton}>
                         <CustomText style={styles.cancel}>취소</CustomText>
@@ -128,8 +136,9 @@ const ComposeScreen = () => {
                     date={date}
                     onPressEditDate={onPressEditDate}
                     onPressEditTime={onPressEditTime}
-                    locationString={locationString}
+                    // locationString={locationString}
                     onPressEditLocation={onPressEditLocation}
+                    editable
                 />
                 <HorizontalDivider style={styles.divider} />
                 <View style={styles.textFieldContainer} onStartShouldSetResponder={() => true}>
@@ -158,19 +167,31 @@ const ComposeScreen = () => {
                         <CustomText style={styles.addPhotoTitle}>
                             {'오늘 가장 기억에 남는 순간이 언제인가요? (선택)'}
                         </CustomText>
-
-                        <ComposePhotoButton
-                            imgBlob={photos}
-                            onPress={handleAddPhoto}
-                            onPressClose={handleDeletePhoto}
-                        />
+                        <View style={styles.photoContainer}>
+                            {photos.map((photo, idx) => {
+                                return (
+                                    <ComposePhotoButton
+                                        key={idx.toString()}
+                                        imgBlob={photo}
+                                        onPress={handleAddPhoto}
+                                        onPressClose={handleDeletePhoto}
+                                    />
+                                );
+                            })}
+                        </View>
+                        <Animated.View layout={CurvedTransition}>
+                            <FullWidthButton title="사진 추가" onPress={handleAddPhoto} />
+                        </Animated.View>
                     </View>
                     <View style={{ height: 50 }} />
                 </View>
             </KeyboardAwareScrollView>
 
             <View style={styles.buttonContainer}>
-                <FullWidthButton title="작성 완료" onPress={handleWritePost} />
+                <FullWidthButton
+                    title={IS_CREATE_POST ? '작성 완료' : '수정 완료'}
+                    onPress={handleWritePost}
+                />
             </View>
         </KeyboardDismissSafeAreaView>
     );
@@ -203,6 +224,11 @@ const styles = StyleSheet.create({
     cancel: {
         fontSize: 15,
         fontWeight: 600,
+    },
+    photoContainer: {
+        flexDirection: 'row',
+        gap: 15,
+        marginBottom: 10,
     },
     buttonContainer: {
         paddingHorizontal: HORIZONTAL_GAP,

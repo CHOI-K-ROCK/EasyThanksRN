@@ -1,8 +1,9 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { PostDataType } from 'types/models/compose';
 
 // Compose
 export type ComposeStackParamList = {
-    ComposeScreen: { initialData?: any };
+    ComposeScreen: { initialData?: PostDataType };
     EditLocationScreen: undefined;
 };
 

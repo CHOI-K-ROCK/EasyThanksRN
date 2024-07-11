@@ -26,7 +26,7 @@ const MainTabBar = (props: BottomTabBarProps) => {
             <MainTabBarComposeButton
                 containerStyle={styles.composeButton}
                 onPress={() =>
-                    navigation.navigate('ComposeStack', {
+                    navigation.navigate('BottomSheetComposeStack', {
                         screen: 'ComposeScreen',
                     })
                 }
