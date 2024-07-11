@@ -1,9 +1,11 @@
-export type BottomSheetType = {
-    component: React.FC | null;
-    options: BottomSheetOptionsType;
-    visible: boolean;
-};
+import { ReactElement } from 'react';
+import { DimensionValue } from 'react-native';
 
-export type BottomSheetOptionsType = {
+export type BottomSheetType = {
+    children: ReactElement;
+    closeBottomSheet: () => void;
+
+    closeButton?: boolean;
+    closeByBackdrop?: boolean;
     rawElement?: boolean;
 };

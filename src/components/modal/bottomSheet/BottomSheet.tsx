@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { LayoutChangeEvent, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -6,23 +6,25 @@ import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-rea
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
-import { BottomSheetOptionsType } from 'types/models/bottomSheet';
-
-type Props = {
-    children: ReactElement;
-    onPressBackdrop: () => void;
-    options?: BottomSheetOptionsType;
-};
+import { BottomSheetType } from 'types/models/bottomSheet';
+import CustomText from 'components/common/CustomText';
+import VectorIcon from 'components/common/VectorIcon';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
 
 const AnimatedPressble = Animated.createAnimatedComponent(Pressable);
 
-const BottomSheet = (props: Props) => {
+const BottomSheet = (props: BottomSheetType) => {
     const { hp } = useDimensions();
     const { bottom } = useSafeAreaInsets();
     const { colors } = useCustomTheme();
 
-    const { children, onPressBackdrop, options = {} } = props;
-    const { rawElement = false } = options;
+    const {
+        children,
+        closeBottomSheet,
+        closeButton = true,
+        closeByBackdrop = true,
+        rawElement,
+    } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -128,10 +130,14 @@ const BottomSheet = (props: Props) => {
         return { animations, initialValues };
     }, [EASING_BEZIER]);
 
+    const handleBackdropPress = () => {
+        closeByBackdrop && closeBottomSheet();
+    };
+
     return (
         <View style={[StyleSheet.absoluteFill, { zIndex: 999 }]}>
             <AnimatedPressble
-                onPress={onPressBackdrop}
+                onPress={handleBackdropPress}
                 exiting={backdropExiting}
                 style={[
                     StyleSheet.absoluteFill,
@@ -150,34 +156,63 @@ const BottomSheet = (props: Props) => {
                 ]}
                 onLayout={_onLayout}
             >
-                {rawElement ? (
+                {rawElement ? ( // 요소 그대로 표시
                     <View>{children}</View>
                 ) : (
-                    <Animated.View
-                        style={[
-                            {
-                                backgroundColor: colors.tabBarBackground,
-                                paddingBottom: bottom,
-                            },
-                            styles.contentContainer,
-                        ]}
-                    >
-                        <Animated.View exiting={contentExiting} style={[animatedContentOpacity]}>
-                            {children}
+                    <View>
+                        {closeButton && <BottomSheetCloseButton onPress={closeBottomSheet} />}
+                        {/* container */}
+                        <Animated.View
+                            style={[
+                                {
+                                    backgroundColor: colors.tabBarBackground,
+                                    paddingBottom: bottom,
+                                },
+                                styles.contentContainer,
+                            ]}
+                        >
+                            {/* content */}
+                            <Animated.View
+                                exiting={contentExiting}
+                                style={[animatedContentOpacity]}
+                            >
+                                {children}
+                            </Animated.View>
                         </Animated.View>
-                    </Animated.View>
+                    </View>
                 )}
             </Animated.View>
         </View>
     );
 };
 
+// deps components
+
+const BottomSheetCloseButton = ({ onPress }: { onPress: () => void }) => {
+    return (
+        <PushAnimatedPressable onPress={onPress} style={styles.closeButtonContainer}>
+            <CustomText style={styles.closeButtonText}>{'닫기'}</CustomText>
+            <VectorIcon name="close" />
+        </PushAnimatedPressable>
+    );
+};
+
 const styles = StyleSheet.create({
     container: {},
     contentContainer: {
-        borderTopEndRadius: 30,
-        borderTopStartRadius: 30,
-        paddingTop: 30,
+        borderTopEndRadius: 15,
+        borderTopStartRadius: 15,
+        paddingTop: 15,
+    },
+    closeButtonContainer: {
+        alignSelf: 'flex-end',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 15,
+        marginBottom: 5,
+    },
+    closeButtonText: {
+        fontWeight: 500,
     },
 });
 

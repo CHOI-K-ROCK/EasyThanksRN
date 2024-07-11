@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
 import ImageCarousel from 'components/common/ImageCarousel';
@@ -9,7 +9,7 @@ import TextArea from 'components/common/TextArea';
 import VectorIcon from 'components/common/VectorIcon';
 import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import HorizontalDivider from 'components/common/HorizontalDivider';
-import BottomSheet from 'components/modal/common/BottomSheet';
+import BottomSheet from 'components/modal/bottomSheet/BottomSheet';
 import FullWidthButton from 'components/common/FullWidthButton';
 import CommonModal from 'components/modal/common/CommonModal';
 
@@ -23,6 +23,8 @@ import useCustomTheme from 'hooks/useCustomTheme';
 import useOverlay from 'hooks/useOverlay';
 
 import { commonStyles } from 'styles';
+import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
+import BottomSheetMenuList from 'components/modal/bottomSheet/BottomSheetMenuList';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();
@@ -36,26 +38,28 @@ const PostDetailScreen = () => {
 
     // overlays
     const { openOverlay: openMenu, closeOverlay: closeMenu } = useOverlay(() => (
-        <BottomSheet onPressBackdrop={closeMenu}>
-            <View style={{ marginBottom: 0 }}>
-                <FullWidthButton
-                    title="수정"
-                    iconComponent={<VectorIcon name="pencil" size={15} />}
-                    onPress={() => {
-                        navigate('ComposeStack', {
-                            screen: 'ComposeScreen',
-                            params: { initialData: postData },
-                        });
-                        closeMenu();
-                    }}
-                />
-                <FullWidthButton
-                    title="삭제"
-                    iconComponent={<VectorIcon name="delete" size={15} color={colors.warning} />}
-                    titleStyle={{ color: colors.warning }}
-                    onPress={openPostDeleteModal}
-                />
-            </View>
+        <BottomSheet closeBottomSheet={closeMenu}>
+            <BottomSheetMenuList
+                data={[
+                    {
+                        title: '수정',
+                        onPress: () => {
+                            navigate('ComposeStack', {
+                                screen: 'ComposeScreen',
+                                params: { initialData: postData },
+                            });
+                            closeMenu();
+                        },
+                        iconName: 'pencil',
+                    },
+                    {
+                        title: '삭제',
+                        onPress: openPostDeleteModal,
+                        iconName: 'delete',
+                        color: colors.warning,
+                    },
+                ]}
+            />
         </BottomSheet>
     ));
 
