@@ -136,7 +136,6 @@ const ComposeScreen = () => {
                     date={date}
                     onPressEditDate={onPressEditDate}
                     onPressEditTime={onPressEditTime}
-                    // locationString={locationString}
                     onPressEditLocation={onPressEditLocation}
                     editable
                 />

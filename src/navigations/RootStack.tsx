@@ -52,7 +52,11 @@ const RootStack = () => {
                     animationDuration: 250,
                 }}
             />
-            <Stack.Screen component={ComposeStack} name="ComposeStack" />
+            <Stack.Screen
+                component={ComposeStack}
+                name="ComposeStack"
+                options={{ gestureEnabled: false }}
+            />
 
             {/* Post */}
             <Stack.Screen component={PostStack} name="PostStack" />
