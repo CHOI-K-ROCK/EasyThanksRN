@@ -1,6 +1,15 @@
 import React, { useCallback, useState } from 'react';
 
-import { ColorValue, Image, LayoutChangeEvent, StyleSheet, View, ViewToken } from 'react-native';
+import {
+    ColorValue,
+    Image,
+    LayoutChangeEvent,
+    StyleProp,
+    StyleSheet,
+    View,
+    ViewStyle,
+    ViewToken,
+} from 'react-native';
 import Animated, {
     SharedValue,
     interpolate,
@@ -18,10 +27,18 @@ type Props = {
     aspectRatio?: number;
 
     backgroundColor?: ColorValue;
+    style?: StyleProp<ViewStyle>;
 };
 
 const ImageCarousel = (props: Props) => {
-    const { images, width, height, aspectRatio = 4 / 3, backgroundColor = '#00000050' } = props;
+    const {
+        images,
+        width,
+        height,
+        aspectRatio = 4 / 3,
+        backgroundColor = '#00000050',
+        style,
+    } = props;
 
     const [layoutWidth, setLayoutWidth] = useState<number>(0);
     const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
@@ -37,7 +54,7 @@ const ImageCarousel = (props: Props) => {
             const { index } = viewableItems[0];
             // 한 화면에 여러개가 보이는 경우 viewableItems 배열에 보이는 모든 요소를 담는다.
             // 하지만, 현재는 요소의 너비를 layoutWidth 로 처리하였고, 한번에 보이는 요소가 하나 뿐 이므로
-            // 배열을 가장 첫번째 요소만을 가져와 사용한다.
+            // 배열의 0번째 요소의 인덱스만을 참고한다.
             setCurrentImageIndex(index as number);
         },
         []
@@ -74,11 +91,14 @@ const ImageCarousel = (props: Props) => {
     return (
         <View
             onLayout={_onLayout}
-            style={{
-                width,
-                height,
-                backgroundColor,
-            }}
+            style={[
+                {
+                    width,
+                    height,
+                    backgroundColor,
+                },
+                style,
+            ]}
         >
             <Animated.FlatList
                 data={images}

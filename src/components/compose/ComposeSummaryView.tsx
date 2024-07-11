@@ -11,15 +11,24 @@ import { commonStyles } from 'styles';
 type Props = {
     date: Date;
 
-    onPressEditDate: () => void;
-    onPressEditTime: () => void;
+    onPressEditDate?: () => void;
+    onPressEditTime?: () => void;
 
-    locationString: string;
-    onPressEditLocation: () => void;
+    locationString?: string;
+    onPressEditLocation?: () => void;
+
+    editable?: boolean;
 };
 
 const ComposeSummaryView = (props: Props) => {
-    const { date, onPressEditDate, onPressEditTime, locationString, onPressEditLocation } = props;
+    const {
+        date,
+        onPressEditDate,
+        onPressEditTime,
+        locationString,
+        onPressEditLocation,
+        editable,
+    } = props;
 
     const { year, month, day, dayOfWeek, hours, min, ampm } = useMemo(
         () => getDateStrings(date),
@@ -28,39 +37,39 @@ const ComposeSummaryView = (props: Props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.dateContainer}>
-                <View style={styles.contentCotainer}>
-                    <View style={commonStyles.rowCenter}>
-                        <CustomText style={[styles.date]}>
-                            {year}년 {month}월 {day}일
-                        </CustomText>
-                        <CustomText style={styles.dayOfWeek}>
-                            {getDayOfWeekName(dayOfWeek)}요일
-                        </CustomText>
-                    </View>
-                    <BadgeButton title="날짜변경" onPress={onPressEditDate} />
+            <View style={styles.contentCotainer}>
+                <View style={commonStyles.rowCenter}>
+                    <CustomText style={[styles.date]}>
+                        {year}년 {month}월 {day}일
+                    </CustomText>
+                    <CustomText style={styles.dayOfWeek}>
+                        {getDayOfWeekName(dayOfWeek)}요일
+                    </CustomText>
                 </View>
-
-                <View style={styles.contentCotainer}>
-                    <View style={commonStyles.rowCenter}>
-                        <CustomText style={[styles.ampm]}>
-                            {ampm === 'am' ? '오전' : '오후'}
-                        </CustomText>
-                        <CustomText style={[styles.time]}>
-                            {hours}시 {min}분
-                        </CustomText>
-                    </View>
-                    <BadgeButton title="시간변경" onPress={onPressEditTime} />
-                </View>
+                {editable && <BadgeButton title="날짜변경" onPress={onPressEditDate} />}
             </View>
 
             <View style={styles.contentCotainer}>
-                <View style={styles.locationContainer}>
-                    <VectorIcon name="map-marker" size={14} />
-                    <CustomText style={styles.location}>{locationString}</CustomText>
+                <View style={commonStyles.rowCenter}>
+                    <CustomText style={[styles.ampm]}>{ampm === 'am' ? '오전' : '오후'}</CustomText>
+                    <CustomText style={[styles.time]}>
+                        {hours}시 {min}분
+                    </CustomText>
                 </View>
-                <BadgeButton title="위치변경" onPress={onPressEditLocation} />
+                {editable && <BadgeButton title="시간변경" onPress={onPressEditTime} />}
             </View>
+
+            {locationString && (
+                <View style={styles.loacationContainer}>
+                    <View style={styles.contentCotainer}>
+                        <View style={styles.locationWrapper}>
+                            <VectorIcon name="map-marker" size={14} />
+                            <CustomText style={styles.location}>{locationString}</CustomText>
+                        </View>
+                        {editable && <BadgeButton title="위치변경" onPress={onPressEditLocation} />}
+                    </View>
+                </View>
+            )}
         </View>
     );
 };
@@ -75,9 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 7,
     },
-    dateContainer: {
-        marginBottom: 10,
-    },
+
     date: {
         fontSize: 20,
         fontWeight: 600,
@@ -99,7 +106,10 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 500,
     },
-    locationContainer: {
+    loacationContainer: {
+        marginTop: 10,
+    },
+    locationWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
