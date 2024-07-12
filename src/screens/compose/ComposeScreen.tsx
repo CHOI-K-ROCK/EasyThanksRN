@@ -59,22 +59,37 @@ const ComposeScreen = () => {
     } = useInput(initialTitle || getInitialPostNameByDate(date));
     const { value: content, handleChange: setContent } = useInput(initialContent);
 
-    const { openOverlay, closeOverlay } = useOverlay(() => (
+    const { openOverlay: openDismissModal, closeOverlay: closeDismissModal } = useOverlay(() => (
         <CommonModal
             text={'변경된 내용이 있어요!\n작성을 취소하시겠어요?'}
             // title="작성 취소"
             buttons={[
-                { content: '아니요', onPress: closeOverlay },
+                { content: '아니요', onPress: closeDismissModal },
                 { content: '네', onPress: handleCancelWhileCompose, type: 'cancel' },
             ]}
         />
     ));
 
+    //handler
+    const checkPostEdited = () => {
+        if (!initialData) return;
+
+        if (
+            title !== initialTitle ||
+            content !== initialContent ||
+            new Date(initialDate).getTime() !== new Date(date).getTime() ||
+            initialPhotos !== photos
+        ) {
+            return true;
+        }
+
+        return false;
+    };
+
     const handleCancel = () => {
-        if (content) {
-            //글 뿐 아니라 날짜, 시간 등 수동으로 변경한 내용이 있는 경우 isWrote 로 관리하기
+        if (checkPostEdited()) {
             dismiss();
-            openOverlay();
+            openDismissModal();
             return;
         }
 
@@ -82,21 +97,30 @@ const ComposeScreen = () => {
     };
 
     const handleCancelWhileCompose = useCallback(() => {
-        closeOverlay();
+        closeDismissModal();
         goBack();
-    }, [closeOverlay, goBack]);
+    }, [closeDismissModal, goBack]);
 
     const onPressEditDate = () => {
         console.log('edit date');
+    };
+
+    const onEditDate = () => {
+        setDate(new Date());
     };
 
     const onPressEditTime = () => {
         console.log('time edit');
     };
 
-    const onPressEditLocation = () => {
-        navigate('EditLocationScreen');
+    const onEditTime = () => {
+        setDate(new Date());
     };
+
+    // const onPressEditLocation = () => {
+    //     navigate('EditLocationScreen');
+    // };
+    // const onEditLocation = () => { };
 
     const handleAddPhoto = () => {
         console.log('add Photo');
@@ -135,7 +159,7 @@ const ComposeScreen = () => {
                     date={date}
                     onPressEditDate={onPressEditDate}
                     onPressEditTime={onPressEditTime}
-                    onPressEditLocation={onPressEditLocation}
+                    // onPressEditLocation={onPressEditLocation}
                     editable
                 />
                 <HorizontalDivider style={styles.divider} />

@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
 import ImageCarousel from 'components/common/ImageCarousel';
@@ -10,7 +10,6 @@ import VectorIcon from 'components/common/VectorIcon';
 import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import BottomSheet from 'components/modal/bottomSheet/BottomSheet';
-import FullWidthButton from 'components/common/FullWidthButton';
 import CommonModal from 'components/modal/common/CommonModal';
 
 import {
@@ -43,13 +42,7 @@ const PostDetailScreen = () => {
                 data={[
                     {
                         title: '수정',
-                        onPress: () => {
-                            navigate('ComposeStack', {
-                                screen: 'ComposeScreen',
-                                params: { initialData: postData },
-                            });
-                            closeMenu();
-                        },
+                        onPress: handlePressEdit,
                         iconName: 'pencil',
                     },
                     {
@@ -78,8 +71,19 @@ const PostDetailScreen = () => {
     );
 
     // handler
+    const handlePressEdit = () => {
+        navigate('ComposeStack', {
+            screen: 'ComposeScreen',
+            params: { initialData: postData },
+        });
+        closeMenu();
+    };
+
     const handleDeletePost = async () => {
         console.log('delete', postId);
+        closePostDeleteModal();
+        closeMenu();
+        goBack();
     };
 
     return (
