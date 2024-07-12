@@ -7,7 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
 import UserProfileView from 'components/setting/UserProfileView';
-import SettingListItem from 'components/setting/SettingListItem';
+import CommonListItem from 'components/common/CommonListItem';
 import SettingFooter from 'components/setting/SettingFooter';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import CommonModal from 'components/modal/common/CommonModal';
@@ -85,20 +85,20 @@ const SettingScreen = () => {
                     />
                 )}
                 <HorizontalDivider type={'block'} />
-                <SettingListItem
+                <CommonListItem
                     title={'감사 리마인더 설정'}
                     subTitle={'설정한 시간에 감사일기를 쓸 수 있도록 알림을 드려요!'}
-                    onPress={() => navigate('NotificationScreen')}
+                    onPress={() => navigate('ReminderScreen')}
                     chevron
                 />
-                <SettingListItem
+                <CommonListItem
                     title={'앱 테마 설정'}
                     subTitle={'앱의 기본 테마(다크/라이트)를 설정합니다.'}
                     onPress={() => navigate('AppThemeSettingScreen')}
                     chevron
                 />
                 <HorizontalDivider type={'block'} />
-                <SettingListItem
+                <CommonListItem
                     title={'로그아웃'}
                     subTitle={'앱에서 로그아웃 합니다.'}
                     onPress={onPressLogout}

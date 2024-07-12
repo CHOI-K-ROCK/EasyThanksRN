@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
-import SettingListItem from 'components/setting/SettingListItem';
+import CommonListItem from 'components/common/CommonListItem';
 import ScreenLayout from 'components/common/ScreenLayout';
 import CheckBox from 'components/common/CheckBox';
 
@@ -64,7 +64,7 @@ const AppThemeSettingScreen = () => {
         <SafeAreaView>
             <InnerNavigationBar screenTitle={'앱 테마 설정'} goBack={goBack} />
             <ScreenLayout>
-                <SettingListItem
+                <CommonListItem
                     title={'기기 설정'}
                     subTitle={'앱의 테마가 기기에 설정된 테마를 따릅니다.'}
                     rightComponent={
@@ -72,7 +72,7 @@ const AppThemeSettingScreen = () => {
                     }
                     onPress={deviceOnPress}
                 />
-                <SettingListItem
+                <CommonListItem
                     title={'라이트 모드'}
                     subTitle={'앱의 테마를 라이트 모드로 고정합니다.'}
                     rightComponent={
@@ -80,7 +80,7 @@ const AppThemeSettingScreen = () => {
                     }
                     onPress={lightOnPress}
                 />
-                <SettingListItem
+                <CommonListItem
                     title={'다크 모드'}
                     subTitle={'앱의 테마를 다크모드로 고정합니다.'}
                     rightComponent={

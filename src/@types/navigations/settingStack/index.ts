@@ -6,7 +6,7 @@ import { UserEditDataType } from '../../models/user';
 export type SettingStackParamList = {
     SettingScreen: undefined;
     UserProfileEditScreen: { userData: UserEditDataType };
-    NotificationScreen: undefined;
+    ReminderScreen: undefined;
     NotificationSettingScreen: undefined;
     AppThemeSettingScreen: undefined;
     OpenSourceScreen: undefined;
@@ -27,11 +27,11 @@ export type UserProfileEditScreenRouteProps = RouteProp<
 >;
 
 // notification (푸시알림 설정)
-export type NotificationScreenNavigationProps = NavigationProp<
+export type ReminderScreenNavigationProps = NavigationProp<
     SettingStackParamList,
-    'NotificationScreen'
+    'ReminderScreen'
 >;
-export type NotificationScreenRouteProps = RouteProp<SettingStackParamList, 'NotificationScreen'>;
+export type ReminderScreenRouteProps = RouteProp<SettingStackParamList, 'ReminderScreen'>;
 
 export type NotificationSettingScreenNavigationProps = NavigationProp<
     SettingStackParamList,

@@ -14,7 +14,7 @@ type Props = {
     rightComponent?: ReactElement;
 } & TouchableOpacityProps;
 
-const SettingListItem = (props: Props) => {
+const CommonListItem = (props: Props) => {
     const { title, subTitle, chevron, leftComponenet, rightComponent, ...restProps } = props;
     const { colors } = useCustomTheme();
 
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default React.memo(SettingListItem);
+export default React.memo(CommonListItem);
