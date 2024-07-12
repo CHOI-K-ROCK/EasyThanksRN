@@ -70,10 +70,10 @@ const ComposeScreen = () => {
         />
     ));
 
+    //todo change checkPostEdited logic
+
     //handler
     const checkPostEdited = () => {
-        if (!initialData) return;
-
         if (
             title !== initialTitle ||
             content !== initialContent ||
@@ -87,6 +87,10 @@ const ComposeScreen = () => {
     };
 
     const handleCancel = () => {
+        if (!initialData) {
+            goBack();
+        }
+
         if (checkPostEdited()) {
             dismiss();
             openDismissModal();

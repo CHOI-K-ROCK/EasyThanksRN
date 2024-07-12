@@ -2,6 +2,7 @@ import React from 'react';
 import { ColorValue, DimensionValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import useCustomTheme from 'hooks/useCustomTheme';
+import useDimensions from 'hooks/useDimensions';
 
 type Props = {
     color?: ColorValue;
@@ -13,6 +14,7 @@ type Props = {
 
 const HorizontalDivider = (props: Props) => {
     const { colors } = useCustomTheme();
+    const { wp } = useDimensions();
     const { type = 'line' } = props;
     const isLineDivider = type === 'line';
     const {
@@ -42,7 +44,7 @@ const HorizontalDivider = (props: Props) => {
                 {
                     backgroundColor: color,
                     height,
-                    width,
+                    width: wp(100),
                 },
                 styles.blockDivider,
                 style,
@@ -60,8 +62,7 @@ const styles = StyleSheet.create({
         opacity: 0.2,
     },
     blockDivider: {
-        width: '200%',
-        left: -200,
+        left: -15, // common padding horizontal
     },
 });
 
