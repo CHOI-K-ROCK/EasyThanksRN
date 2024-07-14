@@ -45,7 +45,7 @@ const Modal = (props: Props) => {
     // animation
 
     const animatedBottom = useAnimatedStyle(() => ({
-        transform: [{ translateY: -keyboardHeight.value / 2 }],
+        bottom: keyboardHeight.value,
     }));
 
     const backdropEntering = useCallback(() => {
@@ -127,7 +127,14 @@ const Modal = (props: Props) => {
     }, [backdrop, dismiss, isShow, onPressBackdrop]);
 
     return (
-        <Animated.View style={[StyleSheet.absoluteFill, commonStyles.centered, { zIndex: 999 }]}>
+        <Animated.View
+            style={[
+                StyleSheet.absoluteFill,
+                commonStyles.centered,
+                { zIndex: 999 },
+                animatedBottom,
+            ]}
+        >
             <AnimatedPressable
                 entering={backdropEntering}
                 exiting={backdropExiting}
@@ -146,7 +153,6 @@ const Modal = (props: Props) => {
                         backgroundColor: colors.background,
                     },
                     styles.container,
-                    animatedBottom,
                 ]}
             >
                 {children}
