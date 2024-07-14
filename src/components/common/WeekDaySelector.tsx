@@ -1,17 +1,20 @@
+import React, { useState } from 'react';
+
+import { StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
 import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
-import { WEEK_DAYS } from 'constants/string';
+
 import useCustomTheme from 'hooks/useCustomTheme';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+
 import { commonStyles } from 'styles';
+import { WEEK_DAYS } from 'constants/string';
 
 type Props = {
     initialValue: boolean[];
     onSelect: (data: boolean[]) => void;
 };
 
-const ReminderWeekDaySelector = (props: Props) => {
+const WeekDaySelector = (props: Props) => {
     const { colors } = useCustomTheme();
     const { initialValue, onSelect } = props;
 
@@ -20,24 +23,21 @@ const ReminderWeekDaySelector = (props: Props) => {
     );
 
     const SELECTED_BACKGROUND_COLOR = '#000';
-    const DISABLED_BACKGROUND_COLOR = colors.tabBarBackground;
+    const DISABLED_BACKGROUND_COLOR = colors.inputBackground;
     const SELECTED_TEXT_COLOR = '#FFF';
     const DISABLED_TEXT_COLOR = colors.text;
 
     const onSelectHandler = (idx: number) => {
-        setSelected(prev => {
-            const temp = [...prev];
+        const temp = [...selected];
+        temp[idx] = !selected[idx];
 
-            temp[idx] = !prev[idx];
-
-            return temp;
-        });
-        onSelect(selected);
+        setSelected(temp);
+        onSelect(temp);
     };
 
     return (
         <View style={styles.container}>
-            {WEEK_DAYS.map((day, idx) => {
+            {WEEK_DAYS.map((_, idx) => {
                 const isSelected = selected[idx];
 
                 return (
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ReminderWeekDaySelector;
+export default WeekDaySelector;

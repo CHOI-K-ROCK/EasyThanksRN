@@ -22,7 +22,6 @@ import {
 
 import PostThumbnail from 'components/common/PostThumbnail';
 import { PostDataType } from 'types/models/compose';
-import PostDetailScreen from 'screens/post/PostDetailScreen';
 
 const DUMMY_POSTS = [DUMMY_POST_NONE_IMAGE, DUMMY_POST_SINGLE_IMAGE, DUMMY_POST_MULTI_IMAGE];
 
@@ -39,7 +38,7 @@ const MainScreen = () => {
 
     // ui
     const renderHeader = useCallback(() => {
-        return <CustomText style={styles.sectionTitle}>오늘 작성한 감사일기</CustomText>;
+        return <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>;
     }, []);
 
     // flatlist
@@ -87,10 +86,6 @@ const MainScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    sectionTitle: {
-        ...commonStyles.subject,
-        marginBottom: 10,
-    },
     headerContainer: {
         paddingTop: 20,
     },

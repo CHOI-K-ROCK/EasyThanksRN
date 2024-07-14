@@ -11,6 +11,7 @@ import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import BottomSheet from 'components/overlay/bottomSheet/BottomSheet';
 import CommonModal from 'components/overlay/modal/CommonModal';
+import BottomSheetMenuList from 'components/overlay/bottomSheet/BottomSheetMenuList';
 
 import {
     PostDetailScreenNavigationProps,
@@ -22,8 +23,6 @@ import useCustomTheme from 'hooks/useCustomTheme';
 import useOverlay from 'hooks/useOverlay';
 
 import { commonStyles } from 'styles';
-import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
-import BottomSheetMenuList from 'components/overlay/bottomSheet/BottomSheetMenuList';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();
@@ -99,12 +98,12 @@ const PostDetailScreen = () => {
                 <View style={{ gap: 10 }}>
                     {IS_THERE_IMAGE && (
                         <View>
-                            <CustomText style={styles.subject}>{`사진`}</CustomText>
+                            <CustomText style={commonStyles.subject}>{`사진`}</CustomText>
                             <ImageCarousel images={photos} style={{ borderRadius: 5 }} />
                         </View>
                     )}
                     <View>
-                        <CustomText style={styles.subject}>{`감사일기`}</CustomText>
+                        <CustomText style={commonStyles.subject}>{`감사일기`}</CustomText>
                         <TextArea content={content} />
                     </View>
                     <View />
@@ -115,10 +114,6 @@ const PostDetailScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    subject: {
-        ...commonStyles.subject,
-        marginBottom: 10,
-    },
     navigationBarText: {
         fontSize: 15,
         fontWeight: 600,

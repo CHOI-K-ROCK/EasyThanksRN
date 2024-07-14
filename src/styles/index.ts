@@ -37,7 +37,7 @@ export const commonStyles = StyleSheet.create({
     },
     subject: {
         paddingLeft: 5,
-        marginBottom: 3,
+        marginBottom: 5,
         fontWeight: 500,
         opacity: 0.6,
     },

@@ -25,10 +25,6 @@ const TextArea = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
-    subject: {
-        ...commonStyles.subject,
-        marginBottom: 10,
-    },
     field: {
         minHeight: 45,
         paddingHorizontal: 15,

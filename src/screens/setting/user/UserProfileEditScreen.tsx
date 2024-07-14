@@ -71,13 +71,15 @@ const UserProfileEditScreen = () => {
             await new Promise(res => {
                 setTimeout(res, 2000);
             });
-            setLoading(false);
+
             console.log('탈퇴 완료, 로그아웃 진행');
 
             closeOverlay();
             logout(); // 실질적으로는 회원 탈퇴 로직이여야함.
         } catch (error: any) {
             console.log('opt out error : ', error.message);
+        } finally {
+            setLoading(false);
         }
     }, [closeOverlay, logout, setLoading]);
 

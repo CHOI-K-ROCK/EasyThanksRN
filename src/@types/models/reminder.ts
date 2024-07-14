@@ -1,5 +1,5 @@
 export type ReminderDataType = {
     time: Date;
-    day: boolean[];
+    week: boolean[];
     active: boolean;
 };

@@ -170,18 +170,15 @@ const ComposeScreen = () => {
                 <View style={styles.textFieldContainer} onStartShouldSetResponder={() => true}>
                     <CustomTextInput
                         title="제목을 작성해주세요!"
-                        titleStyle={styles.textFieldTitle}
                         value={title}
                         onChangeText={setTitle}
                         clearButton
                         onPressClear={clearTitle}
-                        textStyle={styles.titleTextField}
                         placeholder="제목"
                     />
 
                     <CustomTextInput
                         title="오늘의 감사일기를 작성해보세요!"
-                        titleStyle={styles.textFieldTitle}
                         value={content}
                         onChangeText={setContent}
                         multiline
@@ -228,20 +225,14 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 20,
         paddingHorizontal: HORIZONTAL_GAP,
-        // flex: 1,
     },
     divider: {
         marginVertical: 15,
     },
     addPhotoTitle: {
         ...commonStyles.subject,
-        marginBottom: 10,
     },
-    textFieldContainer: { gap: 10 },
-    textFieldTitle: {
-        marginBottom: 10,
-    },
-    titleTextField: {},
+    textFieldContainer: { gap: 15 },
     contentTextField: {
         height: 250,
     },
@@ -255,7 +246,6 @@ const styles = StyleSheet.create({
     photoContainer: {
         flexDirection: 'row',
         gap: 15,
-        marginBottom: 10,
     },
     buttonContainer: {
         paddingHorizontal: HORIZONTAL_GAP,
