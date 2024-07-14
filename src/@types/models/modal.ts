@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
-export type ModalType = {
-    buttons?: ModalButtonType[];
+export type CommonModalType = {
+    buttons?: CommonModalButtonType[];
 
     backdrop?: boolean;
     onPressBackdrop?: () => void;
@@ -11,7 +11,7 @@ export type ModalType = {
     children?: ReactElement;
 };
 
-export type ModalButtonType = {
+export type CommonModalButtonType = {
     type?: 'apply' | 'cancel';
 
     content: string;

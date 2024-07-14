@@ -2,19 +2,16 @@ import React, { useCallback } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
-
+import Modal from './Modal';
 import FullWidthButton from 'components/common/FullWidthButton';
+import HorizontalDivider from 'components/common/HorizontalDivider';
 
-import { ModalType } from 'types/models/modal';
+import { CommonModalType } from 'types/models/modal';
 
 import useCustomTheme from 'hooks/useCustomTheme';
 import useDimensions from 'hooks/useDimensions';
 
-import { commonStyles } from 'styles';
-import HorizontalDivider from 'components/common/HorizontalDivider';
-import Modal from './Modal';
-
-const CommonModal = (props: ModalType) => {
+const CommonModal = (props: CommonModalType) => {
     const { hp } = useDimensions();
     const { colors } = useCustomTheme();
 

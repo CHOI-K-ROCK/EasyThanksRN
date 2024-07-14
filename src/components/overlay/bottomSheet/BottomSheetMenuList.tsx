@@ -7,7 +7,6 @@ import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
 import VectorIcon from 'components/common/VectorIcon';
 
 import useCustomTheme from 'hooks/useCustomTheme';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type MenuItem = {
     title: string;

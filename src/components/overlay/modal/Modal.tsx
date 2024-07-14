@@ -1,14 +1,12 @@
 import React, { ReactElement, useCallback } from 'react';
 
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
     Easing,
     withTiming,
     useAnimatedKeyboard,
     useAnimatedStyle,
 } from 'react-native-reanimated';
-
-import { ModalType } from 'types/models/modal';
 
 import useCustomTheme from 'hooks/useCustomTheme';
 import useDimensions from 'hooks/useDimensions';
