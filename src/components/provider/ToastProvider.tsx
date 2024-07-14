@@ -3,7 +3,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { toastsAtom } from 'states/ui';
 
-import Toast from 'components/modal/common/Toast';
+import Toast from 'components/overlay/toast/Toast';
 import { ToastType } from 'types/models/toast';
 
 const ToastProvider = () => {

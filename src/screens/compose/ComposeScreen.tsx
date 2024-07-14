@@ -12,7 +12,7 @@ import HorizontalDivider from 'components/common/HorizontalDivider';
 import FullWidthButton from 'components/common/FullWidthButton';
 import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import ComposePhotoButton from 'components/compose/ComposePhotoButton';
-import CommonModal from 'components/modal/common/CommonModal';
+import CommonModal from 'components/overlay/modal/CommonModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {

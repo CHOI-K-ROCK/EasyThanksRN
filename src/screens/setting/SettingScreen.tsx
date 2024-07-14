@@ -10,7 +10,7 @@ import UserProfileView from 'components/setting/UserProfileView';
 import CommonListItem from 'components/common/CommonListItem';
 import SettingFooter from 'components/setting/SettingFooter';
 import HorizontalDivider from 'components/common/HorizontalDivider';
-import CommonModal from 'components/modal/common/CommonModal';
+import CommonModal from 'components/overlay/modal/CommonModal';
 
 import { SettingScreenNavigationProps } from 'types/navigations/settingStack';
 import { UserEditDataType } from 'types/models/user';

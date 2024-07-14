@@ -8,7 +8,7 @@ import CustomTextInput from 'components/common/CustomTextInput';
 import VectorIcon from 'components/common/VectorIcon';
 import CustomText from 'components/common/CustomText';
 import KeyboardDismissSafeAreaView from 'components/common/KeyboardDismissSafeAreaView';
-import OptOutDialogModal from 'components/modal/OptOutDialogModal';
+import OptOutDialogModal from 'components/overlay/modal/OptOutDialogModal';
 
 import {
     UserProfileEditScreenNavigationProps,

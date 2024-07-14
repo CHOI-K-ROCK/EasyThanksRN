@@ -9,8 +9,8 @@ import TextArea from 'components/common/TextArea';
 import VectorIcon from 'components/common/VectorIcon';
 import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import HorizontalDivider from 'components/common/HorizontalDivider';
-import BottomSheet from 'components/modal/bottomSheet/BottomSheet';
-import CommonModal from 'components/modal/common/CommonModal';
+import BottomSheet from 'components/overlay/bottomSheet/BottomSheet';
+import CommonModal from 'components/overlay/modal/CommonModal';
 
 import {
     PostDetailScreenNavigationProps,
@@ -23,7 +23,7 @@ import useOverlay from 'hooks/useOverlay';
 
 import { commonStyles } from 'styles';
 import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
-import BottomSheetMenuList from 'components/modal/bottomSheet/BottomSheetMenuList';
+import BottomSheetMenuList from 'components/overlay/bottomSheet/BottomSheetMenuList';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();

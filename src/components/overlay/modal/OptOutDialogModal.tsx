@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import CommonModal from 'components/modal/common/CommonModal';
+import CommonModal from 'components/overlay/modal/CommonModal';
 import CustomTextInput from 'components/common/CustomTextInput';
 
 import useCustomTheme from 'hooks/useCustomTheme';
