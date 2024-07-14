@@ -20,6 +20,8 @@ export const EMOJI_SET = [
     '🌟',
 ];
 
+export const WEEK_DAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
 export const THANKS_MAXIMS: { maxim: string; author: string }[] = [
     { maxim: '감사는 영혼에서 피어나는 가장 아름다운 꽃입니다.', author: '헨리 워드 비처' },
     {
