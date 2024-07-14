@@ -125,6 +125,8 @@ const ReminderScreen = () => {
                 <CustomText style={commonStyles.subject}>{'리마인더 설정 미리보기'}</CustomText>
                 <ReminderSummaryView time={time} week={week} />
 
+                {/* 해당 위치에 알림 미허용인 경우 경고 메시지 표시 필요 */}
+
                 <CommonListItem
                     title="리마인더 활성화"
                     subTitle="활성화 시 설정에 따라 알림을 드려요."

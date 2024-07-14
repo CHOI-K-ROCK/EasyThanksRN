@@ -1,9 +1,13 @@
-import CustomText from 'components/common/CustomText';
-import { WEEK_DAYS } from 'constants/string';
-import useCustomTheme from 'hooks/useCustomTheme';
 import React from 'react';
+
 import { StyleSheet, View } from 'react-native';
+import CustomText from 'components/common/CustomText';
+
+import useCustomTheme from 'hooks/useCustomTheme';
+
 import { getDateStrings } from 'utils/date';
+
+import { WEEK_DAYS } from 'constants/string';
 
 type Props = {
     time: Date;
@@ -28,24 +32,20 @@ const ReminderSummaryView = (props: Props) => {
         if (IS_WEEKDAY) weekString = '평일';
 
         if (IS_ALL_DAY || IS_WEEKEND || IS_WEEKDAY) {
-            return (
-                <View style={styles.dayWrapper}>
-                    <CustomText style={styles.dayText}>{weekString}</CustomText>
-                </View>
-            );
+            return <WarppedText>{weekString}</WarppedText>;
         }
 
         const filteredWeekDay = WEEK_DAYS.filter((_, idx) => {
             return week[idx];
         });
 
-        return filteredWeekDay.map(day => {
-            return (
-                <View key={day} style={styles.dayWrapper}>
-                    <CustomText style={styles.dayText}>{day}</CustomText>
-                </View>
-            );
-        });
+        return (
+            <View style={styles.daysContainer}>
+                {filteredWeekDay.map(day => {
+                    return <WarppedText>{day + '요일'}</WarppedText>;
+                })}
+            </View>
+        );
     };
 
     const renderTimeText = () => {
@@ -53,42 +53,68 @@ const ReminderSummaryView = (props: Props) => {
         const ampmString = ampm === 'am' ? '오전' : '오후';
         const padMin = min.padStart(2, '0');
 
-        return (
-            <View style={{ flexDirection: 'row' }}>
-                <CustomText>{ampmString + ' '}</CustomText>
-                <CustomText>{hours}</CustomText>
-                <CustomText>{'시 '}</CustomText>
-                <CustomText>{padMin}</CustomText>
-                <CustomText>{'분'}</CustomText>
-            </View>
-        );
+        return <WarppedText>{`${ampmString} ${hours}시 ${padMin}분`}</WarppedText>;
     };
 
     return (
         <View
-            style={{
-                backgroundColor: colors.inputBackground,
-                padding: 15,
-                borderRadius: 5,
-            }}
+            style={[
+                {
+                    backgroundColor: colors.inputBackground,
+                },
+                styles.container,
+            ]}
         >
-            <View style={{ gap: 5, flexDirection: 'row', marginBottom: 5 }}>{renderDays()}</View>
-            <CustomText>{renderTimeText()}</CustomText>
-            <CustomText>{'마다 리마인더 알림을 드려요!'}</CustomText>
+            <CustomText style={styles.summaryText}>{'리마인더 활성화 시'}</CustomText>
+            <View>{renderDays()}</View>
+            <View>{renderTimeText()}</View>
+            <CustomText style={styles.summaryText}>{'에 알림을 드려요!'}</CustomText>
+        </View>
+    );
+};
+
+// deps component
+
+const WarppedText = ({ children }: { children: string }) => {
+    return (
+        <View style={styles.textWrapper}>
+            <CustomText style={styles.wrappedText}>{children}</CustomText>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    dayWrapper: {
+    container: {
+        padding: 15,
+        borderRadius: 5,
+        gap: 5,
+    },
+    daysContainer: {
+        flexWrap: 'wrap',
+        gap: 5,
+        flexDirection: 'row',
+    },
+    timeWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5,
+    },
+    summaryText: {
+        fontSize: 15,
+        fontWeight: 500,
+    },
+
+    textWrapper: {
         padding: 5,
         backgroundColor: '#000',
-        borderRadius: 5,
+        borderRadius: 3,
+        alignSelf: 'flex-start',
     },
-    dayText: {
+    wrappedText: {
         color: '#FFF',
-        fontWeight: 500,
+        fontSize: 15,
+        fontWeight: 600,
     },
 });
 
-export default ReminderSummaryView;
+export default React.memo(ReminderSummaryView);
