@@ -10,6 +10,7 @@ import CheckBox from 'components/common/CheckBox';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import BottomSheet from 'components/overlay/bottomSheet/BottomSheet';
 import ReminderSettingView from 'components/setting/reminder/ReminderSettingView';
+import ReminderSummaryView from 'components/setting/reminder/ReminderSummaryView';
 
 import { ReminderScreenNavigationProps } from 'types/navigations/settingStack';
 import { ReminderDataType } from 'types/models/reminder';
@@ -21,10 +22,7 @@ import useLoading from 'hooks/useLoading';
 import { delay } from 'utils/data';
 import CustomText from 'components/common/CustomText';
 import { commonStyles } from 'styles';
-import useCustomTheme from 'hooks/useCustomTheme';
-import { getDateStrings } from 'utils/date';
-import { WEEK_DAYS } from 'constants/string';
-import ReminderSummaryView from 'components/setting/reminder/ReminderSummaryView';
+import useToast from 'hooks/useToast';
 
 const INITIAL_WEEK = [true, true, true, true, true, true, true];
 
@@ -43,7 +41,7 @@ const ReminderScreen = () => {
 
     const { goBack } = useNavigation<ReminderScreenNavigationProps>();
     const { setLoading } = useLoading();
-    const { colors } = useCustomTheme();
+    const { openToast } = useToast();
 
     const [active, setActive] = useState<boolean>(INITIAL_DATA.active);
     const [time, setTime] = useState<Date>(INITIAL_DATA.time);
@@ -86,11 +84,10 @@ const ReminderScreen = () => {
     const handleConfirm = async (data: { time: Date; week: boolean[] }) => {
         // 전달받은 데이터 서버로 전달
         // 정상적으로 변경 완료된 경우에 상태 변경
-        const IS_NOT_SET_WEEK = week.every(e => e === false);
-        console.log('week', week);
+        const IS_NOT_SET_WEEK = data.week.every(e => e === false);
 
         if (IS_NOT_SET_WEEK) {
-            console.log('요일 미설정');
+            openToast({ text: '요일 미설정', type: 'caution' });
             return;
         }
 

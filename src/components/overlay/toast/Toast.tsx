@@ -25,7 +25,7 @@ const Toast = (props: ToastType & { position: number }) => {
 
     const delay = useDelay();
 
-    const { type = 'common', id, text, component, duration = 1000, position } = props;
+    const { type = 'common', id, text, component, duration = 2000, position } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
