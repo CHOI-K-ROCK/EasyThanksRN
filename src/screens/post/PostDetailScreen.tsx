@@ -63,8 +63,8 @@ const PostDetailScreen = () => {
                 text={'삭제된 감사일기는 복구 할 수 없어요.\n정말로 삭제하시겠어요?'}
                 onPressBackdrop={closePostDeleteModal}
                 buttons={[
-                    { content: '아니요', onPress: closePostDeleteModal },
                     { content: '네', type: 'cancel', onPress: handleDeletePost },
+                    { content: '아니요', onPress: closePostDeleteModal },
                 ]}
             />
         )

@@ -4,7 +4,7 @@ import CommonModal from 'components/overlay/modal/CommonModal';
 import CustomTextInput from 'components/common/CustomTextInput';
 
 import useCustomTheme from 'hooks/useCustomTheme';
-import { ModalButtonType } from 'types/models/modal';
+import { CommonModalButtonType } from 'types/models/modal';
 
 import useInput from 'hooks/useInput';
 import CustomText from 'components/common/CustomText';
@@ -20,7 +20,7 @@ const OptOutDialogModal = (props: Props) => {
     const { value, handleChange } = useInput();
     const { onConfirm, closeOverlay } = props;
 
-    const buttons: ModalButtonType[] = useMemo(
+    const buttons: CommonModalButtonType[] = useMemo(
         () => [
             {
                 content: '네 탈퇴할게요',

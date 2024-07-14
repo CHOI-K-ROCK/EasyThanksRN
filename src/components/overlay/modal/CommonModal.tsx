@@ -51,7 +51,12 @@ const CommonModal = (props: CommonModalType) => {
                     title={buttonContent}
                     onPress={buttonHandler}
                     titleStyle={{ color: textColor }}
-                    style={{ backgroundColor, flex: 1 }}
+                    style={[
+                        {
+                            backgroundColor,
+                        },
+                        styles.button,
+                    ]}
                 />
             );
         });
@@ -89,8 +94,11 @@ const CommonModal = (props: CommonModalType) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         gap: 10,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
+    },
+    button: {
+        height: undefined,
+        paddingVertical: 10,
+        borderRadius: 10,
     },
     divider: {
         marginTop: 8,

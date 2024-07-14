@@ -192,7 +192,7 @@ const BottomSheetCloseButton = ({ onPress }: { onPress: () => void }) => {
     return (
         <PushAnimatedPressable onPress={onPress} style={styles.closeButtonContainer}>
             <CustomText style={styles.closeButtonText}>{'닫기'}</CustomText>
-            <VectorIcon name="close" />
+            <VectorIcon name="close" color={'#FFF'} />
         </PushAnimatedPressable>
     );
 };
@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     closeButtonText: {
-        fontWeight: 500,
+        color: '#FFF',
+        fontWeight: 600,
     },
 });
 

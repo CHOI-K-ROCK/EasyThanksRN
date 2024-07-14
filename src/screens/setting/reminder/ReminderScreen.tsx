@@ -30,8 +30,6 @@ const ReminderScreen = () => {
         setActive(prev => !prev);
     };
 
-    console.log(time, week, active);
-
     const { openOverlay, closeOverlay } = useOverlay(() => (
         <BottomSheet closeBottomSheet={closeOverlay}>
             <View style={{ padding: 20 }}>

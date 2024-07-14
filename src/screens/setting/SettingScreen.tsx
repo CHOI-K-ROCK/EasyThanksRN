@@ -49,8 +49,8 @@ const SettingScreen = () => {
             text="로그아웃 하시겠어요?"
             onPressBackdrop={closeOverlay}
             buttons={[
-                { content: '아니요', onPress: closeOverlay },
                 { content: '네', type: 'cancel', onPress: handleLogout },
+                { content: '아니요', onPress: closeOverlay },
             ]}
         />
     ));
