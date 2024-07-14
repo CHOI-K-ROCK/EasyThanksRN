@@ -42,7 +42,7 @@ const ReminderSummaryView = (props: Props) => {
         return (
             <View style={styles.daysContainer}>
                 {filteredWeekDay.map(day => {
-                    return <WarppedText>{day + '요일'}</WarppedText>;
+                    return <WarppedText key={day}>{day + '요일'}</WarppedText>;
                 })}
             </View>
         );

@@ -87,7 +87,7 @@ const ReminderScreen = () => {
         const IS_NOT_SET_WEEK = data.week.every(e => e === false);
 
         if (IS_NOT_SET_WEEK) {
-            openToast({ text: '요일 미설정', type: 'caution' });
+            openToast({ text: '요일을 1개 이상 선택해주세요', type: 'caution' });
             return;
         }
 
@@ -97,8 +97,10 @@ const ReminderScreen = () => {
             setTime(data.time);
             setWeek(data.week);
             closeSettingBottomSheet();
+            openToast({ text: '리마인더 설정이 변경되었어요!', type: 'complete' });
         } catch (error) {
             console.log(error);
+            openToast({ text: '오류가 발생했습니다.', type: 'error' });
         } finally {
             setLoading(false);
         }
@@ -111,8 +113,13 @@ const ReminderScreen = () => {
             await delay(500);
             console.log(!active);
             setActive(prev => !prev);
+
+            const newActiveState = !active ? '활성화' : '비활성화'; //변경 후 상태
+
+            openToast({ text: `리마인더가 ${newActiveState} 되었어요!`, type: 'complete' });
         } catch (error) {
             console.log(error);
+            openToast({ text: '오류가 발생했습니다.', type: 'error' });
         } finally {
             setLoading(false);
         }
