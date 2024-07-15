@@ -38,8 +38,8 @@ const ComposeScreen = () => {
 
     const { dismiss: keyBoardDismiss } = useKeyboard();
 
-    const initialData = params.initialData as PostDataType;
-    const IS_CREATE_POST = params.initialData === undefined;
+    const initialData = params?.initialData as PostDataType;
+    const IS_CREATE_POST = params?.initialData === undefined;
 
     const {
         content: initialContent,
