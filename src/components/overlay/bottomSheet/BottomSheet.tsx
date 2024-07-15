@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { LayoutChangeEvent, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { LayoutChangeEvent, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,10 +41,7 @@ const BottomSheet = (props: BottomSheetType) => {
 
     const ANIMATION_DURATION = 300;
     const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
-    const PADDING_BOTTOM = Platform.select({
-        ios: bottom,
-        android: bottom + 20,
-    });
+    const PADDING_BOTTOM = bottom;
 
     // entering 을 사용안하는 이유
     // entering 애니메이션 메소드가 생성되고 적용되는 타이밍 보다
