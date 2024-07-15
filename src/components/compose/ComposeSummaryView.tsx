@@ -53,7 +53,7 @@ const ComposeSummaryView = (props: Props) => {
                 <View style={commonStyles.rowCenter}>
                     <CustomText style={[styles.ampm]}>{ampm === 'am' ? '오전' : '오후'}</CustomText>
                     <CustomText style={[styles.time]}>
-                        {hours}시 {min}분
+                        {`${hours}시 ${min.padStart(2, '0')}분`}
                     </CustomText>
                 </View>
                 {editable && <BadgeButton title="시간변경" onPress={onPressEditTime} />}

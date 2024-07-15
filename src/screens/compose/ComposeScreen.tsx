@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Platform, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -14,30 +14,32 @@ import ComposeSummaryView from 'components/compose/ComposeSummaryView';
 import ComposePhotoButton from 'components/compose/ComposePhotoButton';
 import CommonModal from 'components/overlay/modal/CommonModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DatePickerBottomSheet from 'components/overlay/bottomSheet/DatePickerBottomSheet';
 
 import {
     ComposeScreenNavigationProps,
     ComposeScreenRouteProps,
 } from 'types/navigations/composeStack';
+import { PostDataType } from 'types/models/compose';
 
 import useInput from 'hooks/useInput';
 import useOverlay from 'hooks/useOverlay';
 import useKeyboard from 'hooks/useKeyboard';
-
-import { getInitialPostNameByDate } from 'utils/date';
+import { getInitialPostNameByDate } from 'utils/string';
+import { isSameDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
 import { SAMPLE_IMAGE } from 'constants/dummy';
-import { PostDataType } from 'types/models/compose';
 
 const ComposeScreen = () => {
-    const { navigate, goBack } = useNavigation<ComposeScreenNavigationProps>();
+    const { goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
-    const { dismiss } = useKeyboard();
 
-    const initialData = (params?.initialData || {}) as PostDataType;
-    const IS_CREATE_POST = params?.initialData === undefined;
+    const { dismiss: keyBoardDismiss } = useKeyboard();
+
+    const initialData = params.initialData as PostDataType;
+    const IS_CREATE_POST = params.initialData === undefined;
 
     const {
         content: initialContent,
@@ -45,24 +47,28 @@ const ComposeScreen = () => {
         postId,
         title: initialTitle,
         createdAt: initialDate,
-    } = initialData;
+    } = initialData || {};
 
-    const [photos, setPhotos] = useState<string[]>(initialPhotos || []); // 사진 blob
-    // 첫 업로드 단계에서는 blob / base64 으로
-    // 이미 업로드 된 수정단계에서는 string 으로 불러오는 것으로
-    const [date, setDate] = useState<Date>(initialDate ? new Date(initialDate) : new Date()); // 작성 Date
+    const [photos, setPhotos] = useState<string[]>(initialPhotos || []); // 사진 blob & url
+    const [date, setDate] = useState<Date>(
+        initialDate ? new Date(initialDate) : new Date(new Date().getTime())
+    ); // 작성 Date
+    const originalDate = useRef<Date>(new Date());
 
     const {
         value: title,
         handleChange: setTitle,
         clearValue: clearTitle,
-    } = useInput(initialTitle || getInitialPostNameByDate(date));
-    const { value: content, handleChange: setContent } = useInput(initialContent);
+    } = useInput(initialTitle || '');
+    const { value: content, handleChange: setContent } = useInput(initialContent || '');
+
+    const defaultTitle = useMemo(() => getInitialPostNameByDate(date), [date]);
 
     const { openOverlay: openDismissModal, closeOverlay: closeDismissModal } = useOverlay(() => (
         <CommonModal
+            title={'작성 취소'}
             text={'변경된 내용이 있어요!\n작성을 취소하시겠어요?'}
-            // title="작성 취소"
+            onPressBackdrop={closeDismissModal}
             buttons={[
                 { content: '네', onPress: handleCancelWhileCompose, type: 'cancel' },
                 { content: '아니요', onPress: closeDismissModal },
@@ -70,29 +76,56 @@ const ComposeScreen = () => {
         />
     ));
 
-    //todo change checkPostEdited logic
+    const { openOverlay: openEditDateBottomSheet, closeOverlay: closeEditDateBottomSheet } =
+        useOverlay(() => (
+            <DatePickerBottomSheet
+                closeBottomSheet={closeEditDateBottomSheet}
+                onConfirm={e => onChangeDate('date', e)}
+                initialDate={date}
+                type={'date'}
+            />
+        ));
+
+    const { openOverlay: openEditTimeBottomSheet, closeOverlay: closeEditTimeBottomSheet } =
+        useOverlay(() => (
+            <DatePickerBottomSheet
+                closeBottomSheet={closeEditTimeBottomSheet}
+                onConfirm={e => onChangeDate('time', e)}
+                initialDate={date}
+                type={'time'}
+            />
+        ));
 
     //handler
     const checkPostEdited = () => {
-        if (
+        const IS_EDITED_ON_CREATE =
+            title !== '' ||
+            content !== '' ||
+            !isSameDate(originalDate.current, date, { ignoreSeconds: true }) ||
+            photos.length !== 0;
+
+        const IS_EDITED_ON_EDIT =
             title !== initialTitle ||
             content !== initialContent ||
-            new Date(initialDate).getTime() !== new Date(date).getTime() ||
-            initialPhotos !== photos
-        ) {
+            !isSameDate(initialDate, date, { ignoreSeconds: true }) ||
+            initialPhotos !== photos;
+
+        // 글 작성
+        if (IS_CREATE_POST && IS_EDITED_ON_CREATE) {
+            return true;
+        }
+
+        // 글 수정
+        if (!IS_CREATE_POST && IS_EDITED_ON_EDIT) {
             return true;
         }
 
         return false;
     };
 
-    const handleCancel = () => {
-        if (!initialData) {
-            goBack();
-        }
-
+    const onCancelCompose = () => {
         if (checkPostEdited()) {
-            dismiss();
+            keyBoardDismiss();
             openDismissModal();
             return;
         }
@@ -105,26 +138,28 @@ const ComposeScreen = () => {
         goBack();
     }, [closeDismissModal, goBack]);
 
-    const onPressEditDate = () => {
-        console.log('edit date');
-    };
+    const onChangeDate = useCallback(
+        (type: 'date' | 'time', newDate: Date) => {
+            const tempDate = new Date(newDate);
 
-    const onEditDate = () => {
-        setDate(new Date());
-    };
+            if (type === 'date') {
+                tempDate.setDate(newDate.getDate());
+                tempDate.setMonth(newDate.getMonth());
 
-    const onPressEditTime = () => {
-        console.log('time edit');
-    };
+                setDate(tempDate);
+                closeEditDateBottomSheet();
+            }
 
-    const onEditTime = () => {
-        setDate(new Date());
-    };
+            if (type === 'time') {
+                tempDate.setHours(newDate.getHours());
+                tempDate.setMinutes(newDate.getMinutes());
 
-    // const onPressEditLocation = () => {
-    //     navigate('EditLocationScreen');
-    // };
-    // const onEditLocation = () => { };
+                setDate(tempDate);
+                closeEditTimeBottomSheet();
+            }
+        },
+        [closeEditDateBottomSheet, closeEditTimeBottomSheet]
+    );
 
     const handleAddPhoto = () => {
         console.log('add Photo');
@@ -138,6 +173,7 @@ const ComposeScreen = () => {
 
     const handleWritePost = () => {
         const postData = {
+            title: title === '' || defaultTitle,
             content,
             image: photos,
             date,
@@ -150,40 +186,40 @@ const ComposeScreen = () => {
             <InnerNavigationBar
                 screenTitle={IS_CREATE_POST ? '글 쓰기' : '글 수정하기'}
                 rightComponent={
-                    <PushAnimatedPressable onPress={handleCancel} style={styles.cancelButton}>
+                    <PushAnimatedPressable onPress={onCancelCompose} style={styles.cancelButton}>
                         <CustomText style={styles.cancel}>취소</CustomText>
                     </PushAnimatedPressable>
                 }
             />
             <KeyboardAwareScrollView
-                extraHeight={(Platform.OS === 'ios' && 150) || undefined}
+                extraHeight={Platform.OS === 'ios' ? 150 : undefined}
                 style={styles.container}
             >
                 <ComposeSummaryView
                     date={date}
-                    onPressEditDate={onPressEditDate}
-                    onPressEditTime={onPressEditTime}
+                    onPressEditDate={openEditDateBottomSheet}
+                    onPressEditTime={openEditTimeBottomSheet}
                     // onPressEditLocation={onPressEditLocation}
                     editable
                 />
                 <HorizontalDivider style={styles.divider} />
                 <View style={styles.textFieldContainer} onStartShouldSetResponder={() => true}>
                     <CustomTextInput
-                        title="제목을 작성해주세요!"
                         value={title}
+                        title={'제목을 작성해주세요! (선택)'}
+                        placeholder={defaultTitle}
                         onChangeText={setTitle}
-                        clearButton
                         onPressClear={clearTitle}
-                        placeholder="제목"
+                        clearButton
                     />
 
                     <CustomTextInput
-                        title="오늘의 감사일기를 작성해보세요!"
                         value={content}
+                        title={'오늘의 감사일기를 작성해보세요!'}
+                        placeholder={'내용'}
                         onChangeText={setContent}
-                        multiline
                         textStyle={styles.contentTextField}
-                        placeholder="내용"
+                        multiline
                     />
 
                     <View>

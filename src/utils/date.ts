@@ -65,9 +65,22 @@ export const getDayOfWeekName = (day: number) => {
     return daysStringArr[day];
 };
 
-export const getInitialPostNameByDate = (date: Date) => {
-    const dateStrings = getDateStrings(date);
-    const { year, month, day } = dateStrings;
+export const isSameDate = (
+    date1: Date | string | number | null,
+    date2: Date | string | number | null,
+    options?: Partial<{ ignoreSeconds: boolean }>
+) => {
+    const newDate1 = date1 ? new Date(date1) : new Date();
+    const newDate2 = date2 ? new Date(date2) : new Date();
 
-    return `${year.slice(2)}년 ${month}월 ${day}일의 감사일기`;
+    if (options) {
+        const { ignoreSeconds } = options || {};
+
+        if (ignoreSeconds) {
+            newDate1.setSeconds(0, 0);
+            newDate2.setSeconds(0, 0);
+        }
+    }
+
+    return newDate1.getTime() === newDate2.getTime();
 };
