@@ -4,11 +4,11 @@ import { StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
 import DatePicker from 'react-native-date-picker';
 import WeekDaySelector from 'components/common/WeekDaySelector';
+import FullWidthButton from 'components/common/FullWidthButton';
 
 import useCustomTheme from 'hooks/useCustomTheme';
 
 import { commonStyles } from 'styles';
-import FullWidthButton from 'components/common/FullWidthButton';
 
 type Props = {
     initialTime: Date;
@@ -51,6 +51,7 @@ const ReminderSettingView = (props: Props) => {
                 title={'완료'}
                 onPress={handleConfirm}
                 style={{ backgroundColor: '#000' }}
+                titleStyle={{ color: '#FFF' }}
             />
         </View>
     );

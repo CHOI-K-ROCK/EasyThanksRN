@@ -42,6 +42,7 @@ const WeekDaySelector = (props: Props) => {
 
                 return (
                     <PushAnimatedPressable
+                        key={idx.toString()}
                         onPress={() => onSelectHandler(idx)}
                         style={[
                             {

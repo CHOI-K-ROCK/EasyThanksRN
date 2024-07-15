@@ -82,8 +82,6 @@ const ReminderScreen = () => {
     }, [INITIAL_DATA, setLoading]);
 
     const handleConfirm = async (data: { time: Date; week: boolean[] }) => {
-        // 전달받은 데이터 서버로 전달
-        // 정상적으로 변경 완료된 경우에 상태 변경
         const IS_NOT_SET_WEEK = data.week.every(e => e === false);
 
         if (IS_NOT_SET_WEEK) {
@@ -94,6 +92,8 @@ const ReminderScreen = () => {
         setLoading(true);
         try {
             await delay(500);
+            // 전달받은 데이터 서버로 전달
+            // 정상적으로 변경 완료된 경우에 상태 변경
             setTime(data.time);
             setWeek(data.week);
             closeSettingBottomSheet();
