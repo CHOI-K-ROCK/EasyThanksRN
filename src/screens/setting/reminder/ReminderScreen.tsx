@@ -23,6 +23,7 @@ import { delay } from 'utils/data';
 import CustomText from 'components/common/CustomText';
 import { commonStyles } from 'styles';
 import useToast from 'hooks/useToast';
+import ReminderSettingBottomSheet from 'components/overlay/bottomSheet/ReminderSettingBottomSheet';
 
 const INITIAL_WEEK = [true, true, true, true, true, true, true];
 
@@ -49,13 +50,12 @@ const ReminderScreen = () => {
 
     const { openOverlay: openSettingBottomSheet, closeOverlay: closeSettingBottomSheet } =
         useOverlay(() => (
-            <BottomSheet closeBottomSheet={closeSettingBottomSheet}>
-                <ReminderSettingView
-                    initialTime={time}
-                    initialWeek={week}
-                    onConfirm={handleConfirm}
-                />
-            </BottomSheet>
+            <ReminderSettingBottomSheet
+                closeBottomSheet={closeSettingBottomSheet}
+                initialTime={time}
+                initialWeek={week}
+                onConfirm={handleConfirm}
+            />
         ));
 
     useLayoutEffect(() => {

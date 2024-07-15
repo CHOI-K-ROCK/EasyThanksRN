@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
@@ -32,7 +32,7 @@ const ReminderSettingView = (props: Props) => {
     };
 
     return (
-        <View style={{ padding: 20 }}>
+        <View style={styles.container}>
             <CustomText style={styles.subject}>{'시간 설정'}</CustomText>
             <View style={{ alignItems: 'center' }}>
                 <DatePicker
@@ -46,7 +46,9 @@ const ReminderSettingView = (props: Props) => {
 
             <CustomText style={styles.subject}>{'요일 설정'}</CustomText>
             <WeekDaySelector initialValue={week} onSelect={setWeek} />
+
             <View style={{ height: 30 }} />
+
             <FullWidthButton
                 title={'완료'}
                 onPress={handleConfirm}
@@ -58,6 +60,9 @@ const ReminderSettingView = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+    },
     subject: {
         ...commonStyles.subject,
     },
