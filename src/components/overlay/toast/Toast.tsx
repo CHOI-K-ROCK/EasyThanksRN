@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { ColorValue, StyleSheet, View } from 'react-native';
+import { ColorValue, Platform, StyleSheet, View } from 'react-native';
 import CustomText from 'components/common/CustomText';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import VectorIcon from 'components/common/VectorIcon';
@@ -29,6 +29,8 @@ const Toast = (props: ToastType & { position: number }) => {
 
     const [visible, setVisible] = useState<boolean>(false);
     const [messageSize, setMessageSize] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
+    const [layoutChecked, setLayoutChecked] = useState<boolean>(false);
+    // 레이아웃 체크가 완료된 경우에 애니메이션을 재생한다.(위치 오차 문제 해결)
 
     // variables
     const ANIMATION_DURATION = 300;
@@ -62,7 +64,10 @@ const Toast = (props: ToastType & { position: number }) => {
 
     // animation
 
-    const toastAppearHeight = -bottom - keyboardHeight;
+    const toastAppearHeight = Platform.select({
+        ios: -bottom - keyboardHeight,
+        android: -bottom - keyboardHeight - 15,
+    });
     // 토스트 메시지를 상단 기준 기기 화면 높이 만큼 아래로 밀어놓았기 때문에
     // 토스트가 떠오르는데 필요한 만큼의 높이를 빼야함.
     const toastOffset = (messageSize.h + TOAST_GAP) * position;
@@ -70,20 +75,22 @@ const Toast = (props: ToastType & { position: number }) => {
 
     const animatedAppear = useAnimatedStyle(() => {
         return {
-            opacity: withTiming(visible ? 1 : 0, {
+            opacity: withTiming(layoutChecked && visible ? 1 : 0, {
                 duration: ANIMATION_DURATION,
                 easing: EASING_BEZIER,
             }),
             transform: [
                 {
                     translateY: withTiming(
-                        visible ? toastAppearHeight - toastOffset : -keyboardHeight,
+                        layoutChecked && visible
+                            ? toastAppearHeight! - toastOffset
+                            : -keyboardHeight,
                         { duration: ANIMATION_DURATION }
                     ),
                 },
             ],
         };
-    }, [visible, messageSize, keyboardHeight, position]);
+    }, [visible, layoutChecked, messageSize, keyboardHeight, position]);
 
     // handler
     const handleCloseToast = useCallback(async () => {
@@ -108,6 +115,7 @@ const Toast = (props: ToastType & { position: number }) => {
             onLayout={e => {
                 const { height, width } = e.nativeEvent.layout;
                 setMessageSize({ h: height, w: width });
+                setLayoutChecked(true);
             }}
         >
             <View style={[commonStyles.rowCenter, { gap: 10 }]}>
@@ -146,8 +154,6 @@ const styles = StyleSheet.create({
         padding: 4,
     },
 });
-
-export default Toast;
 
 // deps component
 
@@ -199,3 +205,5 @@ const toastIconStyles = StyleSheet.create({
         padding: 2,
     },
 });
+
+export default Toast;

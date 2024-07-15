@@ -27,8 +27,16 @@ const Modal = (props: Props) => {
     const { wp } = useDimensions();
     const { colors } = useCustomTheme();
 
-    const { isShow, dismiss } = useKeyboard();
-    const { height: keyboardHeight } = useAnimatedKeyboard();
+    const { dismiss } = useKeyboard();
+    const { height: keyboardHeight, state: keyboardState } = useAnimatedKeyboard({
+        isStatusBarTranslucentAndroid: true,
+        // 안드로이드 모달 오픈 시 레이아웃 플리커링 오류 수정
+        // isStatusBarTranslucentAndroid
+        // -> 키보드가 열릴때 안드로이드 기기의 상태바를 뷰의 높이에 포함하느냐 / 안하냐.
+        // 현재 모달이 최상위 화면에서 덮듯 렌더링되는데, 해당 옵션이 false 인 경우 화면 높이를 계산하는 과정에서 해당 문제가 발생하는 것이 아닌가 하고 추측
+        // true 인 경우 온전히 뷰의 높이를 가져다가 쓸 수 있으므로, 플리커링 문제가 생기지 않는다고 추측.
+        // useKeyboard 훅에 포함시키는 것은 고려 후 실행
+    });
 
     const {
         backdrop = true,
@@ -44,9 +52,11 @@ const Modal = (props: Props) => {
 
     // animation
 
-    const animatedBottom = useAnimatedStyle(() => ({
-        bottom: keyboardHeight.value,
-    }));
+    const animatedBottom = useAnimatedStyle(() => {
+        return {
+            bottom: keyboardHeight.value,
+        };
+    });
 
     const backdropEntering = useCallback(() => {
         'worklet';
@@ -119,12 +129,13 @@ const Modal = (props: Props) => {
     // handler
 
     const handlePressBackdrop = useCallback(() => {
-        if (isShow) {
+        if (keyboardState.value === 1 || keyboardState.value === 2) {
+            // appearing, appear
             dismiss();
             return;
         }
         backdrop && onPressBackdrop && onPressBackdrop();
-    }, [backdrop, dismiss, isShow, onPressBackdrop]);
+    }, [backdrop, dismiss, keyboardState, onPressBackdrop]);
 
     return (
         <Animated.View
