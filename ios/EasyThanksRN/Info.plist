@@ -57,8 +57,6 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Feather.ttf</string>
@@ -96,5 +94,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	
+	<!-- ios permissions -->
+	<!-- Keep only the permissions specified in `setup_permissions` -->
+
+	<key>NSNotificationsUsageDescription</key>
+	<string>$(NOTIFICATIONS_USAGE_DESCRIPTION)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(CAMERA_USAGE_DESCRIPTION)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PHOTO_LIBRARY_USAGE_DESCRIPTION)</string>
 </dict>
 </plist>
