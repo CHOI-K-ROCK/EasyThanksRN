@@ -6,11 +6,11 @@ import SafeAreaView from 'components/common/SafeAreaView';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
 import CommonListItem from 'components/common/CommonListItem';
 import ScreenLayout from 'components/common/ScreenLayout';
-import CheckBox from 'components/common/CheckBox';
 import HorizontalDivider from 'components/common/HorizontalDivider';
-import BottomSheet from 'components/overlay/bottomSheet/BottomSheet';
-import ReminderSettingView from 'components/setting/reminder/ReminderSettingView';
 import ReminderSummaryView from 'components/setting/reminder/ReminderSummaryView';
+import CustomCheckBox from 'components/common/CustomCheckBox';
+import ReminderSettingBottomSheet from 'components/overlay/bottomSheet/ReminderSettingBottomSheet';
+import CustomText from 'components/common/CustomText';
 
 import { ReminderScreenNavigationProps } from 'types/navigations/settingStack';
 import { ReminderDataType } from 'types/models/reminder';
@@ -18,12 +18,12 @@ import { ReminderDataType } from 'types/models/reminder';
 import { useNavigation } from '@react-navigation/native';
 import useOverlay from 'hooks/useOverlay';
 import useLoading from 'hooks/useLoading';
+import useToast from 'hooks/useToast';
 
 import { delay } from 'utils/data';
-import CustomText from 'components/common/CustomText';
+
 import { commonStyles } from 'styles';
-import useToast from 'hooks/useToast';
-import ReminderSettingBottomSheet from 'components/overlay/bottomSheet/ReminderSettingBottomSheet';
+import CustomSwitch from 'components/common/CustomSwitch';
 
 const INITIAL_WEEK = [true, true, true, true, true, true, true];
 
@@ -138,7 +138,7 @@ const ReminderScreen = () => {
                     title="리마인더 활성화"
                     subTitle="활성화 시 설정에 따라 알림을 드려요."
                     onPress={toggleActive}
-                    rightComponent={<CheckBox checked={active} />}
+                    rightComponent={<CustomSwitch active={active} />}
                 />
 
                 <HorizontalDivider type="block" />

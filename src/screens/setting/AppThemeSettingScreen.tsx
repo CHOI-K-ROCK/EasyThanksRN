@@ -5,7 +5,7 @@ import SafeAreaView from 'components/common/SafeAreaView';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
 import CommonListItem from 'components/common/CommonListItem';
 import ScreenLayout from 'components/common/ScreenLayout';
-import CheckBox from 'components/common/CheckBox';
+import CustomCheckBox from 'components/common/CustomCheckBox';
 
 import { AppThemeSettingScreenNavigationProps } from 'types/navigations/settingStack';
 
@@ -68,7 +68,7 @@ const AppThemeSettingScreen = () => {
                     title={'기기 설정'}
                     subTitle={'앱의 테마가 기기에 설정된 테마를 따릅니다.'}
                     rightComponent={
-                        <CheckBox checked={appTheme === 'device'} style={styles.checkBox} />
+                        <CustomCheckBox checked={appTheme === 'device'} style={styles.checkBox} />
                     }
                     onPress={deviceOnPress}
                 />
@@ -76,7 +76,7 @@ const AppThemeSettingScreen = () => {
                     title={'라이트 모드'}
                     subTitle={'앱의 테마를 라이트 모드로 고정합니다.'}
                     rightComponent={
-                        <CheckBox checked={appTheme === 'light'} style={styles.checkBox} />
+                        <CustomCheckBox checked={appTheme === 'light'} style={styles.checkBox} />
                     }
                     onPress={lightOnPress}
                 />
@@ -84,7 +84,7 @@ const AppThemeSettingScreen = () => {
                     title={'다크 모드'}
                     subTitle={'앱의 테마를 다크모드로 고정합니다.'}
                     rightComponent={
-                        <CheckBox checked={appTheme === 'dark'} style={styles.checkBox} />
+                        <CustomCheckBox checked={appTheme === 'dark'} style={styles.checkBox} />
                     }
                     onPress={darkOnPress}
                 />
