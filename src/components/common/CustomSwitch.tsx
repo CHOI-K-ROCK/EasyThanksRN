@@ -1,67 +1,99 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import PushAnimatedPressable from './PushAnimatedPressable';
+import React, { useState } from 'react';
+
+import { Pressable, StyleSheet } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 type Props = {
     active: boolean;
-    onChange?: (active: boolean) => void;
+    onChange: (active: boolean) => void;
 };
 
-const ACTIVE_BACKGROUND_COLOR = '#000';
-const ACTIVE_CIRCLE_COLOR = '#fff';
-const DEACTIVE_BACKGROUND_COLOR = '#888';
-const DEACTIVE_CIRCLE_COLOR = '#555';
-
-const INNER_GAP = 2;
-const SWITCH_WIDTH = 58;
-const SWITCH_HEIGHT = 32;
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const CustomSwitch = (props: Props) => {
-    const { active = true, onChange } = props;
+    const { active, onChange } = props;
+
+    const [pressed, setPressed] = useState<boolean>(false);
+
+    const ACTIVE_BACKGROUND_COLOR = '#000';
+    const DEACTIVE_BACKGROUND_COLOR = '#aaa';
+    const CIRCLE_COLOR = '#fff';
+
+    const CIRCLE_WIDTH = 28;
+    const INNER_GAP = 2;
+
+    const SWITCH_HEIGHT = CIRCLE_WIDTH + INNER_GAP * 2;
+    const SWITCH_WIDTH = 55;
 
     const backgroundColor = active ? ACTIVE_BACKGROUND_COLOR : DEACTIVE_BACKGROUND_COLOR;
-    const circleColor = active ? ACTIVE_CIRCLE_COLOR : DEACTIVE_CIRCLE_COLOR;
-
-    const CIRCLE_WIDTH = SWITCH_HEIGHT - INNER_GAP * 2;
 
     const handleOnChange = () => {
-        onChange && onChange(active);
+        onChange(!active);
     };
 
+    // animation
+
+    const ANIMATION_DURATION = 200;
+    const EASING_BEZIER = Easing.bezier(0.25, 0.1, 0.25, 1);
+    const ANIMATION_CONFIG = {
+        duration: ANIMATION_DURATION,
+        easing: EASING_BEZIER,
+    };
+
+    const animatedSwitchColor = useAnimatedStyle(() => {
+        return {
+            backgroundColor: withTiming(backgroundColor, ANIMATION_CONFIG),
+        };
+    }, [active]);
+
+    const animatedCirclePosition = useAnimatedStyle(() => {
+        const CIRCLE_TRANSLATE_X = SWITCH_WIDTH - CIRCLE_WIDTH - INNER_GAP * 2;
+
+        return {
+            transform: [
+                {
+                    translateX: withTiming(active ? CIRCLE_TRANSLATE_X : 0, ANIMATION_CONFIG),
+                },
+            ],
+        };
+    }, [active, pressed]);
+
     return (
-        <View
-            style={{
-                backgroundColor: backgroundColor,
-                padding: INNER_GAP,
-                width: SWITCH_WIDTH,
-                height: SWITCH_HEIGHT,
-                borderRadius: 999,
-            }}
+        <AnimatedPressable
+            onPress={handleOnChange}
+            onPressIn={() => setPressed(true)}
+            onPressOut={() => setPressed(false)}
+            style={[
+                {
+                    backgroundColor: backgroundColor,
+                    width: SWITCH_WIDTH,
+                    height: SWITCH_HEIGHT,
+                    padding: INNER_GAP,
+                },
+                styles.rounded,
+                animatedSwitchColor,
+            ]}
         >
-            <PushAnimatedPressable
-                onPress={handleOnChange}
-                scale={1}
+            <Animated.View
                 style={[
                     {
-                        position: 'absolute',
-                        backgroundColor: circleColor,
+                        backgroundColor: CIRCLE_COLOR,
                         height: CIRCLE_WIDTH,
                         width: CIRCLE_WIDTH,
-                        top: INNER_GAP,
-                        borderRadius: 999,
+                        opacity: pressed ? 0.8 : 1,
                     },
-                    { ...(active ? styles.circleActive : styles.circleDeactive) },
+                    styles.rounded,
+                    animatedCirclePosition,
                 ]}
             />
-        </View>
+        </AnimatedPressable>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {},
-    circle: {},
-    circleActive: { right: 2 },
-    circleDeactive: { left: 2 },
+    rounded: {
+        borderRadius: 999,
+    },
 });
 
 export default React.memo(CustomSwitch);

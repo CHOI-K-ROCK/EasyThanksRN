@@ -137,8 +137,8 @@ const ReminderScreen = () => {
                 <CommonListItem
                     title="리마인더 활성화"
                     subTitle="활성화 시 설정에 따라 알림을 드려요."
-                    onPress={toggleActive}
-                    rightComponent={<CustomSwitch active={active} />}
+                    disabled
+                    rightComponent={<CustomSwitch active={active} onChange={toggleActive} />}
                 />
 
                 <HorizontalDivider type="block" />
