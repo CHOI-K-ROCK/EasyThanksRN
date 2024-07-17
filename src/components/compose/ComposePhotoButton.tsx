@@ -8,7 +8,7 @@ import useCustomTheme from 'hooks/useCustomTheme';
 
 type Props = {
     onPress: () => void;
-    onPressClose: () => void;
+    onPressClose?: () => void;
     imgBlob?: any; //! temp type be blob
 
     style?: StyleProp<ViewStyle>;

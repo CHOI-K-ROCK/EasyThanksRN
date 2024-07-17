@@ -30,7 +30,11 @@ import { isSameDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
-import { SAMPLE_IMAGE } from 'constants/dummy';
+import BottomSheet from 'components/overlay/bottomSheet/BottomSheet';
+import BottomSheetMenuList from 'components/overlay/bottomSheet/BottomSheetMenuList';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+
+import useToast from 'hooks/useToast';
 
 const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
@@ -49,7 +53,7 @@ const ComposeScreen = () => {
         createdAt: initialDate,
     } = initialData || {};
 
-    const [photos, setPhotos] = useState<string[]>(initialPhotos || []); // 사진 blob & url
+    const [photos, setPhotos] = useState<string[]>(initialPhotos || []);
     const [date, setDate] = useState<Date>(
         initialDate ? new Date(initialDate) : new Date(new Date().getTime())
     ); // 작성 Date
@@ -63,6 +67,8 @@ const ComposeScreen = () => {
     const { value: content, handleChange: setContent } = useInput(initialContent || '');
 
     const defaultTitle = useMemo(() => getInitialPostNameByDate(date), [date]);
+
+    const { openToast } = useToast();
 
     const { openOverlay: openDismissModal, closeOverlay: closeDismissModal } = useOverlay(() => (
         <CommonModal
@@ -95,6 +101,27 @@ const ComposeScreen = () => {
                 type={'time'}
             />
         ));
+
+    const { openOverlay: openPhotoBottomSheet, closeOverlay: closePhotoBottomSheet } = useOverlay(
+        () => (
+            <BottomSheet closeBottomSheet={closePhotoBottomSheet}>
+                <BottomSheetMenuList
+                    data={[
+                        {
+                            title: '사진찍기',
+                            onPress: handleTakingPhoto,
+                            iconName: 'camera',
+                        },
+                        {
+                            title: '앨범에서 업로드하기',
+                            onPress: handleAddPhotoFromAlbum,
+                            iconName: 'image-multiple',
+                        },
+                    ]}
+                />
+            </BottomSheet>
+        )
+    );
 
     //handler
     const checkPostEdited = () => {
@@ -161,14 +188,64 @@ const ComposeScreen = () => {
         [closeEditDateBottomSheet, closeEditTimeBottomSheet]
     );
 
-    const handleAddPhoto = () => {
-        console.log('add Photo');
-        setPhotos(prev => [...prev, SAMPLE_IMAGE]);
+    const handleTakingPhoto = () => {
+        closePhotoBottomSheet();
+        launchCamera(
+            {
+                mediaType: 'photo',
+                presentationStyle: 'currentContext',
+            },
+            res => {
+                const { assets, errorCode, didCancel } = res;
+                if (didCancel) {
+                    openPhotoBottomSheet();
+                }
+                if (errorCode === 'permission') {
+                    openToast({ text: '카메라 접근 권한이 없습니다!', type: 'error' });
+                }
+                if (!assets) return;
+                const { uri } = assets[0];
+
+                setPhotos(p => [...p, uri!]);
+                console.log('photo updated!');
+            }
+        );
     };
 
-    const handleDeletePhoto = () => {
-        console.log('delete Photo');
-        setPhotos([]);
+    const handleAddPhotoFromAlbum = () => {
+        closePhotoBottomSheet();
+        launchImageLibrary(
+            {
+                mediaType: 'photo',
+                presentationStyle: 'popover',
+                selectionLimit: 5 - photos.length,
+            },
+            res => {
+                const { assets, errorCode, didCancel } = res;
+                if (didCancel) {
+                    openPhotoBottomSheet();
+                }
+                if (errorCode === 'permission') {
+                    openToast({ text: '갤러리 접근 권한이 없습니다!', type: 'error' });
+                }
+                if (!assets) return;
+
+                const uris = assets.map(e => {
+                    const { uri } = e;
+                    return uri!;
+                });
+
+                setPhotos(p => [...p, ...uris]);
+                console.log('photos updated from gallery!');
+            }
+        );
+    };
+
+    const handleDeletePhoto = (idx: number) => {
+        const tempPhoto = [...photos];
+        tempPhoto.splice(idx, 1);
+
+        setPhotos(tempPhoto);
     };
 
     const handleWritePost = () => {
@@ -224,7 +301,7 @@ const ComposeScreen = () => {
 
                     <View>
                         <CustomText style={styles.addPhotoTitle}>
-                            {'오늘 가장 기억에 남는 순간이 언제인가요? (선택)'}
+                            {'오늘 가장 기억에 남는 순간이 언제인가요? (선택, 최대 5장)'}
                         </CustomText>
                         <View style={styles.photoContainer}>
                             {photos.map((photo, idx) => {
@@ -232,15 +309,12 @@ const ComposeScreen = () => {
                                     <ComposePhotoButton
                                         key={idx.toString()}
                                         imgBlob={photo}
-                                        onPress={handleAddPhoto}
-                                        onPressClose={handleDeletePhoto}
+                                        onPress={openPhotoBottomSheet}
+                                        onPressClose={() => handleDeletePhoto(idx)}
                                     />
                                 );
                             })}
-                            <ComposePhotoButton
-                                onPress={handleAddPhoto}
-                                onPressClose={handleDeletePhoto}
-                            />
+                            <ComposePhotoButton onPress={openPhotoBottomSheet} />
                         </View>
                     </View>
                     <View style={{ height: 50 }} />

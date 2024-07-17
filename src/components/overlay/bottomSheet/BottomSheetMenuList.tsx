@@ -38,7 +38,7 @@ const BottomSheetMenuList = ({ data }: Props) => {
             data={data}
             renderItem={_renderItem}
             keyExtractor={e => e.title}
-            // bounces={false}
+            bounces={false}
             ItemSeparatorComponent={() => (
                 <HorizontalDivider width={'95%'} style={styles.separator} />
             )}
