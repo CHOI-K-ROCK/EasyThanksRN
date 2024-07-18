@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import InnerNavigationBar from 'components/common/InnerNavigationBar';
@@ -9,59 +9,141 @@ import VectorIcon from 'components/common/VectorIcon';
 import CustomText from 'components/common/CustomText';
 import KeyboardDismissSafeAreaView from 'components/common/KeyboardDismissSafeAreaView';
 import OptOutDialogModal from 'components/overlay/modal/OptOutDialogModal';
+import OptOutCautionView from './OptOutCautionView';
+import SelectImageSourceBottomSheet from 'components/overlay/bottomSheet/SelectImageSourceBottomSheet';
+import CommonModal from 'components/overlay/modal/CommonModal';
 
 import {
     UserProfileEditScreenNavigationProps,
     UserProfileEditScreenRouteProps,
 } from 'types/navigations/settingStack';
+import { Asset } from 'react-native-image-picker';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useInput from 'hooks/useInput';
 import useOverlay from 'hooks/useOverlay';
 import useToast from 'hooks/useToast';
+import useLoading from 'hooks/useLoading';
+import useAuth from 'hooks/useAuth';
+import useKeyboard from 'hooks/useKeyboard';
 
 import { HORIZONTAL_GAP } from 'constants/style';
 import { commonStyles } from 'styles';
-import useAuth from 'hooks/useAuth';
-import useLoading from 'hooks/useLoading';
-import OptOutCautionView from './OptOutCautionView';
+import { delay } from 'utils/data';
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
     const { params } = useRoute<UserProfileEditScreenRouteProps>();
 
     const { colors } = useCustomTheme();
-    const { openToast } = useToast();
     const { logout } = useAuth();
+    const { openToast } = useToast();
+    const { dismiss: keyboardDismiss } = useKeyboard();
     const { setLoading } = useLoading();
 
-    const { username, profileImg } = params.userData; // 상태에 저장해놓기? 훅으로 만들기?
+    const { username: initialUsername, profileImg: initialProfileImg } = params.userData;
 
-    const { value, handleChange, clearValue } = useInput(username);
+    const {
+        value: username,
+        handleChange: setUsername,
+        clearValue: clearUsername,
+    } = useInput(initialUsername);
+    const [profileImg, setProfileImg] = useState<string>(initialProfileImg || '');
 
-    const { openOverlay, closeOverlay } = useOverlay(() => (
-        <OptOutDialogModal closeOverlay={closeOverlay} onConfirm={onConfirmOptOut} />
+    const PROFILE_IMAGE_CHANGED = initialProfileImg !== profileImg;
+    const USERNAME_CHANGED = initialUsername !== username;
+
+    // overlays
+    const { openOverlay: openPhotoBottomSheet, closeOverlay: closePhotoBottomSheet } = useOverlay(
+        () => (
+            // crop picker 사용 필요.
+            <SelectImageSourceBottomSheet
+                type="imageLibrary"
+                closeBottomSheet={closePhotoBottomSheet}
+                onChangeImages={handleChangeProfile}
+            />
+        )
+    );
+
+    const { openOverlay: openEditProfileModal, closeOverlay: closeEditProfileModal } = useOverlay(
+        () => {
+            let changed = '';
+
+            if (USERNAME_CHANGED) changed = '닉네임을';
+            if (PROFILE_IMAGE_CHANGED) changed = '프로필 이미지를';
+            if (USERNAME_CHANGED && PROFILE_IMAGE_CHANGED) changed = '닉네임과 프로필 이미지를';
+
+            const content = `${changed}\n수정하시겠어요?`;
+
+            return (
+                <CommonModal
+                    title={'프로필 수정'}
+                    text={content}
+                    onPressBackdrop={closeEditProfileModal}
+                    buttons={[
+                        {
+                            content: '네',
+                            onPress: handleEditProfile,
+                        },
+                        {
+                            content: '아니요',
+                            onPress: closeEditProfileModal,
+                            type: 'cancel',
+                        },
+                    ]}
+                />
+            );
+        }
+    );
+
+    const { openOverlay: openOptOutModal, closeOverlay: closeOptOutModal } = useOverlay(() => (
+        <OptOutDialogModal closeOverlay={closeOptOutModal} onConfirm={onConfirmOptOut} />
     ));
-
-    const isValidNickName = username !== value;
-    // && 정규식(2글자 이상, 인젝션 공격에 사용 될 수 있는 문자 제외)
 
     const onPressProfilePic = () => {
         console.log('open photo album');
+        openPhotoBottomSheet();
     };
 
-    const onPressEditProfile = async () => {
-        console.log('닉네임 요청 전송');
+    const handleChangeProfile = (assets: Asset[]) => {
+        const { uri } = assets[0];
 
-        console.log('닉네임 수정 완료', username, ' -> ', value);
-
-        // Toast 메시지 표시
-        openToast({ text: '닉네임 변경 완료', type: 'complete' });
+        setProfileImg(uri!);
+        closePhotoBottomSheet();
     };
 
-    const onPressOptOut = () => {
-        openOverlay();
+    const onPressEditProfile = () => {
+        keyboardDismiss();
+        openEditProfileModal();
+    };
+
+    const handleEditProfile = async () => {
+        try {
+            setLoading(true);
+
+            await delay(500);
+            console.log(username);
+            console.log('update userdata to recoil state');
+            // userdata 를 리코일 상태에 저장해두고,
+            // 유저 데이터가 업데이트 될 때 업데이트 함으로써 현재 가져오는 initialData 를 갱신해야함.
+            await delay(500);
+
+            closeEditProfileModal();
+
+            openToast({ text: '프로필 변경이 완료되었습니다!', type: 'complete' });
+        } catch (error) {
+            openToast({ text: '오류가 발생했습니다.', type: 'error' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const checkProfileEdited = () => {
+        if (PROFILE_IMAGE_CHANGED) return true;
+        if (USERNAME_CHANGED) return true;
+
+        return false;
     };
 
     const onConfirmOptOut = useCallback(async () => {
@@ -74,14 +156,14 @@ const UserProfileEditScreen = () => {
 
             console.log('탈퇴 완료, 로그아웃 진행');
 
-            closeOverlay();
+            closeOptOutModal();
             logout(); // 실질적으로는 회원 탈퇴 로직이여야함.
         } catch (error: any) {
             console.log('opt out error : ', error.message);
         } finally {
             setLoading(false);
         }
-    }, [closeOverlay, logout, setLoading]);
+    }, [closeOptOutModal, logout, setLoading]);
 
     if (params.userData === null) return <></>;
 
@@ -101,10 +183,10 @@ const UserProfileEditScreen = () => {
                     </TouchableOpacity>
 
                     <CustomTextInput
-                        value={value}
-                        onChangeText={handleChange}
+                        value={username}
+                        onChangeText={setUsername}
                         clearButton
-                        onPressClear={clearValue}
+                        onPressClear={clearUsername}
                         title={'닉네임'}
                         placeholder={username}
                     />
@@ -112,11 +194,11 @@ const UserProfileEditScreen = () => {
 
                 <FullWidthButton
                     title={'수정하기'}
-                    disabled={!isValidNickName}
+                    disabled={!checkProfileEdited()}
                     onPress={onPressEditProfile}
                 />
 
-                <OptOutCautionView onPressOptOut={onPressOptOut} />
+                <OptOutCautionView onPressOptOut={openOptOutModal} />
             </View>
         </KeyboardDismissSafeAreaView>
     );

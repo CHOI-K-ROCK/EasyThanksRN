@@ -15,12 +15,14 @@ import ComposePhotoButton from 'components/compose/ComposePhotoButton';
 import CommonModal from 'components/overlay/modal/CommonModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DatePickerBottomSheet from 'components/overlay/bottomSheet/DatePickerBottomSheet';
+import SelectImageSourceBottomSheet from 'components/overlay/bottomSheet/SelectImageSourceBottomSheet';
 
 import {
     ComposeScreenNavigationProps,
     ComposeScreenRouteProps,
 } from 'types/navigations/composeStack';
 import { PostDataType } from 'types/models/compose';
+import { Asset } from 'react-native-image-picker';
 
 import useInput from 'hooks/useInput';
 import useOverlay from 'hooks/useOverlay';
@@ -30,11 +32,6 @@ import { isSameDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
-import BottomSheet from 'components/overlay/bottomSheet/BottomSheet';
-import BottomSheetMenuList from 'components/overlay/bottomSheet/BottomSheetMenuList';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-
-import useToast from 'hooks/useToast';
 
 const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
@@ -57,8 +54,6 @@ const ComposeScreen = () => {
     const [date, setDate] = useState<Date>(
         initialDate ? new Date(initialDate) : new Date(new Date().getTime())
     ); // 작성 Date
-    const originalDate = useRef<Date>(new Date());
-
     const {
         value: title,
         handleChange: setTitle,
@@ -66,9 +61,11 @@ const ComposeScreen = () => {
     } = useInput(initialTitle || '');
     const { value: content, handleChange: setContent } = useInput(initialContent || '');
 
+    const originalDate = useRef<Date>(new Date());
     const defaultTitle = useMemo(() => getInitialPostNameByDate(date), [date]);
+    const MAX_PHOTO_AMOUNT = 5;
 
-    const { openToast } = useToast();
+    // overlays
 
     const { openOverlay: openDismissModal, closeOverlay: closeDismissModal } = useOverlay(() => (
         <CommonModal
@@ -104,22 +101,11 @@ const ComposeScreen = () => {
 
     const { openOverlay: openPhotoBottomSheet, closeOverlay: closePhotoBottomSheet } = useOverlay(
         () => (
-            <BottomSheet closeBottomSheet={closePhotoBottomSheet}>
-                <BottomSheetMenuList
-                    data={[
-                        {
-                            title: '사진찍기',
-                            onPress: handleTakingPhoto,
-                            iconName: 'camera',
-                        },
-                        {
-                            title: '앨범에서 업로드하기',
-                            onPress: handleAddPhotoFromAlbum,
-                            iconName: 'image-multiple',
-                        },
-                    ]}
-                />
-            </BottomSheet>
+            <SelectImageSourceBottomSheet
+                closeBottomSheet={closePhotoBottomSheet}
+                onChangeImages={handleAddPhoto}
+                selectionLimit={MAX_PHOTO_AMOUNT - photos.length}
+            />
         )
     );
 
@@ -188,57 +174,15 @@ const ComposeScreen = () => {
         [closeEditDateBottomSheet, closeEditTimeBottomSheet]
     );
 
-    const handleTakingPhoto = () => {
+    const handleAddPhoto = (assets: Asset[]) => {
+        const uris = assets.map(e => {
+            const { uri } = e;
+            return uri!;
+        });
+
+        setPhotos(p => [...p, ...uris]);
+        console.log('photo updated!');
         closePhotoBottomSheet();
-        launchCamera(
-            {
-                mediaType: 'photo',
-                presentationStyle: 'currentContext',
-            },
-            res => {
-                const { assets, errorCode, didCancel } = res;
-                if (didCancel) {
-                    openPhotoBottomSheet();
-                }
-                if (errorCode === 'permission') {
-                    openToast({ text: '카메라 접근 권한이 없습니다!', type: 'error' });
-                }
-                if (!assets) return;
-                const { uri } = assets[0];
-
-                setPhotos(p => [...p, uri!]);
-                console.log('photo updated!');
-            }
-        );
-    };
-
-    const handleAddPhotoFromAlbum = () => {
-        closePhotoBottomSheet();
-        launchImageLibrary(
-            {
-                mediaType: 'photo',
-                presentationStyle: 'popover',
-                selectionLimit: 5 - photos.length,
-            },
-            res => {
-                const { assets, errorCode, didCancel } = res;
-                if (didCancel) {
-                    openPhotoBottomSheet();
-                }
-                if (errorCode === 'permission') {
-                    openToast({ text: '갤러리 접근 권한이 없습니다!', type: 'error' });
-                }
-                if (!assets) return;
-
-                const uris = assets.map(e => {
-                    const { uri } = e;
-                    return uri!;
-                });
-
-                setPhotos(p => [...p, ...uris]);
-                console.log('photos updated from gallery!');
-            }
-        );
     };
 
     const handleDeletePhoto = (idx: number) => {
