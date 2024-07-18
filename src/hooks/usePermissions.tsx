@@ -1,11 +1,19 @@
 import React from 'react';
+
 import { Platform } from 'react-native';
 import { check, PERMISSIONS, PermissionStatus, request } from 'react-native-permissions';
 
 const usePermissions = () => {
+    const IS_IOS = Platform.OS === 'ios';
+
     const permissions = {
-        camera: Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA,
+        camera: IS_IOS ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA,
+        imageLibrary: IS_IOS
+            ? PERMISSIONS.IOS.PHOTO_LIBRARY
+            : PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
     };
+    // todo 위처럼 퍼미션즈로만 해결하려 하지 말기.
+    // todo swtich 문으로 android 의 경우 외장 스토리지에서 이미지를 가져올 수도 있으므로 exrernal 권한도 활성화해야함.
 
     // blocked 나 이미 유저가 권한을 설정한 경우 다시 요청을 할 수 없음
     // 컨텍스트로 구성하거나, bottomsheet 를 구성하여 수동으로 권한설정을 할 수 있게끔
@@ -29,6 +37,8 @@ const usePermissions = () => {
 
     const requestPermission = (type: keyof typeof permissions) => {
         return new Promise<PermissionStatus>(async (resolve, reject) => {
+            // todo 여기서 모달창 열어줘야함.
+            // todo 단순 hook 으로 처리하면 안되니, Provider 로 별도 구성 필요
             try {
                 const perm = permissions[type];
                 const res = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);

@@ -102,7 +102,6 @@ const UserProfileEditScreen = () => {
     ));
 
     const onPressProfilePic = () => {
-        console.log('open photo album');
         openPhotoBottomSheet();
     };
 
@@ -132,6 +131,7 @@ const UserProfileEditScreen = () => {
             closeEditProfileModal();
 
             openToast({ text: '프로필 변경이 완료되었습니다!', type: 'complete' });
+            goBack();
         } catch (error) {
             openToast({ text: '오류가 발생했습니다.', type: 'error' });
         } finally {
