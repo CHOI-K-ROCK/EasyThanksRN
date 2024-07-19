@@ -24,7 +24,6 @@ const AppThemeSettingScreen = () => {
     useEffect(() => {
         const checkCurrentAppTheme = async () => {
             const currentAppTheme = await getCurrentAppTheme();
-
             setAppTheme(currentAppTheme as AppThemeType);
         };
         checkCurrentAppTheme();

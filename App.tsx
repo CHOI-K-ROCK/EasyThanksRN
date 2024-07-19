@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from 'react';
 import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import { isSignedAtom } from 'states/system';
 
-import { Appearance, StatusBar, useColorScheme } from 'react-native';
+import { Appearance, ColorSchemeName, StatusBar, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -15,7 +15,7 @@ import OverlayProvider from 'components/provider/OverlayProvider';
 import LoadingProvider from 'components/provider/LoadingProvider';
 
 import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
-import { checkStroageValue, getAppTheme } from 'utils/storage';
+import { checkStroageValue, getAppTheme, saveAppTheme } from 'utils/storage';
 import { KeyboardContextProvider } from 'contexts/KeyboardContext';
 import { PermissionProvider } from 'contexts/PermissionContext';
 
@@ -31,9 +31,10 @@ function App(): React.JSX.Element {
             console.log('init app');
 
             //  앱 테마 체크
-            const appTheme = (await getAppTheme()) as AppThemeType | null;
-            const appThemeScheme = appTheme === 'device' ? null : appTheme;
+            const appTheme = ((await getAppTheme()) || 'device') as AppThemeType;
+            const appThemeScheme = (appTheme === 'device' ? null : appTheme) as ColorSchemeName;
 
+            saveAppTheme(appTheme);
             console.log('appThemeScheme', appThemeScheme);
             Appearance.setColorScheme(appThemeScheme);
         } catch (e) {
@@ -50,8 +51,8 @@ function App(): React.JSX.Element {
     return (
         <SafeAreaProvider>
             <KeyboardContextProvider>
-                <PermissionProvider>
-                    <NavigationContainer theme={theme}>
+                <NavigationContainer theme={theme}>
+                    <PermissionProvider>
                         <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
                         {isSigned ? <RootStack /> : <AuthStack />}
 
@@ -59,8 +60,8 @@ function App(): React.JSX.Element {
                         <OverlayProvider />
                         <ToastProvider />
                         <LoadingProvider />
-                    </NavigationContainer>
-                </PermissionProvider>
+                    </PermissionProvider>
+                </NavigationContainer>
             </KeyboardContextProvider>
         </SafeAreaProvider>
     );

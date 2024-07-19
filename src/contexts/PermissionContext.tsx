@@ -2,8 +2,10 @@ import React, { ReactNode, createContext, useRef } from 'react';
 
 import { Platform } from 'react-native';
 import CommonModal from 'components/overlay/modal/CommonModal';
+import VectorIcon from 'components/common/VectorIcon';
 
 import useOverlay from 'hooks/useOverlay';
+import useCustomTheme from 'hooks/useCustomTheme';
 
 import {
     PERMISSIONS,
@@ -27,6 +29,8 @@ const PermissionContext = createContext<PermissionContextType>({
 });
 
 const PermissionProvider = ({ children }: { children: ReactNode }) => {
+    const { colors } = useCustomTheme();
+
     const IS_IOS = Platform.OS === 'ios';
     const IS_ANDROID = Platform.OS === 'android';
     const IS_AVOBE_ANDROID_SDK_33 = IS_ANDROID && Number(Platform.Version) >= 33;
@@ -102,6 +106,8 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
         });
     };
 
+    // ui
+
     const renderPermissionModal = (type: PermissionType, closeModal: () => void) => {
         const { title, message } = REQUEST_PERMISSION_CONTENT[type];
         const COMMON_MSG = '설정에서 직접 허용 해주세요.';
@@ -111,6 +117,7 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
         return (
             <CommonModal
                 title={title}
+                titleIcon={<VectorIcon name="alert" color={colors.caution} />}
                 text={modalMsg}
                 onPressBackdrop={closeModal}
                 buttons={[

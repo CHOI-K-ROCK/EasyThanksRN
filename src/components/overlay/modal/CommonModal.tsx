@@ -11,6 +11,8 @@ import { CommonModalType } from 'types/models/modal';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useDimensions from 'hooks/useDimensions';
 
+import { commonStyles } from 'styles';
+
 const CommonModal = (props: CommonModalType) => {
     const { hp } = useDimensions();
     const { colors } = useCustomTheme();
@@ -22,8 +24,11 @@ const CommonModal = (props: CommonModalType) => {
         onPressBackdrop,
 
         title,
+        titleIcon,
         text,
+
         children,
+        childrenPosition = 'bottom',
     } = props;
 
     // ui
@@ -67,11 +72,14 @@ const CommonModal = (props: CommonModalType) => {
             <View>
                 {title && (
                     <View>
-                        <CustomText style={styles.title}>{title}</CustomText>
+                        <View style={styles.titleWrapper}>
+                            {titleIcon && titleIcon}
+                            <CustomText style={styles.title}>{title}</CustomText>
+                        </View>
                         <HorizontalDivider style={styles.divider} />
                     </View>
                 )}
-
+                {childrenPosition === 'top' && children}
                 {text && (
                     <View
                         style={{
@@ -82,8 +90,7 @@ const CommonModal = (props: CommonModalType) => {
                         <CustomText style={styles.text}>{text}</CustomText>
                     </View>
                 )}
-
-                {children}
+                {childrenPosition === 'bottom' && children}
 
                 <View style={styles.buttonContainer}>{renderButtons()}</View>
             </View>
@@ -102,6 +109,10 @@ const styles = StyleSheet.create({
     },
     divider: {
         marginTop: 8,
+    },
+    titleWrapper: {
+        ...commonStyles.rowCenter,
+        gap: 5,
     },
     title: {
         fontSize: 18,

@@ -7,8 +7,11 @@ export type CommonModalType = {
     onPressBackdrop?: () => void;
 
     title?: string;
+    titleIcon?: ReactElement;
     text?: string;
+
     children?: ReactElement;
+    childrenPosition?: 'top' | 'bottom';
 };
 
 export type CommonModalButtonType = {
