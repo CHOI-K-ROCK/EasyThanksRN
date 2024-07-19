@@ -1,7 +1,13 @@
 import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import { Keyboard, KeyboardEvent } from 'react-native';
 
-const KeyboardContext = createContext({
+type KeyboardContextType = {
+    keyboardHeight: number;
+    isShow: boolean;
+    dismiss: () => void;
+};
+
+const KeyboardContext = createContext<KeyboardContextType>({
     keyboardHeight: 0,
     isShow: false,
     dismiss: () => { },
@@ -10,7 +16,7 @@ const KeyboardContext = createContext({
 const KeyboardContextProvider = ({ children }: { children: ReactNode }) => {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const [isShow, setIsShow] = useState(false);
-    const dismiss = () => Keyboard.dismiss();
+    const dismiss = Keyboard.dismiss;
 
     useEffect(() => {
         const onKeyboardShow = (e: KeyboardEvent) => {

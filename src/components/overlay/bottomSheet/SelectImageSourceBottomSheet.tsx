@@ -11,10 +11,6 @@ import {
     launchImageLibrary,
 } from 'react-native-image-picker';
 
-import useToast from 'hooks/useToast';
-import useOverlay from 'hooks/useOverlay';
-import CommonModal from '../modal/CommonModal';
-import { openSettings } from 'react-native-permissions';
 import usePermissions from 'hooks/usePermissions';
 
 type Props = {
@@ -32,42 +28,7 @@ type Props = {
 };
 
 const SelectImageSourceBottomSheet = (props: Props) => {
-    const { checkPermission } = usePermissions();
-
-    const { openOverlay: openCameraPermissionModal, closeOverlay: closeCameraPermissionModal } =
-        useOverlay(() => renderPermissionModal('camera', closeCameraPermissionModal));
-    const { openOverlay: openLibraryPermissionModal, closeOverlay: closeLibraryPermissionModal } =
-        useOverlay(() => renderPermissionModal('library', closeLibraryPermissionModal));
-
-    const renderPermissionModal = (type: 'camera' | 'library', closeModal: () => void) => {
-        // todo 해당 로직을 usePermission 에서 checkPermission 으로 분리 하는 것 고려
-
-        const CAMERA_PERMISSON_TITLE = '카메라 접근 권한 필요';
-        const LIBLARY_PERMISSON_TITLE = '사진 앨범 접근 권한 필요';
-
-        const CAMERA_PERMISSON_MSG = '카메라에 대한 접근 권한이 없습니다.';
-        const LIBLARY_PERMISSON_MSG = '사진 앨범에 대한 접근 권한이 없습니다.';
-
-        const COMMON_MSG = '설정에서 직접 허용 해주세요.';
-
-        const permissionTitle =
-            type === 'camera' ? CAMERA_PERMISSON_TITLE : LIBLARY_PERMISSON_TITLE;
-
-        const permissionMsg = type === 'camera' ? CAMERA_PERMISSON_MSG : LIBLARY_PERMISSON_MSG;
-        const modalMsg = `${permissionMsg}\n${COMMON_MSG}`;
-
-        return (
-            <CommonModal
-                title={permissionTitle}
-                text={modalMsg}
-                onPressBackdrop={closeModal}
-                buttons={[
-                    { content: '설정 바로가기', onPress: openSettings },
-                    { content: '취소하기', type: 'cancel', onPress: closeModal },
-                ]}
-            />
-        );
-    };
+    const { checkPermission, requestPermission } = usePermissions();
 
     const {
         type = 'both',
@@ -102,31 +63,25 @@ const SelectImageSourceBottomSheet = (props: Props) => {
 
     // handler
 
-    const handleLaunch = async (launchType: 'camera' | 'library') => {
+    const handleLaunch = async (launchType: 'camera' | 'photoLibrary') => {
         const IS_LAUNCH_CAMERA = launchType === 'camera';
         const launchMethod = IS_LAUNCH_CAMERA ? launchCamera : launchImageLibrary;
 
-        let perm = '';
         // check permission
-        if (IS_LAUNCH_CAMERA) {
-            perm = await checkPermission('camera');
-        } else {
-            perm = await checkPermission('imageLibrary');
-        }
+        const perm = await checkPermission(launchType);
 
-        if (perm === 'granted') {
-            if (IS_LAUNCH_CAMERA) {
-                openCameraPermissionModal();
-            } else {
-                openLibraryPermissionModal();
+        if (perm !== 'granted' && perm !== 'limited') {
+            // 접근 권한이 없는 경우
+            const requestRes = await requestPermission(launchType);
+            if (requestRes !== 'granted' && requestRes !== 'limited') {
+                // 새로 얻은 권한이 없는 경우
+                return;
             }
-
-            return;
         }
 
-        const options = (IS_LAUNCH_CAMERA ? cameraOptions : imageLibraryOptions) as
-            | CameraOptions
-            | ImageLibraryOptions;
+        const options = IS_LAUNCH_CAMERA
+            ? (cameraOptions as CameraOptions)
+            : (imageLibraryOptions as ImageLibraryOptions);
 
         launchMethod(options, res => {
             const { assets, errorCode, didCancel } = res;
@@ -137,8 +92,9 @@ const SelectImageSourceBottomSheet = (props: Props) => {
             if (didCancel) {
                 onCancel && onCancel();
             }
-            if (!assets) return;
-            onChangeImages(assets);
+            if (assets) {
+                onChangeImages(assets);
+            }
         });
     };
 
@@ -150,7 +106,7 @@ const SelectImageSourceBottomSheet = (props: Props) => {
         },
         {
             title: '앨범에서 업로드하기',
-            onPress: () => handleLaunch('library'),
+            onPress: () => handleLaunch('photoLibrary'),
             iconName: 'image-multiple',
         },
     ];
