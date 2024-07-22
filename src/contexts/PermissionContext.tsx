@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useRef } from 'react';
+import React, { ReactNode, createContext, useCallback, useRef } from 'react';
 
 import { Platform } from 'react-native';
 import CommonModal from 'components/overlay/modal/CommonModal';
@@ -6,6 +6,8 @@ import VectorIcon from 'components/common/VectorIcon';
 
 import useOverlay from 'hooks/useOverlay';
 import useCustomTheme from 'hooks/useCustomTheme';
+
+import notifee, { AuthorizationStatus } from '@notifee/react-native';
 
 import {
     PERMISSIONS,
@@ -35,97 +37,140 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
     const IS_ANDROID = Platform.OS === 'android';
     const IS_AVOBE_ANDROID_SDK_33 = IS_ANDROID && Number(Platform.Version) >= 33;
 
-    let requiredPermission = 'camera' as PermissionType;
+    let requiredPermission = useRef<PermissionType>('camera');
 
     const { openOverlay: openPermissionModal, closeOverlay: closePermissionModal } = useOverlay(
-        () => renderPermissionModal(requiredPermission, closePermissionModal)
+        () => renderPermissionModal(requiredPermission.current, closePermissionModal)
     );
 
-    const getPermission = (type: PermissionType) => {
-        // 가독성을 위해 case 내부 if문 분리하여 사용
-        switch (type) {
-            case 'camera': {
-                if (IS_IOS) {
-                    return PERMISSIONS.IOS.CAMERA;
+    const getPermission = useCallback(
+        (type: PermissionType) => {
+            // 가독성을 위해 case 내부 if문 분리하여 사용
+            switch (type) {
+                case 'camera': {
+                    if (IS_IOS) {
+                        return PERMISSIONS.IOS.CAMERA;
+                    }
+                    if (IS_ANDROID) {
+                        return PERMISSIONS.ANDROID.CAMERA;
+                    }
+                    break;
                 }
-                if (IS_ANDROID) {
-                    return PERMISSIONS.ANDROID.CAMERA;
+                case 'photoLibrary': {
+                    if (IS_IOS) {
+                        return PERMISSIONS.IOS.PHOTO_LIBRARY;
+                    }
+                    if (IS_ANDROID) {
+                        return IS_AVOBE_ANDROID_SDK_33
+                            ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+                            : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+                    }
+                    break;
                 }
-                break;
+                case 'notification': {
+                    // ios 는  notifee 로 따로 요청 진행
+                    if (IS_ANDROID) {
+                        return PERMISSIONS.ANDROID.POST_NOTIFICATIONS;
+                    }
+                    break;
+                }
             }
-            case 'photoLibrary': {
-                if (IS_IOS) {
-                    return PERMISSIONS.IOS.PHOTO_LIBRARY;
+        },
+        [IS_ANDROID, IS_AVOBE_ANDROID_SDK_33, IS_IOS]
+    );
+
+    const checkPermission = useCallback(
+        (type: PermissionType) => {
+            return new Promise<PermissionStatus>(async (resolve, reject) => {
+                try {
+                    const IS_CHECK_IOS_NOTIFICATION = IS_IOS && type === 'notification';
+
+                    let permStatus: PermissionStatus = 'blocked';
+
+                    if (IS_CHECK_IOS_NOTIFICATION) {
+                        const notificationPerm = await notifee.requestPermission();
+
+                        if (
+                            notificationPerm.authorizationStatus === AuthorizationStatus.AUTHORIZED
+                        ) {
+                            permStatus = 'granted';
+                        }
+                    } else {
+                        const permission = getPermission(type) as Permission;
+                        permStatus = await check(permission);
+                    }
+
+                    resolve(permStatus);
+                } catch (error) {
+                    reject(error);
+                    console.log('permission check error', error);
                 }
-                if (IS_ANDROID) {
-                    return IS_AVOBE_ANDROID_SDK_33
-                        ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
-                        : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+            });
+        },
+        [IS_IOS, getPermission]
+    );
+
+    const requestPermission = useCallback(
+        (type: PermissionType) => {
+            return new Promise<PermissionStatus>(async (resolve, reject) => {
+                try {
+                    const IS_CHECK_IOS_NOTIFICATION = IS_IOS && type === 'notification';
+
+                    const perm = await checkPermission(type);
+
+                    if (perm === 'blocked') {
+                        requiredPermission.current = type;
+                        // 상태로 관리 될 경우 비동기 업데이트로 인해 이전 값으로 참조됨.
+                        openPermissionModal();
+                        return;
+                    }
+                    const permission = getPermission(type) as Permission;
+
+                    if (IS_CHECK_IOS_NOTIFICATION) {
+                        const notificationPerm = await notifee.requestPermission();
+
+                        if (
+                            notificationPerm.authorizationStatus === AuthorizationStatus.AUTHORIZED
+                        ) {
+                            resolve('granted');
+                        }
+                    }
+                    const res = await request(permission);
+
+                    resolve(res);
+                } catch (error) {
+                    console.log('requestPermission error : ', error);
+                    reject(error);
                 }
-                break;
-            }
-        }
-    };
-
-    const checkPermission = (type: PermissionType) => {
-        return new Promise<PermissionStatus>(async (resolve, reject) => {
-            try {
-                let permStatus: PermissionStatus = 'denied';
-
-                const permission = getPermission(type) as Permission;
-                permStatus = await check(permission);
-
-                resolve(permStatus);
-            } catch (error) {
-                reject(error);
-                console.log('permission check error', error);
-            }
-        });
-    };
-
-    const requestPermission = (type: PermissionType) => {
-        return new Promise<PermissionStatus>(async (resolve, reject) => {
-            try {
-                const perm = await checkPermission(type);
-
-                if (perm === 'blocked') {
-                    requiredPermission = type;
-                    // 상태로 관리 될 경우 비동기 업데이트로 인해 이전 값으로 참조됨.
-                    openPermissionModal();
-                    return;
-                }
-                const permission = getPermission(type) as Permission;
-                const res = await request(permission);
-
-                resolve(res);
-            } catch (error) {
-                console.log('requestPermission error : ', error);
-                reject(error);
-            }
-        });
-    };
+            });
+        },
+        [IS_IOS, checkPermission, getPermission, openPermissionModal]
+    );
 
     // ui
 
-    const renderPermissionModal = (type: PermissionType, closeModal: () => void) => {
-        const { title, message } = REQUEST_PERMISSION_CONTENT[type];
-        const COMMON_MSG = '설정에서 직접 허용 해주세요.';
+    const renderPermissionModal = useCallback(
+        (type: PermissionType, closeModal: () => void) => {
+            const { title, message } = REQUEST_PERMISSION_CONTENT[type];
+            const COMMON_MSG = '설정에서 직접 허용 해주세요.';
 
-        const modalMsg = `${message}\n${COMMON_MSG}`;
+            const modalMsg = `${message}\n${COMMON_MSG}`;
 
-        return (
-            <CommonModal
-                title={title}
-                titleIcon={<VectorIcon name="alert" color={colors.caution} />}
-                text={modalMsg}
-                onPressBackdrop={closeModal}
-                buttons={[
-                    { content: '설정 바로가기', onPress: openSettings },
-                    { content: '취소하기', type: 'cancel', onPress: closeModal },
-                ]}
-            />
-        );
-    };
+            return (
+                <CommonModal
+                    title={title}
+                    titleIcon={<VectorIcon name="alert" color={colors.caution} />}
+                    text={modalMsg}
+                    onPressBackdrop={closeModal}
+                    buttons={[
+                        { content: '설정 바로가기', onPress: openSettings },
+                        { content: '취소하기', type: 'cancel', onPress: closeModal },
+                    ]}
+                />
+            );
+        },
+        [colors.caution]
+    );
 
     return (
         <PermissionContext.Provider value={{ checkPermission, requestPermission }}>
@@ -145,7 +190,7 @@ const REQUEST_PERMISSION_CONTENT: Record<PermissionType, { title: string; messag
     },
     notification: {
         title: '알림 권한 필요',
-        message: '알림 전송에 대한 접근 권한이 없습니다.',
+        message: '알림 전송에 대한 권한이 없습니다.',
     },
 };
 

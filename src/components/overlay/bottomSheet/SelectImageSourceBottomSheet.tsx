@@ -74,7 +74,7 @@ const SelectImageSourceBottomSheet = (props: Props) => {
         const perm = await checkPermission(launchType);
 
         if (perm !== 'granted' && perm !== 'limited') {
-            // 접근 권한이 없는 경우
+            // 접근 권한이 없는 경우, 앨범 접근 권한이 제한됨 인 경우.
             const requestRes = await requestPermission(launchType);
             if (requestRes !== 'granted' && requestRes !== 'limited') {
                 // 새로 얻은 권한이 없는 경우

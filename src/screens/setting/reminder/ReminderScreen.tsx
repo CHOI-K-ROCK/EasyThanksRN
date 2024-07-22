@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 
@@ -8,22 +8,26 @@ import CommonListItem from 'components/common/CommonListItem';
 import ScreenLayout from 'components/common/ScreenLayout';
 import HorizontalDivider from 'components/common/HorizontalDivider';
 import ReminderSummaryView from 'components/setting/reminder/ReminderSummaryView';
-import CustomCheckBox from 'components/common/CustomCheckBox';
 import ReminderSettingBottomSheet from 'components/overlay/bottomSheet/ReminderSettingBottomSheet';
 import CustomText from 'components/common/CustomText';
+import CustomSwitch from 'components/common/CustomSwitch';
 
 import { ReminderScreenNavigationProps } from 'types/navigations/settingStack';
 import { ReminderDataType } from 'types/models/reminder';
 
 import { useNavigation } from '@react-navigation/native';
+import { openSettings } from 'react-native-permissions';
+
 import useOverlay from 'hooks/useOverlay';
 import useLoading from 'hooks/useLoading';
 import useToast from 'hooks/useToast';
+import usePermissions from 'hooks/usePermissions';
+import useAppState from 'hooks/useAppState';
 
 import { delay } from 'utils/data';
 
 import { commonStyles } from 'styles';
-import CustomSwitch from 'components/common/CustomSwitch';
+import ReminderPermissionCautionView from 'components/setting/reminder/ReminderPermissionCautionView';
 
 const INITIAL_WEEK = [true, true, true, true, true, true, true];
 
@@ -43,6 +47,10 @@ const ReminderScreen = () => {
     const { goBack } = useNavigation<ReminderScreenNavigationProps>();
     const { setLoading } = useLoading();
     const { openToast } = useToast();
+    const { checkPermission, requestPermission } = usePermissions();
+    const { appState } = useAppState();
+
+    const [showPermCaution, setShowPermCaution] = useState<boolean>(false);
 
     const [active, setActive] = useState<boolean>(INITIAL_DATA.active);
     const [time, setTime] = useState<Date>(INITIAL_DATA.time);
@@ -79,7 +87,18 @@ const ReminderScreen = () => {
         };
 
         checkReminderData();
-    }, [INITIAL_DATA, setLoading]);
+    }, [INITIAL_DATA, checkPermission, setLoading]);
+
+    useEffect(() => {
+        const checkPerm = async () => {
+            const perm = await checkPermission('notification');
+            const PERMISSION_GRANTED = perm === 'granted';
+
+            setShowPermCaution(PERMISSION_GRANTED ? false : true);
+        };
+
+        checkPerm();
+    }, [appState, checkPermission]);
 
     const handleConfirm = async (data: { time: Date; week: boolean[] }) => {
         const IS_NOT_SET_WEEK = data.week.every(e => e === false);
@@ -107,11 +126,21 @@ const ReminderScreen = () => {
     };
 
     const toggleActive = async () => {
-        setLoading(true);
-
         try {
-            await delay(500);
-            console.log(!active);
+            // check permission
+            const perm = await checkPermission('notification');
+
+            if (perm !== 'granted') {
+                const requestRes = await requestPermission('notification');
+
+                if (requestRes !== 'granted') {
+                    return;
+                }
+            }
+
+            setLoading(true);
+
+            await delay(500); // 서버 요청
             setActive(prev => !prev);
 
             const newActiveState = !active ? '활성화' : '비활성화'; //변경 후 상태
@@ -129,6 +158,9 @@ const ReminderScreen = () => {
         <SafeAreaView>
             <InnerNavigationBar screenTitle="감사 리마인더 설정" goBack={goBack} />
             <ScreenLayout style={styles.container}>
+                {showPermCaution && (
+                    <ReminderPermissionCautionView onPressShortcut={openSettings} />
+                )}
                 <CustomText style={commonStyles.subject}>{'리마인더 설정 미리보기'}</CustomText>
                 <ReminderSummaryView time={time} week={week} />
 
