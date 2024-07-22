@@ -129,14 +129,6 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
                 try {
                     const IS_CHECK_IOS_NOTIFICATION = IS_IOS && type === 'notification';
 
-                    const perm = await checkPermission(type);
-
-                    if (perm === 'blocked') {
-                        requiredPermission.current = type;
-                        // 상태로 관리 될 경우 비동기 업데이트로 인해 이전 값으로 참조됨.
-                        openPermissionModal();
-                        return;
-                    }
                     const permission = getPermission(type) as Permission;
 
                     if (IS_CHECK_IOS_NOTIFICATION) {
@@ -160,6 +152,10 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
 
                     const res = await request(permission);
 
+                    if (res === 'blocked' || res === 'denied') {
+                        openPermissionModal();
+                    }
+
                     resolve(res);
                 } catch (error) {
                     console.log('requestPermission error : ', error);
@@ -167,7 +163,7 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
                 }
             });
         },
-        [IS_IOS, checkPermission, getPermission, openPermissionModal]
+        [IS_IOS, getPermission, openPermissionModal]
     );
 
     const handlePressOpenSetting = useCallback(() => {

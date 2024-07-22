@@ -45,12 +45,7 @@ const OptOutDialogModal = (props: Props) => {
             text={'정말로 탈퇴하시겠어요?\n모든 데이터가 초기화 되고 \n되돌릴 수 없습니다!'}
         >
             <View style={styles.container}>
-                <CustomTextInput
-                    value={value}
-                    onChangeText={handleChange}
-                    autoFocus
-                    placeholder="회원탈퇴"
-                />
+                <CustomTextInput value={value} onChangeText={handleChange} placeholder="회원탈퇴" />
                 <CustomText style={styles.help}>
                     *탈퇴를 원하시면 회원탈퇴를 입력해주세요.
                 </CustomText>

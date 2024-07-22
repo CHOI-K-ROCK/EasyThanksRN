@@ -101,13 +101,10 @@ const ReminderScreen = () => {
     }, [appState, checkPermission]);
 
     const onPressShourcut = async () => {
-        const perm = await checkPermission('notification');
+        const perm = await requestPermission('notification');
 
-        if (perm === 'blocked') {
+        if (perm === 'blocked' || perm === 'denied') {
             openSettings();
-        } else {
-            // 물어보지 않은 경우
-            requestPermission('notification');
         }
     };
 

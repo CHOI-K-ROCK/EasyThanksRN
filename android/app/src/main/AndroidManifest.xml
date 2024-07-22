@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rockwithsun.easythanks">
 
+  <!-- android permissions -->
+  <!-- Keep only the permissions used in your app -->
+  
   <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.CAMERA" />
+  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> 
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
 
   <application
     android:name=".MainApplication"
@@ -36,13 +43,5 @@
           android:scheme="kakaoc81737acf3105a0237f7357d3844a1f2" />
       </intent-filter>
     </activity>
-
-    <!-- android permissions -->
-    <!-- Keep only the permissions used in your app -->
-
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
   </application>
 </manifest>
