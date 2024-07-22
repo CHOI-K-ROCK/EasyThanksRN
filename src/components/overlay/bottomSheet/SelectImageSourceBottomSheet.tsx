@@ -66,6 +66,9 @@ const SelectImageSourceBottomSheet = (props: Props) => {
     const handleLaunch = async (launchType: 'camera' | 'photoLibrary') => {
         const IS_LAUNCH_CAMERA = launchType === 'camera';
         const launchMethod = IS_LAUNCH_CAMERA ? launchCamera : launchImageLibrary;
+        const launchOptions = IS_LAUNCH_CAMERA
+            ? (cameraOptions as CameraOptions)
+            : (imageLibraryOptions as ImageLibraryOptions);
 
         // check permission
         const perm = await checkPermission(launchType);
@@ -79,11 +82,7 @@ const SelectImageSourceBottomSheet = (props: Props) => {
             }
         }
 
-        const options = IS_LAUNCH_CAMERA
-            ? (cameraOptions as CameraOptions)
-            : (imageLibraryOptions as ImageLibraryOptions);
-
-        launchMethod(options, res => {
+        launchMethod(launchOptions, res => {
             const { assets, errorCode, didCancel } = res;
             if (errorCode) {
                 console.log(errorCode);

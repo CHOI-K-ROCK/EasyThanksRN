@@ -35,13 +35,14 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
     const IS_ANDROID = Platform.OS === 'android';
     const IS_AVOBE_ANDROID_SDK_33 = IS_ANDROID && Number(Platform.Version) >= 33;
 
-    const requiredPermission = useRef<PermissionType>('camera');
+    let requiredPermission = 'camera' as PermissionType;
 
     const { openOverlay: openPermissionModal, closeOverlay: closePermissionModal } = useOverlay(
-        () => renderPermissionModal(requiredPermission.current, closePermissionModal)
+        () => renderPermissionModal(requiredPermission, closePermissionModal)
     );
 
     const getPermission = (type: PermissionType) => {
+        // 가독성을 위해 case 내부 if문 분리하여 사용
         switch (type) {
             case 'camera': {
                 if (IS_IOS) {
@@ -71,7 +72,6 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
             try {
                 let permStatus: PermissionStatus = 'denied';
 
-                // 가독성을 위해 if 블록 각각 사용
                 const permission = getPermission(type) as Permission;
                 permStatus = await check(permission);
 
@@ -89,9 +89,8 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
                 const perm = await checkPermission(type);
 
                 if (perm === 'blocked') {
-                    requiredPermission.current = type;
-                    // 상태로 관리 될 경우 비동기 업데이트로 인해 이전 값으로 참조굄.
-                    // ref 를 이용하여 동기적으로 업데이트 이후 모달 오픈
+                    requiredPermission = type;
+                    // 상태로 관리 될 경우 비동기 업데이트로 인해 이전 값으로 참조됨.
                     openPermissionModal();
                     return;
                 }
