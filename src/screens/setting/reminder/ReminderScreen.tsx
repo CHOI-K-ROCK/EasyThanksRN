@@ -11,6 +11,7 @@ import ReminderSummaryView from 'components/setting/reminder/ReminderSummaryView
 import ReminderSettingBottomSheet from 'components/overlay/bottomSheet/ReminderSettingBottomSheet';
 import CustomText from 'components/common/CustomText';
 import CustomSwitch from 'components/common/CustomSwitch';
+import ReminderPermissionCautionView from 'components/setting/reminder/ReminderPermissionCautionView';
 
 import { ReminderScreenNavigationProps } from 'types/navigations/settingStack';
 import { ReminderDataType } from 'types/models/reminder';
@@ -27,8 +28,6 @@ import useAppState from 'hooks/useAppState';
 import { delay } from 'utils/data';
 
 import { commonStyles } from 'styles';
-import ReminderPermissionCautionView from 'components/setting/reminder/ReminderPermissionCautionView';
-import Animated from 'react-native-reanimated';
 
 const INITIAL_WEEK = [true, true, true, true, true, true, true];
 
@@ -131,9 +130,10 @@ const ReminderScreen = () => {
             setLoading(true);
 
             await delay(500); // 서버 요청
-            setActive(prev => !prev);
+            const res = !active;
+            setActive(res);
 
-            const newActiveState = !active ? '활성화' : '비활성화'; //변경 후 상태
+            const newActiveState = res ? '활성화' : '비활성화'; //변경 후 상태
 
             openToast({ text: `리마인더가 ${newActiveState} 되었어요!`, type: 'complete' });
         } catch (error) {
