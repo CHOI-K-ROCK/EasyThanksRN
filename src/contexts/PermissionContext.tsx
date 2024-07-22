@@ -85,15 +85,28 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
                 try {
                     const IS_CHECK_IOS_NOTIFICATION = IS_IOS && type === 'notification';
 
-                    let permStatus: PermissionStatus = 'blocked';
+                    let permStatus: PermissionStatus = 'denied';
 
                     if (IS_CHECK_IOS_NOTIFICATION) {
                         const notificationPerm = await notifee.requestPermission();
 
-                        if (
-                            notificationPerm.authorizationStatus === AuthorizationStatus.AUTHORIZED
-                        ) {
-                            permStatus = 'granted';
+                        switch (notificationPerm.authorizationStatus) {
+                            // 권한 참고
+                            // react-native-permissions 에서 물어보지 않음 -> denied, 거절되어 다시 물어볼 수 없음 -> bloced
+                            // notifee 에서 물어보지 않음 -> NOT_DETERMINED, 거절되어 다시 물어볼 수 없음 -> DENIED
+
+                            case AuthorizationStatus.NOT_DETERMINED: {
+                                permStatus = 'denied';
+                                break;
+                            }
+                            case AuthorizationStatus.DENIED: {
+                                permStatus = 'blocked';
+                                break;
+                            }
+                            case AuthorizationStatus.AUTHORIZED: {
+                                permStatus = 'granted';
+                                break;
+                            }
                         }
                     } else {
                         const permission = getPermission(type) as Permission;
@@ -129,12 +142,22 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
                     if (IS_CHECK_IOS_NOTIFICATION) {
                         const notificationPerm = await notifee.requestPermission();
 
-                        if (
-                            notificationPerm.authorizationStatus === AuthorizationStatus.AUTHORIZED
-                        ) {
-                            resolve('granted');
+                        switch (notificationPerm.authorizationStatus) {
+                            case AuthorizationStatus.NOT_DETERMINED: {
+                                resolve('denied');
+                                break;
+                            }
+                            case AuthorizationStatus.DENIED: {
+                                resolve('blocked');
+                                break;
+                            }
+                            case AuthorizationStatus.AUTHORIZED: {
+                                resolve('granted');
+                                break;
+                            }
                         }
                     }
+
                     const res = await request(permission);
 
                     resolve(res);
@@ -146,6 +169,11 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
         },
         [IS_IOS, checkPermission, getPermission, openPermissionModal]
     );
+
+    const handlePressOpenSetting = useCallback(() => {
+        closePermissionModal();
+        openSettings();
+    }, [closePermissionModal]);
 
     // ui
 
@@ -163,13 +191,16 @@ const PermissionProvider = ({ children }: { children: ReactNode }) => {
                     text={modalMsg}
                     onPressBackdrop={closeModal}
                     buttons={[
-                        { content: '설정 바로가기', onPress: openSettings },
+                        {
+                            content: '설정 바로가기',
+                            onPress: handlePressOpenSetting,
+                        },
                         { content: '취소하기', type: 'cancel', onPress: closeModal },
                     ]}
                 />
             );
         },
-        [colors.caution]
+        [colors.caution, handlePressOpenSetting]
     );
 
     return (

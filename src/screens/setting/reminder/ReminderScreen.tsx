@@ -28,6 +28,7 @@ import { delay } from 'utils/data';
 
 import { commonStyles } from 'styles';
 import ReminderPermissionCautionView from 'components/setting/reminder/ReminderPermissionCautionView';
+import Animated from 'react-native-reanimated';
 
 const INITIAL_WEEK = [true, true, true, true, true, true, true];
 
@@ -100,6 +101,49 @@ const ReminderScreen = () => {
         checkPerm();
     }, [appState, checkPermission]);
 
+    const onPressShourcut = async () => {
+        const perm = await checkPermission('notification');
+
+        if (perm === 'blocked') {
+            openSettings();
+        } else {
+            // 물어보지 않은 경우
+            requestPermission('notification');
+        }
+    };
+
+    const toggleActive = async () => {
+        try {
+            // check permission
+            const perm = await checkPermission('notification');
+
+            if (perm !== 'granted' && !active) {
+                const requestRes = await requestPermission('notification');
+
+                if (requestRes !== 'granted') {
+                    return;
+                }
+                // 권한 요청 성공 시 경고 메시지 숨기기
+                setShowPermCaution(false);
+            }
+
+            // 리마인더 활성화 요청시작
+            setLoading(true);
+
+            await delay(500); // 서버 요청
+            setActive(prev => !prev);
+
+            const newActiveState = !active ? '활성화' : '비활성화'; //변경 후 상태
+
+            openToast({ text: `리마인더가 ${newActiveState} 되었어요!`, type: 'complete' });
+        } catch (error) {
+            console.log(error);
+            openToast({ text: '오류가 발생했습니다.', type: 'error' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleConfirm = async (data: { time: Date; week: boolean[] }) => {
         const IS_NOT_SET_WEEK = data.week.every(e => e === false);
 
@@ -125,41 +169,12 @@ const ReminderScreen = () => {
         }
     };
 
-    const toggleActive = async () => {
-        try {
-            // check permission
-            const perm = await checkPermission('notification');
-
-            if (perm !== 'granted') {
-                const requestRes = await requestPermission('notification');
-
-                if (requestRes !== 'granted') {
-                    return;
-                }
-            }
-
-            setLoading(true);
-
-            await delay(500); // 서버 요청
-            setActive(prev => !prev);
-
-            const newActiveState = !active ? '활성화' : '비활성화'; //변경 후 상태
-
-            openToast({ text: `리마인더가 ${newActiveState} 되었어요!`, type: 'complete' });
-        } catch (error) {
-            console.log(error);
-            openToast({ text: '오류가 발생했습니다.', type: 'error' });
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
         <SafeAreaView>
             <InnerNavigationBar screenTitle="감사 리마인더 설정" goBack={goBack} />
             <ScreenLayout style={styles.container}>
                 {showPermCaution && (
-                    <ReminderPermissionCautionView onPressShortcut={openSettings} />
+                    <ReminderPermissionCautionView onPressShortcut={onPressShourcut} />
                 )}
                 <CustomText style={commonStyles.subject}>{'리마인더 설정 미리보기'}</CustomText>
                 <ReminderSummaryView time={time} week={week} />
