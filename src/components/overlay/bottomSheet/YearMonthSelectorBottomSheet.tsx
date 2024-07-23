@@ -1,11 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import BottomSheet from './BottomSheet';
-import FullWidthButton from 'components/common/FullWidthButton';
+import React, { useCallback, useState } from 'react';
+
 import { StyleSheet, View } from 'react-native';
+import FullWidthButton from 'components/common/FullWidthButton';
 import CustomText from 'components/common/CustomText';
 import VectorIcon from 'components/common/VectorIcon';
-import { commonStyles } from 'styles';
+import BottomSheet from './BottomSheet';
+
 import useToast from 'hooks/useToast';
+
+import { commonStyles } from 'styles';
 
 type Props = {
     date: Date;
@@ -108,6 +111,7 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
     return (
         <BottomSheet closeBottomSheet={closeBottomSheet}>
             <View style={styles.main.container}>
+                <CustomText style={commonStyles.subject}>{'조회 시기 설정'}</CustomText>
                 <View style={styles.main.selectorWrapper}>
                     <Selector
                         value={year}
