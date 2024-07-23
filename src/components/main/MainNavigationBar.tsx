@@ -3,14 +3,12 @@ import { StyleSheet, View } from 'react-native';
 
 import CustomText from 'components/common/CustomText';
 
-import { commonStyles } from 'styles';
-
 import useDimensions from 'hooks/useDimensions';
 import useCustomTheme from 'hooks/useCustomTheme';
-import { convertDateToString } from 'utils/date';
-import { getRandomArrayValue } from 'utils/data';
 
-import { EMOJI_SET } from 'constants/string';
+import HorizontalDivider from 'components/common/HorizontalDivider';
+import { HORIZONTAL_GAP } from 'constants/style';
+import { commonStyles } from 'styles';
 
 type Props = {
     leftComponent?: React.ReactElement;
@@ -23,68 +21,53 @@ const MainNavigationBar = (props: Props) => {
     const { leftComponent } = props;
 
     return (
-        <View
-            style={[
-                {
-                    backgroundColor: colors.tabBarBackground,
-                    paddingHorizontal: wp(5),
-                    paddingTop: hp(0.5),
-                    paddingBottom: hp(1.5),
-                },
-                styles.container,
-            ]}
-        >
-            <View style={{ flex: 1 }}>
-                <View style={styles.nicknameContainer}>
-                    <CustomText style={styles.nickname}>KROCK</CustomText>
-                    <View style={styles.welcomeWrapper}>
-                        <CustomText style={styles.welcome}>{'님 어서오세요!'}</CustomText>
-                        <CustomText style={styles.emoji}>
-                            {getRandomArrayValue(EMOJI_SET)}
+        <View>
+            <View
+                style={[
+                    {
+                        paddingHorizontal: wp(5),
+                        paddingTop: hp(0.5),
+                        paddingBottom: hp(1.5),
+                    },
+                    styles.container,
+                ]}
+            >
+                <View style={{ flex: 1 }}>
+                    <View>
+                        <CustomText style={[{ color: colors.mainColor }, styles.logo]}>
+                            {'EasyThanks'}
                         </CustomText>
+                        <CustomText style={styles.catch}>매일매일, 감사일기</CustomText>
                     </View>
                 </View>
-                <CustomText style={styles.currentDate}>
-                    {convertDateToString(new Date())}
-                </CustomText>
-            </View>
 
-            {leftComponent && leftComponent}
+                {leftComponent && leftComponent}
+            </View>
+            <HorizontalDivider
+                style={[{ opacity: 1 }, styles.divider]}
+                color={colors.tabBarBackground}
+                width={wp(100) - HORIZONTAL_GAP * 2}
+                height={2}
+            />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        ...commonStyles.dropShadow,
+        ...commonStyles.rowCenter,
     },
-    nicknameContainer: {
-        flexDirection: 'row',
-        alignItems: 'baseline',
+    logo: {
+        fontSize: 20,
+        fontWeight: 700,
     },
-    nickname: {
-        fontSize: 26,
-        fontWeight: 600,
+    catch: {
+        fontSize: 12,
+        fontWeight: 500,
     },
-    welcomeWrapper: {
-        flexDirection: 'row',
-        alignItems: 'baseline',
-    },
-    welcome: {
-        fontSize: 16,
-        marginLeft: 5,
-    },
-    emoji: {
-        marginLeft: 5,
-    },
-    currentDate: {
-        fontSize: 14,
-        fontWeight: 400,
-        opacity: 0.5,
+    divider: {
+        height: 2,
+        alignSelf: 'center',
     },
 });
 

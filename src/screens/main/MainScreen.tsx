@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { FlatList, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
@@ -37,25 +37,21 @@ const MainScreen = () => {
     };
 
     // ui
-    const renderHeader = useCallback(() => {
-        return <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>;
-    }, []);
 
     // flatlist
     const _renderItem = useCallback(
         ({ item }: { item: PostDataType }) => {
             return (
-                <View style={styles.thumbnailContainer}>
-                    <PostThumbnail
-                        data={item}
-                        onPress={() =>
-                            navigate('PostStack', {
-                                screen: 'PostDetailScreen',
-                                params: { postData: item },
-                            })
-                        }
-                    />
-                </View>
+                <PostThumbnail
+                    data={item}
+                    style={{ marginBottom: 15 }}
+                    onPress={() =>
+                        navigate('PostStack', {
+                            screen: 'PostDetailScreen',
+                            params: { postData: item },
+                        })
+                    }
+                />
             );
         },
         [navigate]
@@ -66,7 +62,7 @@ const MainScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView topAreaBackgroundColor={colors.tabBarBackground}>
+        <SafeAreaView>
             <MainNavigationBar
                 leftComponent={
                     <VectorIcon onPress={toAppMenu} name="cog" size={25} color={colors.text} />
@@ -77,7 +73,9 @@ const MainScreen = () => {
                     data={DUMMY_POSTS}
                     renderItem={_renderItem}
                     keyExtractor={_keyExtractor}
-                    ListHeaderComponent={renderHeader}
+                    ListHeaderComponent={
+                        <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>
+                    }
                     ListHeaderComponentStyle={styles.headerContainer}
                 />
             </ScreenLayout>
@@ -88,9 +86,6 @@ const MainScreen = () => {
 const styles = StyleSheet.create({
     headerContainer: {
         paddingTop: 20,
-    },
-    thumbnailContainer: {
-        marginBottom: 15,
     },
 });
 

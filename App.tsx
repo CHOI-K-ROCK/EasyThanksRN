@@ -46,8 +46,6 @@ function App(): React.JSX.Element {
         initApp();
     }, []);
 
-    checkStroageValue('asUserId');
-
     return (
         <SafeAreaProvider>
             <KeyboardContextProvider>

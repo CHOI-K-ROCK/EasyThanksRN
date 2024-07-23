@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import CustomText from './CustomText';
 import PushAnimatedPressable from './PushAnimatedPressable';
 import LinearGradientView from './LinearGradientView';
@@ -16,11 +16,12 @@ import { commonStyles } from 'styles';
 type Props = {
     data: PostDataType;
     onPress: () => void;
+    style?: StyleProp<ViewStyle>;
 };
 
 const PostThumbnail = (props: Props) => {
     const { colors, dark } = useCustomTheme();
-    const { data, onPress } = props;
+    const { data, style, onPress } = props;
 
     const { title, content, photos, createdAt } = data;
 
@@ -34,7 +35,7 @@ const PostThumbnail = (props: Props) => {
             scale={0.98}
             activeOpacity={0.9}
             onPress={onPress}
-            style={[{ backgroundColor: colors.tabBarBackground }, styles.container]}
+            style={[{ backgroundColor: colors.tabBarBackground }, styles.container, style]}
         >
             {defaultImage && (
                 <View style={[StyleSheet.absoluteFill, styles.imageContainer]}>
