@@ -40,6 +40,7 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
                 case 'inc': {
                     setYear(prevYear => {
                         if (prevYear >= currentYear) {
+                            //
                             openCautionToast();
                             setMonth(currentMonth);
                             return prevYear;
@@ -156,6 +157,26 @@ const Selector = ({
     onDecrease: () => void;
     minWidth?: number;
 }) => {
+    const timer = useRef<NodeJS.Timeout>();
+    const [longPressed, setLongPressed] = useState<'increase' | 'decrease' | null>(null);
+
+    useEffect(() => {
+        if (longPressed !== null) {
+            timer.current = setInterval(() => {
+                longPressed === 'increase' ? onIncrease() : onDecrease();
+            }, 100);
+        } else {
+            clearInterval(timer.current);
+        }
+    }, [longPressed, onDecrease, onIncrease]);
+
+    const _onLongPress = (type: 'increase' | 'decrease') => {
+        setLongPressed(type);
+    };
+    const _onPressOut = () => {
+        setLongPressed(null);
+    };
+
     return (
         <View style={commonStyles.rowCenter}>
             <View
@@ -163,11 +184,23 @@ const Selector = ({
                     alignItems: 'center',
                 }}
             >
-                <VectorIcon style={styles.selector.button} name="plus" onPress={onIncrease} />
+                <VectorIcon
+                    style={styles.selector.button}
+                    name="plus"
+                    onPress={onIncrease}
+                    onLongPress={() => _onLongPress('increase')}
+                    onPressOut={_onPressOut}
+                />
                 <View style={[styles.selector.valueWarpper, { minWidth }]}>
                     <CustomText style={[styles.selector.value]}>{value}</CustomText>
                 </View>
-                <VectorIcon style={styles.selector.button} name="minus" onPress={onDecrease} />
+                <VectorIcon
+                    style={styles.selector.button}
+                    name="minus"
+                    onPress={onDecrease}
+                    onLongPress={() => _onLongPress('decrease')}
+                    onPressOut={_onPressOut}
+                />
             </View>
             <CustomText style={styles.selector.unit}>{unit}</CustomText>
         </View>
