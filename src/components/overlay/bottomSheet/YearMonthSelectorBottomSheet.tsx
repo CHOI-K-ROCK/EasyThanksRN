@@ -44,10 +44,6 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
                             setMonth(currentMonth);
                             return prevYear;
                         }
-                        if (prevYear >= currentYear && month >= currentMonth) {
-                            openCautionToast();
-                            return prevYear;
-                        }
                         return prevYear + 1;
                     });
                     break;
@@ -60,7 +56,7 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
                 }
             }
         },
-        [currentMonth, currentYear, month, openCautionToast]
+        [currentMonth, currentYear, openCautionToast]
     );
 
     const handleChangeMonth = useCallback(
