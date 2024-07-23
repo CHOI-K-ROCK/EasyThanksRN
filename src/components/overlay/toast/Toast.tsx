@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
         fontWeight: 600,
         fontSize: 15,
         color: '#FFF',
+        textAlign: 'center',
     },
     closeButton: {
         backgroundColor: '#FFF',
