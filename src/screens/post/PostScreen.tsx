@@ -114,7 +114,7 @@ const PostScreen = () => {
             />
             <ScreenLayout style={styles.main.container}>
                 <View style={styles.main.lookUpDateContainer}>
-                    <CustomText style={commonStyles.subject}>조회 할 연월 선택</CustomText>
+                    <CustomText style={commonStyles.subject}>조회 시기 선택</CustomText>
                     <ChangeLookUpDateButton
                         date={lookUpDate}
                         onPress={openYearMonthSelectorBottomSheet}
