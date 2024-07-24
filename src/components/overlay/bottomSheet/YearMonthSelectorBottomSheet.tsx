@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import BottomSheet from './BottomSheet';
-import FullWidthButton from 'components/common/FullWidthButton';
+import React, { useCallback, useState } from 'react';
+
 import { StyleSheet, View } from 'react-native';
+import FullWidthButton from 'components/common/FullWidthButton';
 import CustomText from 'components/common/CustomText';
 import VectorIcon from 'components/common/VectorIcon';
+import BottomSheet from './BottomSheet';
+
 import { commonStyles } from 'styles';
-import useToast from 'hooks/useToast';
 
 type Props = {
     date: Date;
@@ -16,7 +17,6 @@ type Props = {
 
 const YearMonthSelectorBottomSheet = (props: Props) => {
     const { closeBottomSheet, date, onConfirm } = props;
-    const { openToast } = useToast();
 
     const [year, setYear] = useState<number>(date.getFullYear());
     const [month, setMonth] = useState<number>(date.getMonth());
@@ -25,28 +25,13 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
 
-    const openCautionToast = useCallback(
-        () =>
-            openToast({
-                text: '지금보다 미래로 설정 할 수 없습니다.',
-                type: 'caution',
-            }),
-        [openToast]
-    );
-
     const handleChangeYear = useCallback(
         (type: 'inc' | 'dec') => {
             switch (type) {
                 case 'inc': {
                     setYear(prevYear => {
                         if (prevYear >= currentYear) {
-                            //
-                            openCautionToast();
                             setMonth(currentMonth);
-                            return prevYear;
-                        }
-                        if (prevYear >= currentYear && month >= currentMonth) {
-                            openCautionToast();
                             return prevYear;
                         }
                         return prevYear + 1;
@@ -61,7 +46,7 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
                 }
             }
         },
-        [currentMonth, currentYear, month, openCautionToast]
+        [currentMonth, currentYear]
     );
 
     const handleChangeMonth = useCallback(
@@ -70,7 +55,6 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
                 case 'inc': {
                     setMonth(prevMonth => {
                         if (year >= currentYear && prevMonth >= currentMonth) {
-                            openCautionToast();
                             return prevMonth;
                         }
                         if (prevMonth >= 12) {
@@ -93,7 +77,7 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
                 }
             }
         },
-        [currentMonth, currentYear, openCautionToast, year]
+        [currentMonth, currentYear, year]
     );
 
     const handleIncreaseYear = useCallback(() => handleChangeYear('inc'), [handleChangeYear]);
@@ -101,18 +85,19 @@ const YearMonthSelectorBottomSheet = (props: Props) => {
     const handleIncreaseMonth = useCallback(() => handleChangeMonth('inc'), [handleChangeMonth]);
     const handleDecreaseMonth = useCallback(() => handleChangeMonth('dec'), [handleChangeMonth]);
 
-    const handleConfirm = () => {
+    const handleConfirm = useCallback(() => {
         const newDate = new Date(date);
 
         newDate.setFullYear(year);
         newDate.setMonth(month);
 
         onConfirm(newDate);
-    };
+    }, [date, month, onConfirm, year]);
 
     return (
         <BottomSheet closeBottomSheet={closeBottomSheet}>
             <View style={styles.main.container}>
+                <CustomText style={commonStyles.subject}>{'조회 시기 설정'}</CustomText>
                 <View style={styles.main.selectorWrapper}>
                     <Selector
                         value={year}
