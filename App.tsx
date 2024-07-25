@@ -18,6 +18,8 @@ import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
 import { checkStroageValue, getAppTheme, saveAppTheme } from 'utils/storage';
 import { KeyboardContextProvider } from 'contexts/KeyboardContext';
 import { PermissionProvider } from 'contexts/PermissionContext';
+import { delay } from 'utils/data';
+import SplashScreen from 'react-native-splash-screen';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);
@@ -37,6 +39,16 @@ function App(): React.JSX.Element {
             saveAppTheme(appTheme);
             console.log('appThemeScheme', appThemeScheme);
             Appearance.setColorScheme(appThemeScheme);
+
+            let tt = 0;
+            const t = setInterval(() => {
+                tt += 1;
+                console.log(tt);
+            }, 1000);
+            await delay(10000);
+            SplashScreen.hide();
+            console.log('splash hide');
+            clearInterval(t);
         } catch (e) {
             console.log('app init error :', e);
         }

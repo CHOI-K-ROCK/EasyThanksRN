@@ -10,6 +10,9 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <Firebase.h>
 
+// splash
+#import "RNSplashScreen.h" 
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application
@@ -23,8 +26,12 @@
     [FIRApp configure];
   }
 
-  return [super application:application
-      didFinishLaunchingWithOptions:launchOptions];
+  // splash https://github.com/crazycodeboy/react-native-splash-screen/issues/606#issuecomment-1401875339
+  bool didFinish=[super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  [RNSplashScreen show];
+  
+  return didFinish;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
