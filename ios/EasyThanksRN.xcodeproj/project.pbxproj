@@ -21,6 +21,7 @@
 		9C0FD183389F4974A5C0D6F8 /* Pretendard-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67B32C3B20354004BE647CAE /* Pretendard-Light.ttf */; };
 		9DF267E0435A4C6598D8A51F /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48F79F6CF36E4D819CEEFAB3 /* Pretendard-Regular.ttf */; };
 		D93D077B0C59E675F0F68915 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9BB3BAA22C2F79B53D11ACF8 /* PrivacyInfo.xcprivacy */; };
+		DD167E092C5233D90043BE6F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD167E082C5233D90043BE6F /* Colors.xcassets */; };
 		DD62E5B12C48E6E5003D37BD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD62E5B02C48E6E5003D37BD /* GoogleService-Info.plist */; };
 		DD6499162C297A9600A7E650 /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6499152C297A9600A7E650 /* SwiftBridge.swift */; };
 		DDA085882C2AEA6E00501440 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DDA085872C2AEA6E00501440 /* InfoPlist.xcstrings */; };
@@ -74,6 +75,7 @@
 		B2D2ED666693B8141813202C /* Pods-EasyThanksRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyThanksRN.release.xcconfig"; path = "Target Support Files/Pods-EasyThanksRN/Pods-EasyThanksRN.release.xcconfig"; sourceTree = "<group>"; };
 		B4A72BD51CE8685158E9F781 /* Pods_EasyThanksRN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyThanksRN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C87A6B18468E446380625D85 /* Pretendard-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.ttf"; path = "../assets/fonts/Pretendard-ExtraBold.ttf"; sourceTree = "<group>"; };
+		DD167E082C5233D90043BE6F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		DD62E5B02C48E6E5003D37BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD6499142C297A9600A7E650 /* EasyThanksRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyThanksRN-Bridging-Header.h"; sourceTree = "<group>"; };
 		DD6499152C297A9600A7E650 /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				DD167E082C5233D90043BE6F /* Colors.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -348,6 +351,7 @@
 				DDC381702C09993F004DACAC /* FontAwesome6_Regular.ttf in Resources */,
 				5B1CFD0A3B5F43C2B6668D9A /* Pretendard-Black.ttf in Resources */,
 				511DE138D15E410DAD0BD6B9 /* Pretendard-Bold.ttf in Resources */,
+				DD167E092C5233D90043BE6F /* Colors.xcassets in Resources */,
 				806661298CD24E6697188A8F /* Pretendard-ExtraBold.ttf in Resources */,
 				F94BE19B8DE14C7AAF91DB70 /* Pretendard-ExtraLight.ttf in Resources */,
 				9C0FD183389F4974A5C0D6F8 /* Pretendard-Light.ttf in Resources */,
@@ -750,10 +754,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -836,10 +837,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
