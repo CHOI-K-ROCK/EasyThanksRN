@@ -11,6 +11,7 @@ import org.devio.rn.splashscreen.SplashScreen
 class MainActivity : ReactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        // 테마 선택 (splash screen)
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> setTheme(R.style.DarkTheme)
             Configuration.UI_MODE_NIGHT_NO -> setTheme(R.style.LightTheme)
