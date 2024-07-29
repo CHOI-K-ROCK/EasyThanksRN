@@ -43,8 +43,10 @@ const useAuth = () => {
                 }
             }
 
+            console.log(res);
+
             setUserData({ ...res });
-            setSigned(true);
+            // setSigned(true);
         } catch (error) {
             console.log('sso login error => ', error);
         }

@@ -7,7 +7,7 @@ import {
 import NaverLogin from '@react-native-seoul/naver-login';
 //google
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 import { delay } from '../utils/data';
 import { SsoProviderType, UserDataType } from '../@types/models/user';
@@ -17,6 +17,7 @@ import {
     APP_ENV_NAVER_AUTH_SECRET,
     APP_ENV_NAVER_AUTH_KEY,
 } from '@env';
+import { supabase } from 'api/supabase';
 
 export const handleKakaoLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
@@ -26,6 +27,8 @@ export const handleKakaoLogin = () =>
             // ---- temp ----
             const kakaoUserProfile = await getKakaoProfile();
             const { nickname, profileImageUrl } = kakaoUserProfile;
+
+            // supabase auth
 
             const user = {
                 ssoProvider: 'kakao' as SsoProviderType,
@@ -59,7 +62,6 @@ export const handleNaverLogin = () =>
                 consumerKey,
                 consumerSecret,
                 serviceUrlSchemeIOS,
-                // disableNaverAppAuthIOS: true,
             });
 
             await delay(100); // 초기화 함수 실행을 확실하게 하기 위해 추가
@@ -78,6 +80,8 @@ export const handleNaverLogin = () =>
             const { response: naverUserProfile } = await NaverLogin.getProfile(accessToken);
             const { nickname, profile_image } = naverUserProfile;
 
+            // supabase auth
+
             const user = {
                 ssoProvider: 'naver' as SsoProviderType,
                 username: nickname,
@@ -94,26 +98,42 @@ export const handleNaverLogin = () =>
 export const handleGoogleLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
-            const webci = APP_ENV_GOOGLE_WEB_CLIENT_ID;
-
-            GoogleSignin.configure({ webClientId: webci });
-            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+            GoogleSignin.configure({
+                webClientId: APP_ENV_GOOGLE_WEB_CLIENT_ID,
+                iosClientId:
+                    '965178329187-440mg5l0qteg6r6dcus80om2o20hlc37.apps.googleusercontent.com',
+            });
+            // console.log(res);
 
             const { idToken } = await GoogleSignin.signIn();
+            console.log(idToken);
+            if (!idToken) {
+                throw new Error('id Token is null');
+            }
 
+            const res = await supabase.auth.signInWithIdToken({
+                provider: 'google',
+                token: idToken,
+            });
+
+            console.log(res);
             // const res = await 서버로_보낼_요청(idToken)
 
-            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-            await auth().signInWithCredential(googleCredential);
-            const googleUserData = auth().currentUser!;
+            // await auth().signInWithCredential(googleCredential);
+            // const googleUserData = auth().currentUser!;
 
-            const { displayName, photoURL } = googleUserData;
-            const user = {
-                ssoProvider: 'google' as SsoProviderType,
-                username: displayName,
-                profileImg: photoURL,
-            };
+            // const { displayName, photoURL } = googleUserData;
+
+            // supabase auth
+
+            const user = {};
+            // const user = {
+            //     ssoProvider: 'google' as SsoProviderType,
+            //     username: displayName,
+            //     profileImg: photoURL,
+            // };
 
             resolve(user); // UserDataType
         } catch (error) {

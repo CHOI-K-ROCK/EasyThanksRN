@@ -15,13 +15,11 @@ import OverlayProvider from 'components/provider/OverlayProvider';
 import LoadingProvider from 'components/provider/LoadingProvider';
 
 import { AppThemeType, customTheme } from 'hooks/useCustomTheme';
-import { checkStroageValue, getAppTheme, saveAppTheme } from 'utils/storage';
+import { getAppTheme, saveAppTheme } from 'utils/storage';
 import { KeyboardContextProvider } from 'contexts/KeyboardContext';
 import { PermissionProvider } from 'contexts/PermissionContext';
-import { delay } from 'utils/data';
 import SplashScreen from 'react-native-splash-screen';
-
-import { APP_ENV_API_URL } from '@env';
+import { supabase } from 'api/supabase';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);
@@ -30,7 +28,6 @@ function App(): React.JSX.Element {
 
     const theme = isDark ? customTheme.dark : customTheme.light;
 
-    console.log(APP_ENV_API_URL);
     const initApp = async () => {
         try {
             console.log('init app');
@@ -41,6 +38,9 @@ function App(): React.JSX.Element {
 
             await saveAppTheme(appTheme);
             Appearance.setColorScheme(appThemeScheme);
+
+            const res = await supabase;
+            // console.log(res);
 
             SplashScreen.hide();
         } catch (e) {
