@@ -36,19 +36,10 @@ function App(): React.JSX.Element {
             const appTheme = ((await getAppTheme()) || 'device') as AppThemeType;
             const appThemeScheme = (appTheme === 'device' ? null : appTheme) as ColorSchemeName;
 
-            saveAppTheme(appTheme);
-            console.log('appThemeScheme', appThemeScheme);
+            await saveAppTheme(appTheme);
             Appearance.setColorScheme(appThemeScheme);
 
-            let tt = 0;
-            const t = setInterval(() => {
-                tt += 1;
-                console.log(tt);
-            }, 1000);
-            await delay(10000);
             SplashScreen.hide();
-            console.log('splash hide');
-            clearInterval(t);
         } catch (e) {
             console.log('app init error :', e);
         }
