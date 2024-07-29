@@ -21,6 +21,8 @@ import { PermissionProvider } from 'contexts/PermissionContext';
 import { delay } from 'utils/data';
 import SplashScreen from 'react-native-splash-screen';
 
+import { APP_ENV_API_URL } from '@env';
+
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);
     // const isSigned = true;
@@ -28,6 +30,7 @@ function App(): React.JSX.Element {
 
     const theme = isDark ? customTheme.dark : customTheme.light;
 
+    console.log(APP_ENV_API_URL);
     const initApp = async () => {
         try {
             console.log('init app');
