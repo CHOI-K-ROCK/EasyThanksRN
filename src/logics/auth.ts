@@ -12,6 +12,12 @@ import auth from '@react-native-firebase/auth';
 import { delay } from '../utils/data';
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 
+import {
+    APP_ENV_GOOGLE_WEB_CLIENT_ID,
+    APP_ENV_NAVER_AUTH_SECRET,
+    APP_ENV_NAVER_AUTH_KEY,
+} from '@env';
+
 export const handleKakaoLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
@@ -41,8 +47,8 @@ export const handleKakaoLogin = () =>
 
 export const handleNaverLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
-        const consumerKey = 'ppND6ldhXb7KNVFZy35e';
-        const consumerSecret = 'CQMshPUfvy';
+        const consumerKey = APP_ENV_NAVER_AUTH_KEY;
+        const consumerSecret = APP_ENV_NAVER_AUTH_SECRET;
         const appName = 'EasyThanks - 이지땡스';
         const serviceUrlSchemeIOS = 'com.rockwithsun.easythanks';
         // 실제 배포단계에서는 키 전부 새로 발급 후 배포하기.
@@ -88,8 +94,7 @@ export const handleNaverLogin = () =>
 export const handleGoogleLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
-            const webci =
-                '984264235813-20tpt93n8h48hjqirh9vd7mktoe08vq4.apps.googleusercontent.com'; // env
+            const webci = APP_ENV_GOOGLE_WEB_CLIENT_ID;
 
             GoogleSignin.configure({ webClientId: webci });
             await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
