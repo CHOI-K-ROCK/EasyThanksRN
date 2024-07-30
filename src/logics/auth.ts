@@ -13,9 +13,10 @@ import { delay } from '../utils/data';
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 
 import {
-    APP_ENV_GOOGLE_WEB_CLIENT_ID,
     APP_ENV_NAVER_AUTH_SECRET,
     APP_ENV_NAVER_AUTH_KEY,
+    APP_ENV_GOOGLE_WEB_CLIENT_ID,
+    APP_ENV_GOOGLE_IOS_CLIENT_ID,
 } from '@env';
 import { supabase } from 'api/supabase';
 
@@ -98,15 +99,14 @@ export const handleNaverLogin = () =>
 export const handleGoogleLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
+            await GoogleSignin.hasPlayServices();
             GoogleSignin.configure({
                 webClientId: APP_ENV_GOOGLE_WEB_CLIENT_ID,
-                iosClientId:
-                    '965178329187-440mg5l0qteg6r6dcus80om2o20hlc37.apps.googleusercontent.com',
+                iosClientId: APP_ENV_GOOGLE_IOS_CLIENT_ID,
             });
-            // console.log(res);
 
             const { idToken } = await GoogleSignin.signIn();
-            console.log(idToken);
+
             if (!idToken) {
                 throw new Error('id Token is null');
             }
