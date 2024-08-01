@@ -1,11 +1,11 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { OpenSourceDataType } from '../../openSource';
-import { UserEditDataType } from '../../models/user';
+import { UserDataType } from '../../models/user';
 
 // setting
 export type SettingStackParamList = {
     SettingScreen: undefined;
-    UserProfileEditScreen: { userData: UserEditDataType };
+    UserProfileEditScreen: { userData: UserDataType };
     ReminderScreen: undefined;
     NotificationSettingScreen: undefined;
     AppThemeSettingScreen: undefined;
@@ -27,10 +27,7 @@ export type UserProfileEditScreenRouteProps = RouteProp<
 >;
 
 // notification (푸시알림 설정)
-export type ReminderScreenNavigationProps = NavigationProp<
-    SettingStackParamList,
-    'ReminderScreen'
->;
+export type ReminderScreenNavigationProps = NavigationProp<SettingStackParamList, 'ReminderScreen'>;
 export type ReminderScreenRouteProps = RouteProp<SettingStackParamList, 'ReminderScreen'>;
 
 export type NotificationSettingScreenNavigationProps = NavigationProp<

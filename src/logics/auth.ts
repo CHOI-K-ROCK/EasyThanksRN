@@ -17,32 +17,43 @@ import {
     APP_ENV_NAVER_AUTH_KEY,
     APP_ENV_GOOGLE_WEB_CLIENT_ID,
     APP_ENV_GOOGLE_IOS_CLIENT_ID,
+    APP_ENV_SUPABASE_URL,
 } from '@env';
 import { supabase } from 'api/supabase';
+import { getUserById } from 'api/users';
 
 export const handleKakaoLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
             const token = await login();
+            console.log(token);
 
             // ---- temp ----
-            const kakaoUserProfile = await getKakaoProfile();
-            const { nickname, profileImageUrl } = kakaoUserProfile;
+            // const kakaoUserProfile = await getKakaoProfile();
+            // const { nickname, profileImageUrl } = kakaoUserProfile;
 
             // supabase auth
+            const res = await supabase.auth.signInWithOAuth({
+                provider: 'kakao',
+                // options: {
+                //     redirectTo: `${APP_ENV_SUPABASE_URL}/auth/v1/callback`,
+                // },
+            });
 
-            const user = {
-                ssoProvider: 'kakao' as SsoProviderType,
-                username: nickname,
-                profileImg: profileImageUrl,
-            };
+            console.log(res);
+
+            // const user = {
+            //     ssoProvider: 'kakao' as SsoProviderType,
+            //     username: nickname,
+            //     profileImg: profileImageUrl,
+            // };
 
             // ---- ---- ----
 
             // 서버에 요청, 유효성 검증 이후 유저 생성 혹은 유저 데이터 반환
             // recoil selector 를 통해 비동기로 저장하는 것도 고려해보기
             // const res = await 서버로_보낼_요청(token)
-            resolve(user); // UserDataType
+            // resolve(user); // UserDataType
         } catch (error) {
             // console.log('kakao login error : ', error);
             reject(error);
@@ -116,26 +127,13 @@ export const handleGoogleLogin = () =>
                 token: idToken,
             });
 
-            console.log(res);
-            // const res = await 서버로_보낼_요청(idToken)
+            if (!res.data.user) {
+                throw new Error('userdata is null');
+            }
 
-            // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            const userData = await getUserById(res.data.user.id);
 
-            // await auth().signInWithCredential(googleCredential);
-            // const googleUserData = auth().currentUser!;
-
-            // const { displayName, photoURL } = googleUserData;
-
-            // supabase auth
-
-            const user = {};
-            // const user = {
-            //     ssoProvider: 'google' as SsoProviderType,
-            //     username: displayName,
-            //     profileImg: photoURL,
-            // };
-
-            resolve(user); // UserDataType
+            resolve(userData);
         } catch (error) {
             // console.log('google login error : ', error);
             reject(error);

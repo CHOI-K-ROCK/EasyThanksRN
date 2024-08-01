@@ -13,7 +13,7 @@ import HorizontalDivider from 'components/common/HorizontalDivider';
 import CommonModal from 'components/overlay/modal/CommonModal';
 
 import { SettingScreenNavigationProps } from 'types/navigations/settingStack';
-import { UserEditDataType } from 'types/models/user';
+import { UserDataType, UserEditDataType } from 'types/models/user';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
@@ -40,7 +40,7 @@ const SettingScreen = () => {
     const { colors } = useCustomTheme();
     const { logout } = useAuth();
 
-    const userData = useRecoilValue(userDataAtom) as UserEditDataType | null;
+    const userData = useRecoilValue(userDataAtom) as UserDataType | null;
 
     const { openToast } = useToast();
     const { openOverlay, closeOverlay } = useOverlay(() => (

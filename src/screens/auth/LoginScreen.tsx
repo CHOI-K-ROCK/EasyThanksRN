@@ -24,9 +24,9 @@ const LoginScreen = () => {
 
     const handleLogin = useCallback(
         async (provider: SsoProviderType) => {
-            setLoading(true);
+            // setLoading(true);
             await ssoLogin(provider);
-            setLoading(false);
+            // setLoading(false);
         },
         [setLoading, ssoLogin]
     );

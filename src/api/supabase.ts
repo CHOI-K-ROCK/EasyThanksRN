@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 
 import { APP_ENV_SUPABASE_URL, APP_ENV_SUPABASE_ANON_KEY } from '@env';
 import { AppState, AppStateStatus } from 'react-native';
+import { UserDataType } from 'types/models/user';
 
 const supabaseUrl = APP_ENV_SUPABASE_URL;
 const supabaseKey = APP_ENV_SUPABASE_ANON_KEY;

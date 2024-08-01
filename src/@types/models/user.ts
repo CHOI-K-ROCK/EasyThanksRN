@@ -1,16 +1,16 @@
 export type SsoProviderType = 'google' | 'naver' | 'kakao';
 
 export type UserDataType = {
-    id?: string; // 서버에서 생성해서 넘겨줘야함.
-    email?: string;
+    id: string; // 서버에서 생성해서 넘겨줘야함.
+    email: string;
 
     username: string | null;
-    profileImg: string | null;
+    profile_img: string | null;
 
-    ssoProvider: SsoProviderType;
+    sso_provider: SsoProviderType;
 
-    createdAt?: string;
-    updatedAt?: string;
+    created_at: string;
+    updated_at: string;
 };
 
 export type UserEditDataType = {

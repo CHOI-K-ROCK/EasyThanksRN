@@ -33,14 +33,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakaoc81737acf3105a0237f7357d3844a1f2</string>
-				<string>com.rockwithsun.easythanks</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
 				<string>com.googleusercontent.apps.965178329187-440mg5l0qteg6r6dcus80om2o20hlc37</string>
 			</array>
 		</dict>

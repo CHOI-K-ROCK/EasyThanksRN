@@ -6,27 +6,28 @@ import CustomText from 'components/common/CustomText';
 import FullWidthButton from 'components/common/FullWidthButton';
 import SsoIcon from 'components/common/SsoIcon';
 import ProfilePicture from 'components/common/ProfilePicture';
-import { SsoProviderType, UserDataType } from 'types/models/user';
+
+import { UserDataType } from 'types/models/user';
 
 type Props = { userData: UserDataType; onPressEdit: () => void; style?: StyleProp<ViewStyle> };
 
 const UserProfileView = (props: Props) => {
     const { userData, onPressEdit, style } = props;
 
-    const { username, email, profileImg, ssoProvider } = userData;
+    const { username, email, profile_img, sso_provider } = userData;
 
     return (
         <View style={[styles.container, style]}>
             <View style={styles.profileContainer}>
-                <ProfilePicture uri={profileImg} style={styles.profileImage} />
+                <ProfilePicture uri={profile_img} style={styles.profileImage} />
                 <View style={styles.nicknameContainer}>
                     {/* 닉네임 */}
-                    <SsoIcon style={styles.ssoIcon} provider={ssoProvider as SsoProviderType} />
+                    <SsoIcon style={styles.ssoIcon} provider={sso_provider} />
                     <CustomText style={styles.nickname}>{username}</CustomText>
                     <CustomText style={styles.sir}>님</CustomText>
                 </View>
                 {/* 이후 비즈니스 앱 혹은 권한 생기면 추가 */}
-                {/* {email && <CustomText style={styles.email}>{email}</CustomText>} */}
+                {email && <CustomText style={styles.email}>{email}</CustomText>}
             </View>
             <FullWidthButton
                 title={'프로필 수정'}

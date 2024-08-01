@@ -43,10 +43,8 @@ const useAuth = () => {
                 }
             }
 
-            console.log(res);
-
-            setUserData({ ...res });
-            // setSigned(true);
+            setUserData(res);
+            setSigned(true);
         } catch (error) {
             console.log('sso login error => ', error);
         }
@@ -56,7 +54,7 @@ const useAuth = () => {
         if (!userData) return;
 
         try {
-            switch (userData.ssoProvider) {
+            switch (userData.sso_provider) {
                 case 'kakao': {
                     console.log('excute kakao logout');
                     await kakaoLogout();
