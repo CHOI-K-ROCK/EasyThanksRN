@@ -144,16 +144,16 @@ const ChangeLookUpDateButton = ({ date, onPress }: { date: Date; onPress: () => 
             scale={0.98}
             style={styles.lookUpDateButton.wrapper}
         >
-            <CustomText style={styles.lookUpDateButton.text}>
+            <CustomText>
                 <CustomText style={styles.lookUpDateButton.date}>{year}</CustomText>
-                <CustomText>{'년 '}</CustomText>
+                <CustomText style={styles.lookUpDateButton.text}>{'년 '}</CustomText>
                 <CustomText style={styles.lookUpDateButton.date}>{month}</CustomText>
-                <CustomText>{'월'}</CustomText>
+                <CustomText style={styles.lookUpDateButton.text}>{'월'}</CustomText>
             </CustomText>
 
             <View style={commonStyles.rowCenter}>
                 <CustomText>{'변경하기'}</CustomText>
-                <VectorIcon name="chevron-right" />
+                <VectorIcon name="chevron-right" color={'#FFF'} />
             </View>
         </PushAnimatedPressable>
     );
@@ -183,6 +183,7 @@ const lookUpDateButton = StyleSheet.create({
     date: {
         fontSize: 24,
         fontWeight: 600,
+        color: '#FFF',
     },
 });
 

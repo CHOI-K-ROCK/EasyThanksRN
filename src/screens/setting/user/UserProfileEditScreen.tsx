@@ -36,13 +36,12 @@ const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
     const { params } = useRoute<UserProfileEditScreenRouteProps>();
 
-    const { colors } = useCustomTheme();
     const { logout } = useAuth();
     const { openToast } = useToast();
     const { dismiss: keyboardDismiss } = useKeyboard();
     const { setLoading } = useLoading();
 
-    const { username: initialUsername, profileImg: initialProfileImg } = params.userData;
+    const { username: initialUsername, profile_img: initialProfileImg } = params.userData;
 
     const {
         value: username,
@@ -179,7 +178,7 @@ const UserProfileEditScreen = () => {
                         onPress={onPressProfilePic}
                     >
                         <CustomText>{'이미지 변경'}</CustomText>
-                        <VectorIcon name={'pencil'} size={13} />
+                        <VectorIcon name={'image-multiple'} size={13} />
                     </TouchableOpacity>
 
                     <CustomTextInput
