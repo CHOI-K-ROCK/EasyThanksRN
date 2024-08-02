@@ -24,9 +24,9 @@ const LoginScreen = () => {
 
     const handleLogin = useCallback(
         async (provider: SsoProviderType) => {
-            // setLoading(true);
+            setLoading(true);
             await ssoLogin(provider);
-            // setLoading(false);
+            setLoading(false);
         },
         [setLoading, ssoLogin]
     );
@@ -91,6 +91,7 @@ const LoginScreen = () => {
                     {'소셜 계정으로 시작하기'}
                 </CustomText>
             </View>
+            {/* <KakaoTestScreen /> */}
         </SafeAreaView>
     );
 };

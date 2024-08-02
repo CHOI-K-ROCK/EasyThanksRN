@@ -4,7 +4,7 @@ export type UserDataType = {
     id: string; // 서버에서 생성해서 넘겨줘야함.
     email: string;
 
-    username: string | null;
+    username: string;
     profile_img: string | null;
 
     sso_provider: SsoProviderType;

@@ -10,7 +10,8 @@ import NaverLogin from '@react-native-seoul/naver-login';
 import auth from '@react-native-firebase/auth';
 
 import { SsoProviderType, UserDataType } from '../@types/models/user';
-import { handleGoogleLogin, handleKakaoLogin, handleNaverLogin } from '../logics/auth';
+import { handleGoogleLogin, handleKakaoLogin } from '../logics/auth';
+import { supabase } from 'api/supabase';
 
 /**
  *
@@ -26,13 +27,9 @@ const useAuth = () => {
 
     const ssoLogin = async (provider: SsoProviderType) => {
         try {
-            let res: UserDataType;
+            let res = {} as UserDataType;
 
             switch (provider) {
-                case 'naver': {
-                    res = await handleNaverLogin();
-                    break;
-                }
                 case 'kakao': {
                     res = await handleKakaoLogin();
                     break;
@@ -41,6 +38,10 @@ const useAuth = () => {
                     res = await handleGoogleLogin();
                     break;
                 }
+                // case 'naver': {
+                //     res = await handleNaverLogin();
+                //     break;
+                // }
             }
 
             setUserData(res);
@@ -57,19 +58,20 @@ const useAuth = () => {
             switch (userData.sso_provider) {
                 case 'kakao': {
                     console.log('excute kakao logout');
+                    await supabase.auth.signOut();
                     await kakaoLogout();
-                    break;
-                }
-                case 'naver': {
-                    console.log('excute naver logout');
-                    await NaverLogin.logout();
                     break;
                 }
                 case 'google': {
                     console.log('excute google logout');
-                    await auth().signOut();
+                    await supabase.auth.signOut();
                     break;
                 }
+                // case 'naver': {
+                //     console.log('excute naver logout');
+                //     await NaverLogin.logout();
+                //     break;
+                // }
             }
 
             setUserData(null);
