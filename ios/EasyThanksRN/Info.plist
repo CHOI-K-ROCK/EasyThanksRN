@@ -33,20 +33,24 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakaoc81737acf3105a0237f7357d3844a1f2</string>
-				<string>com.googleusercontent.apps.965178329187-440mg5l0qteg6r6dcus80om2o20hlc37</string>
 			</array>
 		</dict>
-	</array>
-	<key>GIDClientID</key>
-	<string>965178329187-440mg5l0qteg6r6dcus80om2o20hlc37.apps.googleusercontent.com</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-	<dict>
-		<key>CFBundleURLSchemes</key>
-		<array>
-		<string>com.googleusercontent.apps.965178329187-440mg5l0qteg6r6dcus80om2o20hlc37</string>
-		</array>
-	</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>965178329187-440mg5l0qteg6r6dcus80om2o20hlc37.apps.googleusercontent.com</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.rockwithsun.easythanks</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
