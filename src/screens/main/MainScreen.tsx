@@ -58,7 +58,7 @@ const MainScreen = () => {
     );
 
     const _keyExtractor = useCallback((item: PostDataType) => {
-        return item.postId;
+        return item.id;
     }, []);
 
     return (

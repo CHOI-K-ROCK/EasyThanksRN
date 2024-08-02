@@ -1,25 +1,27 @@
 export type PostDataType = {
-    authorId: string;
-    postId: string;
+    id: string;
+    author_id: string;
 
     title: string;
     content: string;
-    photos: string[]; // uris
 
-    comments?: PostCommentType[];
+    photos: string[];
 
-    createdAt: string;
-    updatedAt: string;
+    date: string;
+
+    created_at: string;
+    updated_at: string;
 };
 
 export type PostCommentType = {
-    authorId: string;
-    postId: string;
-    commentId: string;
+    id: string;
+
+    author_id: string;
+    post_id: string;
 
     title: string;
     content: string;
 
-    createdAt: string;
-    updatedAt: string;
+    created_at: string;
+    updated_at: string;
 };

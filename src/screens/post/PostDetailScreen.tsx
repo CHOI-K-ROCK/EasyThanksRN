@@ -30,7 +30,7 @@ const PostDetailScreen = () => {
     const { params } = useRoute<PostDetailScreenRouteProps>();
 
     const { postData } = params;
-    const { title, content, photos, postId, createdAt } = postData;
+    const { title, content, photos, id, date } = postData;
 
     const IS_THERE_IMAGE = photos.length > 0;
 
@@ -79,7 +79,7 @@ const PostDetailScreen = () => {
     };
 
     const handleDeletePost = async () => {
-        console.log('delete', postId);
+        console.log('delete', id);
         closePostDeleteModal();
         closeMenu();
         goBack();
@@ -93,7 +93,7 @@ const PostDetailScreen = () => {
                 rightComponent={<VectorIcon name="dots-vertical" size={25} onPress={openMenu} />}
             />
             <ScrollView style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-                <ComposeSummaryView date={new Date(createdAt)} />
+                <ComposeSummaryView date={new Date(date)} />
                 <HorizontalDivider style={{ marginVertical: 15 }} />
                 <View style={{ gap: 10 }}>
                     {IS_THERE_IMAGE && (

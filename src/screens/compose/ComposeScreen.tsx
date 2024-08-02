@@ -32,6 +32,7 @@ import { isSameDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
+import { uploadPost } from 'services/posts';
 
 const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
@@ -43,17 +44,16 @@ const ComposeScreen = () => {
     const IS_CREATE_POST = params?.initialData === undefined;
 
     const {
+        id: postId,
         content: initialContent,
         photos: initialPhotos,
-        postId,
         title: initialTitle,
-        createdAt: initialDate,
+        created_at: initialDate,
     } = initialData || {};
 
     const [photos, setPhotos] = useState<string[]>(initialPhotos || []);
-    const [date, setDate] = useState<Date>(
-        initialDate ? new Date(initialDate) : new Date(new Date().getTime())
-    ); // 작성 Date
+    const [date, setDate] = useState<Date>(new Date(initialDate || Date.now())); // 작성 Date
+
     const {
         value: title,
         handleChange: setTitle,
@@ -192,14 +192,18 @@ const ComposeScreen = () => {
         setPhotos(tempPhoto);
     };
 
-    const handleWritePost = () => {
+    const handleWritePost = async () => {
         const postData = {
-            title: title === '' || defaultTitle,
+            title: title === '' ? defaultTitle : title,
             content,
-            image: photos,
+            photos,
             date,
         };
-        console.log(postData, postId);
+        try {
+            await uploadPost(postData);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

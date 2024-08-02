@@ -5,9 +5,9 @@ import { isSignedAtom } from '../states/system';
 // kakao
 import { logout as kakaoLogout } from '@react-native-seoul/kakao-login';
 //naver
-import NaverLogin from '@react-native-seoul/naver-login';
+// import NaverLogin from '@react-native-seoul/naver-login';
 //google
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 import { handleGoogleLogin, handleKakaoLogin } from '../logics/auth';
