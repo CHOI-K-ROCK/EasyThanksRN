@@ -32,7 +32,7 @@ import { isSameDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
-import { uploadPost } from 'services/posts';
+import { updatePost } from 'services/posts';
 
 const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
@@ -48,7 +48,7 @@ const ComposeScreen = () => {
         content: initialContent,
         photos: initialPhotos,
         title: initialTitle,
-        created_at: initialDate,
+        date: initialDate,
     } = initialData || {};
 
     const [photos, setPhotos] = useState<string[]>(initialPhotos || []);
@@ -181,7 +181,6 @@ const ComposeScreen = () => {
         });
 
         setPhotos(p => [...p, ...uris]);
-        console.log('photo updated!');
         closePhotoBottomSheet();
     };
 
@@ -193,14 +192,35 @@ const ComposeScreen = () => {
     };
 
     const handleWritePost = async () => {
+        const time = date.getTime() + '';
+
         const postData = {
+            id: postId,
             title: title === '' ? defaultTitle : title,
             content,
             photos,
-            date,
+            date: time,
         };
+
+        let changed: Partial<PostDataType> = {};
+
+        if (!IS_CREATE_POST) {
+            if (title !== initialTitle) {
+                changed.title = title;
+            }
+            if (content !== initialContent) {
+                changed.content = content;
+            }
+            if (!isSameDate(initialDate, date, { ignoreSeconds: true })) {
+                changed.date = time;
+            }
+            if (photos !== initialPhotos) {
+                changed.photos = photos;
+            }
+        }
+
         try {
-            await uploadPost(postData);
+            await updatePost(IS_CREATE_POST ? postData : changed);
         } catch (error) {
             console.log(error);
         }

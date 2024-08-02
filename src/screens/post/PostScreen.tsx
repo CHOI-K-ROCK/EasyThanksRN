@@ -64,7 +64,6 @@ const PostScreen = () => {
 
         try {
             setLoading(true);
-            console.log(date);
             await delay(1000); // 요청
 
             setLookUpDate(date);
@@ -102,7 +101,7 @@ const PostScreen = () => {
     );
 
     const _keyExtractor = useCallback((item: PostDataType) => {
-        return item.postId + Math.random();
+        return item.id + Math.random();
     }, []);
 
     return (
