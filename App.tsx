@@ -19,7 +19,7 @@ import { getAppTheme, saveAppTheme } from 'utils/storage';
 import { KeyboardContextProvider } from 'contexts/KeyboardContext';
 import { PermissionProvider } from 'contexts/PermissionContext';
 import SplashScreen from 'react-native-splash-screen';
-import { supabase } from 'api/supabase';
+import { supabase } from 'services/supabase';
 
 function App(): React.JSX.Element {
     const [isSigned, setSigned] = useRecoilState(isSignedAtom);

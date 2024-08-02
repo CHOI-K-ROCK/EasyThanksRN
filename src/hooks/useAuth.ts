@@ -11,7 +11,7 @@ import auth from '@react-native-firebase/auth';
 
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 import { handleGoogleLogin, handleKakaoLogin } from '../logics/auth';
-import { supabase } from 'api/supabase';
+import { supabase } from 'services/supabase';
 
 /**
  *

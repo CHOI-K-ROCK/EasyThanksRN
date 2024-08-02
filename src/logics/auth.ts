@@ -16,8 +16,8 @@ import {
     APP_ENV_GOOGLE_IOS_CLIENT_ID,
 } from '@env';
 
-import { supabase } from 'api/supabase';
-import { getUserById } from 'api/users';
+import { supabase } from 'services/supabase';
+import { getUserById } from 'services/users';
 
 export const handleKakaoLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
@@ -32,8 +32,6 @@ export const handleKakaoLogin = () =>
                 provider: 'kakao',
                 token: kakaoToken.idToken,
             });
-
-            console.log(JSON.stringify(res));
 
             if (!res.data.user) {
                 throw new Error('userdata is null');
