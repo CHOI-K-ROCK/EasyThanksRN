@@ -12,7 +12,22 @@ export const updatePost = (postData: Partial<PostDataType>) =>
             if (error) {
                 throw new Error(`${error.message}, ${status}`);
             }
-            console.log('complete');
+            console.log('upsert complete');
+            resolve(data);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+export const deletePost = (postId: string) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const { data, error, status } = await supabase.from('posts').delete().eq('id', postId);
+
+            if (error) {
+                throw new Error(`${error.message}, ${status}`);
+            }
+            console.log('delete complete');
             resolve(data);
         } catch (error) {
             reject(error);

@@ -21,13 +21,21 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useOverlay from 'hooks/useOverlay';
+import useLoading from 'hooks/useLoading';
+import useToast from 'hooks/useToast';
+
+import { deletePost } from 'services/posts';
 
 import { commonStyles } from 'styles';
+
 import { useRecoilValue } from 'recoil';
 import { postByIdSelector } from 'states/posts';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();
+    const { setLoading } = useLoading();
+    const { openToast } = useToast();
+
     const { navigate, goBack } = useNavigation<PostDetailScreenNavigationProps>();
     const { params } = useRoute<PostDetailScreenRouteProps>();
 
@@ -35,7 +43,6 @@ const PostDetailScreen = () => {
     const { title, content, photos, id, date } = postData;
 
     const post = useRecoilValue(postByIdSelector(id));
-    console.log(post);
 
     const IS_THERE_IMAGE = photos.length > 0;
 
@@ -84,10 +91,20 @@ const PostDetailScreen = () => {
     };
 
     const handleDeletePost = async () => {
-        console.log('delete', id);
-        closePostDeleteModal();
-        closeMenu();
-        goBack();
+        try {
+            setLoading(true);
+            closePostDeleteModal();
+
+            await deletePost(id);
+
+            closeMenu();
+            goBack();
+        } catch (error) {
+            console.log(error);
+            openToast({ text: '오류가 발생했어요. 잠시 후 다시 시도해 주세요.', type: 'error' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
