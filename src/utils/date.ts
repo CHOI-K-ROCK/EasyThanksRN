@@ -17,7 +17,7 @@ export const convertDateToString = (date: Date, format?: string) => {
         min.padStart(2, '0'),
         sec.padStart(2, '0'),
     ];
-    const [padMonth, padDay, padHours, padMin, padSec] = padValues;
+    const [padMonth, padDay] = padValues;
 
     switch (format) {
         case 'yyyy. mm. dd': {
@@ -41,11 +41,19 @@ export const getDateStrings = (initialDate: Date, use24hours?: boolean) => {
     const hourDefault = date.getHours();
     const ampm = hourDefault < 12 ? 'am' : 'pm';
 
-    const convertedHour = use24hours
-        ? hourDefault
-        : hourDefault > 12
-            ? hourDefault - 12
-            : hourDefault;
+    let convertedHour;
+
+    if (use24hours) {
+        convertedHour = hourDefault;
+    }
+
+    if (!use24hours) {
+        if (hourDefault > 12) {
+            convertedHour = hourDefault - 12;
+        } else {
+            convertedHour = hourDefault;
+        }
+    }
 
     return {
         year: '' + date.getFullYear(),

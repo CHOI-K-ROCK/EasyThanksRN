@@ -23,7 +23,7 @@ const PostThumbnail = (props: Props) => {
     const { colors, dark } = useCustomTheme();
     const { data, style, onPress } = props;
 
-    const { title, content, photos, date } = data;
+    const { title, content, photos = [], date } = data;
 
     const dateString = convertDateToString(new Date(date));
     const defaultImage = photos[0]; // 첫번째 이미지가 썸네일에 표시된다.
@@ -37,7 +37,7 @@ const PostThumbnail = (props: Props) => {
             onPress={onPress}
             style={[{ backgroundColor: colors.tabBarBackground }, styles.container, style]}
         >
-            {defaultImage && (
+            {photos && defaultImage && (
                 <View style={[StyleSheet.absoluteFill, styles.imageContainer]}>
                     <Image
                         resizeMode="cover"

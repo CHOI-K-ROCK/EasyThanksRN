@@ -1,42 +1,60 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
 import MainNavigationBar from 'components/main/MainNavigationBar';
 import VectorIcon from 'components/common/VectorIcon';
 import CustomText from 'components/common/CustomText';
 import ScreenLayout from 'components/common/ScreenLayout';
+import PostThumbnail from 'components/common/PostThumbnail';
 
 import { RootStackNavigationProps } from 'types/navigations/rootStack';
+import { PostDataType } from 'types/models/compose';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
+import { getPostToday } from 'services/posts';
+
+import { useRecoilState } from 'recoil';
+import { todayPostAtom } from 'states/posts';
 
 import { commonStyles } from 'styles';
-
-import {
-    DUMMY_POST_MULTI_IMAGE,
-    DUMMY_POST_NONE_IMAGE,
-    DUMMY_POST_SINGLE_IMAGE,
-} from 'constants/dummy';
-
-import PostThumbnail from 'components/common/PostThumbnail';
-import { PostDataType } from 'types/models/compose';
-
-const DUMMY_POSTS = [DUMMY_POST_NONE_IMAGE, DUMMY_POST_SINGLE_IMAGE, DUMMY_POST_MULTI_IMAGE];
+import { arrayToObjectUsingRefKey } from 'utils/data';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
+    const [todayPost, setTodayPost] = useRecoilState(todayPostAtom);
+    const [refresh, setRefresh] = useState(false);
+
+    const getPost = useCallback(async () => {
+        try {
+            const res = await getPostToday();
+            setTodayPost(arrayToObjectUsingRefKey('id', res));
+        } catch (error) {
+            console.log(error);
+        }
+    }, [setTodayPost]);
+
+    const onRefresh = async () => {
+        setRefresh(true);
+        await getPost();
+        setRefresh(false);
+    };
+
+    useEffect(() => {
+        getPost();
+    }, [getPost]);
+
+    const postData = useMemo(() => Object.entries(todayPost).map(([_, data]) => data), [todayPost]);
+
     const toAppMenu = () => {
         navigate('SettingStack', {
             screen: 'SettingScreen',
         });
     };
-
-    // ui
 
     // flatlist
     const _renderItem = useCallback(
@@ -70,13 +88,14 @@ const MainScreen = () => {
             />
             <ScreenLayout>
                 <FlatList
-                    data={DUMMY_POSTS}
+                    data={postData}
                     renderItem={_renderItem}
                     keyExtractor={_keyExtractor}
                     ListHeaderComponent={
                         <CustomText style={commonStyles.subject}>오늘 작성한 감사일기</CustomText>
                     }
                     ListHeaderComponentStyle={styles.headerContainer}
+                    refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                 />
             </ScreenLayout>
         </SafeAreaView>

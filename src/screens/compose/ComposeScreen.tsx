@@ -27,6 +27,9 @@ import { Asset } from 'react-native-image-picker';
 import useInput from 'hooks/useInput';
 import useOverlay from 'hooks/useOverlay';
 import useKeyboard from 'hooks/useKeyboard';
+import useLoading from 'hooks/useLoading';
+import useToast from 'hooks/useToast';
+
 import { getInitialPostNameByDate } from 'utils/string';
 import { isSameDate } from 'utils/date';
 
@@ -38,7 +41,9 @@ const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
     const { params } = useRoute<ComposeScreenRouteProps>();
 
+    const { setLoading } = useLoading();
     const { dismiss: keyBoardDismiss } = useKeyboard();
+    const { openToast } = useToast();
 
     const initialData = params?.initialData as PostDataType;
     const IS_CREATE_POST = params?.initialData === undefined;
@@ -54,15 +59,16 @@ const ComposeScreen = () => {
     const [photos, setPhotos] = useState<string[]>(initialPhotos || []);
     const [date, setDate] = useState<Date>(new Date(initialDate || Date.now())); // 작성 Date
 
+    const defaultTitle = useMemo(() => getInitialPostNameByDate(date), [date]);
+
     const {
         value: title,
         handleChange: setTitle,
         clearValue: clearTitle,
-    } = useInput(initialTitle || '');
+    } = useInput(initialTitle || defaultTitle);
     const { value: content, handleChange: setContent } = useInput(initialContent || '');
 
     const originalDate = useRef<Date>(new Date());
-    const defaultTitle = useMemo(() => getInitialPostNameByDate(date), [date]);
     const MAX_PHOTO_AMOUNT = 5;
 
     // overlays
@@ -192,7 +198,13 @@ const ComposeScreen = () => {
     };
 
     const handleWritePost = async () => {
-        const time = date.getTime() + '';
+        if (content.trim().length === 0) {
+            // 내용에 띄어쓰기와 줄바꿈만 있는 경우
+            openToast({ text: '작성된 내용이 없습니다!', type: 'error' });
+            return;
+        }
+
+        const time = date.toISOString();
 
         const postData = {
             id: postId,
@@ -220,7 +232,10 @@ const ComposeScreen = () => {
         }
 
         try {
-            await updatePost(IS_CREATE_POST ? postData : changed);
+            setLoading(true);
+            await updatePost(IS_CREATE_POST ? postData : { ...postData, ...changed });
+            setLoading(false);
+            goBack();
         } catch (error) {
             console.log(error);
         }

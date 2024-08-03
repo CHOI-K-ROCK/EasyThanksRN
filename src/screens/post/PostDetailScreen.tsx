@@ -23,6 +23,8 @@ import useCustomTheme from 'hooks/useCustomTheme';
 import useOverlay from 'hooks/useOverlay';
 
 import { commonStyles } from 'styles';
+import { useRecoilValue } from 'recoil';
+import { postByIdSelector } from 'states/posts';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();
@@ -31,6 +33,9 @@ const PostDetailScreen = () => {
 
     const { postData } = params;
     const { title, content, photos, id, date } = postData;
+
+    const post = useRecoilValue(postByIdSelector(id));
+    console.log(post);
 
     const IS_THERE_IMAGE = photos.length > 0;
 
