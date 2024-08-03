@@ -31,6 +31,14 @@ import useKeyboard from 'hooks/useKeyboard';
 import { HORIZONTAL_GAP } from 'constants/style';
 import { commonStyles } from 'styles';
 import { delay } from 'utils/data';
+import { optOutUser, updateUserData } from 'services/users';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { userDataAtom } from 'states/user';
+import { UserDataType } from 'types/models/user';
+import { isSignedAtom } from 'states/system';
+
+//! route.params 삭제 필요
+//! type, params, navigate check
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
@@ -41,7 +49,14 @@ const UserProfileEditScreen = () => {
     const { dismiss: keyboardDismiss } = useKeyboard();
     const { setLoading } = useLoading();
 
-    const { username: initialUsername, profile_img: initialProfileImg } = params.userData;
+    const [userData, setUserData] = useRecoilState(userDataAtom);
+    const setSigned = useSetRecoilState(isSignedAtom);
+
+    const {
+        id: userId = '',
+        username: initialUsername,
+        profile_img: initialProfileImg,
+    } = userData || {};
 
     const {
         value: username,
@@ -120,12 +135,17 @@ const UserProfileEditScreen = () => {
         try {
             setLoading(true);
 
-            await delay(500);
-            console.log(username);
-            console.log('update userdata to recoil state');
-            // userdata 를 리코일 상태에 저장해두고,
-            // 유저 데이터가 업데이트 될 때 업데이트 함으로써 현재 가져오는 initialData 를 갱신해야함.
-            await delay(500);
+            let changed: Partial<UserDataType> = {};
+
+            if (username !== initialUsername) {
+                changed.username = username;
+            }
+            if (profileImg !== initialProfileImg) {
+                changed.profile_img = profileImg;
+            }
+
+            await updateUserData(userId, { ...changed });
+            setUserData(prev => ({ ...prev!, ...changed }));
 
             closeEditProfileModal();
 
@@ -147,24 +167,21 @@ const UserProfileEditScreen = () => {
 
     const onConfirmOptOut = useCallback(async () => {
         try {
-            console.log('탈퇴 요청 전송');
             setLoading(true);
-            await new Promise(res => {
-                setTimeout(res, 2000);
-            });
+            await optOutUser();
 
-            console.log('탈퇴 완료, 로그아웃 진행');
+            setUserData(null);
+            setSigned(false);
 
             closeOptOutModal();
-            logout(); // 실질적으로는 회원 탈퇴 로직이여야함.
         } catch (error: any) {
             console.log('opt out error : ', error.message);
         } finally {
             setLoading(false);
         }
-    }, [closeOptOutModal, logout, setLoading]);
+    }, [closeOptOutModal, setLoading, setSigned, setUserData]);
 
-    if (params.userData === null) return <></>;
+    if (userData === null) return <></>;
 
     return (
         <KeyboardDismissSafeAreaView keyboardAvoiding={false}>
