@@ -40,18 +40,19 @@ export const updateUserData = async (uid: string, userData: Partial<UserDataType
         }
     });
 
-// export const optOutUser = async (user) =>
-//     new Promise<undefined>(async (resolve, reject) => {
-//         try {
-//             const { error } = await supabase.auth.admin.deleteUser();
+export const optOutUser = async (userId: string) =>
+    new Promise<undefined>(async (resolve, reject) => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            // 회원 탈퇴 -> service 키 이용하여 외부 서버에서 진행해야함.
 
-//             if (error) {
-//                 console.log(error);
-//                 throw new Error(`${error.message}`);
-//             }
+            if (error) {
+                console.log(error);
+                throw new Error(`${error.message}`);
+            }
 
-//             resolve(undefined);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
+            resolve(undefined);
+        } catch (error) {
+            reject(error);
+        }
+    });

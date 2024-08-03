@@ -19,9 +19,10 @@ import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
 import useAuth from 'hooks/useAuth';
 import useOverlay from 'hooks/useOverlay';
+import useToast from 'hooks/useToast';
+import useLoading from 'hooks/useLoading';
 
 import { HORIZONTAL_GAP } from 'constants/style';
-import useToast from 'hooks/useToast';
 
 export type SettingListType = {
     title: string;
@@ -39,6 +40,7 @@ const SettingScreen = () => {
     const { navigate, goBack } = useNavigation<SettingScreenNavigationProps>();
     const { colors } = useCustomTheme();
     const { logout } = useAuth();
+    const { setLoading } = useLoading();
 
     const userData = useRecoilValue(userDataAtom) as UserDataType | null;
 
@@ -68,9 +70,18 @@ const SettingScreen = () => {
     };
 
     const handleLogout = async () => {
-        closeOverlay();
-        await logout();
-        openToast({ text: '로그아웃 완료', type: 'complete' });
+        try {
+            setLoading(true);
+
+            closeOverlay();
+            await logout();
+
+            openToast({ text: '로그아웃 완료', type: 'complete' });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

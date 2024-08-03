@@ -12,6 +12,7 @@ import { logout as kakaoLogout } from '@react-native-seoul/kakao-login';
 import { SsoProviderType, UserDataType } from '../@types/models/user';
 import { handleGoogleLogin, handleKakaoLogin } from '../logics/auth';
 import { supabase } from 'services/supabase';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 /**
  *
@@ -65,6 +66,7 @@ const useAuth = () => {
                 case 'google': {
                     console.log('excute google logout');
                     await supabase.auth.signOut();
+                    await GoogleSignin.signOut();
                     break;
                 }
                 // case 'naver': {

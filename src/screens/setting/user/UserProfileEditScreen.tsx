@@ -20,7 +20,6 @@ import {
 import { Asset } from 'react-native-image-picker';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
-import useCustomTheme from 'hooks/useCustomTheme';
 import useInput from 'hooks/useInput';
 import useOverlay from 'hooks/useOverlay';
 import useToast from 'hooks/useToast';
@@ -30,7 +29,6 @@ import useKeyboard from 'hooks/useKeyboard';
 
 import { HORIZONTAL_GAP } from 'constants/style';
 import { commonStyles } from 'styles';
-import { delay } from 'utils/data';
 import { optOutUser, updateUserData } from 'services/users';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userDataAtom } from 'states/user';
@@ -168,7 +166,7 @@ const UserProfileEditScreen = () => {
     const onConfirmOptOut = useCallback(async () => {
         try {
             setLoading(true);
-            await optOutUser();
+            await optOutUser(userId);
 
             setUserData(null);
             setSigned(false);
@@ -179,7 +177,7 @@ const UserProfileEditScreen = () => {
         } finally {
             setLoading(false);
         }
-    }, [closeOptOutModal, setLoading, setSigned, setUserData]);
+    }, [closeOptOutModal, setLoading, setSigned, setUserData, userId]);
 
     if (userData === null) return <></>;
 

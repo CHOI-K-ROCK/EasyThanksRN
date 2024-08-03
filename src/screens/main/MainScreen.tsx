@@ -48,7 +48,10 @@ const MainScreen = () => {
         getPost();
     }, [getPost]);
 
-    const postData = useMemo(() => Object.entries(todayPost).map(([_, data]) => data), [todayPost]);
+    const postData = useMemo(
+        () => Object.entries(todayPost || {}).map(([_, data]) => data),
+        [todayPost]
+    );
 
     const toAppMenu = () => {
         navigate('SettingStack', {
