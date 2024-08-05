@@ -65,7 +65,7 @@ const ComposeScreen = () => {
         value: title,
         handleChange: setTitle,
         clearValue: clearTitle,
-    } = useInput(initialTitle || defaultTitle);
+    } = useInput(initialTitle || '');
     const { value: content, handleChange: setContent } = useInput(initialContent || '');
 
     const originalDate = useRef<Date>(new Date());
@@ -266,7 +266,7 @@ const ComposeScreen = () => {
                 <View style={styles.textFieldContainer} onStartShouldSetResponder={() => true}>
                     <CustomTextInput
                         value={title}
-                        title={'제목을 작성해주세요! (선택)'}
+                        title={'제목을 작성해주세요!'}
                         placeholder={defaultTitle}
                         onChangeText={setTitle}
                         onPressClear={clearTitle}
@@ -308,6 +308,7 @@ const ComposeScreen = () => {
                 <FullWidthButton
                     title={IS_CREATE_POST ? '작성 완료' : '수정 완료'}
                     onPress={handleWritePost}
+                    disabled={content.trim() === ''}
                 />
             </View>
         </KeyboardDismissSafeAreaView>

@@ -7,6 +7,11 @@ export const todayPostAtom = atom<{ [id: string]: PostDataType }>({
     default: {},
 });
 
+export const monthlyPostAtom = atom<{ [id: string]: PostDataType }>({
+    key: 'monthlyPostAtom',
+    default: {},
+});
+
 export const postByIdSelector = selectorFamily({
     key: 'postByIdSelector',
     get:

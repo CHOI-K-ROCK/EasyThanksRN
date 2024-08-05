@@ -2,32 +2,20 @@ import { supabase } from './supabase';
 
 import { PostDataType } from 'types/models/compose';
 
-export const updatePost = (postData: Partial<PostDataType>) =>
-    new Promise(async (resolve, reject) => {
+// read
+export const getPostById = (postId: string) =>
+    new Promise<PostDataType>(async (resolve, reject) => {
         try {
-            const { data, error, status } = await supabase.from('posts').upsert({
-                ...postData,
-                updated_at: new Date().toISOString(),
-            });
-            if (error) {
-                throw new Error(`${error.message}, ${status}`);
-            }
-            console.log('upsert complete');
-            resolve(data);
-        } catch (error) {
-            reject(error);
-        }
-    });
-
-export const deletePost = (postId: string) =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const { data, error, status } = await supabase.from('posts').delete().eq('id', postId);
+            const { data, error, status } = await supabase
+                .from('posts')
+                .select()
+                .eq('id', postId)
+                .single();
 
             if (error) {
                 throw new Error(`${error.message}, ${status}`);
             }
-            console.log('delete complete');
+            console.log('complete');
             resolve(data);
         } catch (error) {
             reject(error);
@@ -46,6 +34,68 @@ export const getPostToday = () =>
                 throw new Error(`${error.message}, ${status}`);
             }
             console.log('complete');
+            resolve(data);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+export const getPostByMonth = (date: Date) =>
+    new Promise<PostDataType[]>(async (resolve, reject) => {
+        try {
+            const currentMonth = date.getMonth();
+
+            const beginDate = new Date(date);
+            const endDate = new Date(date);
+
+            beginDate.setDate(1);
+            endDate.setMonth(currentMonth + 1);
+            endDate.setDate(0);
+
+            const { data, error, status } = await supabase
+                .from('posts')
+                .select('*')
+                .gte('created_at', beginDate.toISOString().slice(0, 10))
+                .lte('created_at', endDate.toISOString().slice(0, 10));
+
+            if (error) {
+                throw new Error(`${error.message}, ${status}`);
+            }
+            console.log('complete');
+            resolve(data);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+// create / update
+export const updatePost = (postData: Partial<PostDataType>) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const { data, error, status } = await supabase.from('posts').upsert({
+                ...postData,
+                updated_at: new Date().toISOString(),
+            });
+            if (error) {
+                throw new Error(`${error.message}, ${status}`);
+            }
+            console.log('upsert complete');
+            resolve(data);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+// delete
+export const deletePost = (postId: string) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const { data, error, status } = await supabase.from('posts').delete().eq('id', postId);
+
+            if (error) {
+                throw new Error(`${error.message}, ${status}`);
+            }
+            console.log('delete complete');
             resolve(data);
         } catch (error) {
             reject(error);

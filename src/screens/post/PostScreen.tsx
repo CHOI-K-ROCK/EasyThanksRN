@@ -2,34 +2,32 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { FlatList, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
-import useCustomTheme from 'hooks/useCustomTheme';
 import MainNavigationBar from 'components/main/MainNavigationBar';
 import VectorIcon from 'components/common/VectorIcon';
-import { useNavigation } from '@react-navigation/native';
-import { RootStackNavigationProps } from 'types/navigations/rootStack';
-import { commonStyles } from 'styles';
 import CustomText from 'components/common/CustomText';
 import ScreenLayout from 'components/common/ScreenLayout';
-import { PostDataType } from 'types/models/compose';
-
-import {
-    DUMMY_POST_MULTI_IMAGE,
-    DUMMY_POST_NONE_IMAGE,
-    DUMMY_POST_SINGLE_IMAGE,
-} from 'constants/dummy';
-
 import PostThumbnail from 'components/common/PostThumbnail';
-import { getDateStrings } from 'utils/date';
-import CommonListItem from 'components/common/CommonListItem';
 import PushAnimatedPressable from 'components/common/PushAnimatedPressable';
-import DatePicker from 'react-native-date-picker';
-import useOverlay from 'hooks/useOverlay';
 import YearMonthSelectorBottomSheet from 'components/overlay/bottomSheet/YearMonthSelectorBottomSheet';
-import { delay } from 'utils/data';
+
+import { PostDataType } from 'types/models/compose';
+import { RootStackNavigationProps } from 'types/navigations/rootStack';
+
+import { useNavigation } from '@react-navigation/native';
+import useOverlay from 'hooks/useOverlay';
 import useLoading from 'hooks/useLoading';
 import useToast from 'hooks/useToast';
+import useCustomTheme from 'hooks/useCustomTheme';
 
-const DUMMY_POSTS = [DUMMY_POST_NONE_IMAGE, DUMMY_POST_SINGLE_IMAGE, DUMMY_POST_MULTI_IMAGE];
+import { getDateStrings } from 'utils/date';
+import { arrayToObjectUsingRefKey } from 'utils/data';
+
+import { getPostByMonth } from 'services/posts';
+
+import { useRecoilState } from 'recoil';
+import { monthlyPostAtom } from 'states/posts';
+
+import { commonStyles } from 'styles';
 
 const PostScreen = () => {
     const { colors } = useCustomTheme();
@@ -39,6 +37,26 @@ const PostScreen = () => {
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
     const [lookUpDate, setLookUpDate] = useState<Date>(new Date());
+    const [monthlyPost, setMonthlyPost] = useRecoilState(monthlyPostAtom);
+
+    const postData = useMemo(
+        () => Object.entries(monthlyPost).map(([_, data]) => data),
+        [monthlyPost]
+    );
+
+    const getPost = useCallback(
+        async (date: Date) => {
+            try {
+                const res = await getPostByMonth(date);
+                setMonthlyPost(arrayToObjectUsingRefKey('id', res));
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        [setMonthlyPost]
+    );
+
+    useCallback(() => { }, []);
 
     const {
         openOverlay: openYearMonthSelectorBottomSheet,
@@ -51,33 +69,40 @@ const PostScreen = () => {
         />
     ));
 
-    const toAppMenu = () => {
+    const toAppMenu = useCallback(() => {
         navigate('SettingStack', {
             screen: 'SettingScreen',
         });
-    };
+    }, [navigate]);
 
     // handler
-    const handleConfirm = async (date: Date) => {
-        const newYear = date.getFullYear();
-        const newMonth = date.getMonth();
+    const handleConfirm = useCallback(
+        async (date: Date) => {
+            const newYear = date.getFullYear();
+            const newMonth = date.getMonth();
 
-        try {
-            setLoading(true);
-            await delay(1000); // 요청
+            try {
+                setLoading(true);
+                setLookUpDate(date);
 
-            setLookUpDate(date);
-            closeYearMonthSelectorBottomSheet();
-            openToast({
-                text: `${newYear}년 ${newMonth + 1}월을 불러왔어요!`,
-                type: 'complete',
-            });
-        } catch (error) {
-            openToast({ text: '오류가 발생했습니다.', type: 'error' });
-        } finally {
-            setLoading(false);
-        }
-    };
+                const res = await getPostByMonth(date);
+                closeYearMonthSelectorBottomSheet();
+
+                setMonthlyPost(arrayToObjectUsingRefKey('id', res));
+
+                openToast({
+                    text: `${newYear}년 ${newMonth + 1}월을 불러왔어요!`,
+                    type: 'complete',
+                });
+            } catch (error) {
+                console.log(error);
+                openToast({ text: '오류가 발생했습니다.', type: 'error' });
+            } finally {
+                setLoading(false);
+            }
+        },
+        [closeYearMonthSelectorBottomSheet, openToast, setLoading, setMonthlyPost]
+    );
 
     // ui
 
@@ -91,7 +116,7 @@ const PostScreen = () => {
                     onPress={() =>
                         navigate('PostStack', {
                             screen: 'PostDetailScreen',
-                            params: { postData: item },
+                            params: { postId: item.id },
                         })
                     }
                 />
@@ -121,12 +146,7 @@ const PostScreen = () => {
                 </View>
 
                 <CustomText style={commonStyles.subject}>조회 결과</CustomText>
-                <FlatList
-                    // data={[...DUMMY_POSTS, ...DUMMY_POSTS, ...DUMMY_POSTS]}
-                    data={DUMMY_POSTS}
-                    renderItem={_renderItem}
-                    keyExtractor={_keyExtractor}
-                />
+                <FlatList data={postData} renderItem={_renderItem} keyExtractor={_keyExtractor} />
             </ScreenLayout>
         </SafeAreaView>
     );

@@ -29,6 +29,8 @@ const MainScreen = () => {
     const [todayPost, setTodayPost] = useRecoilState(todayPostAtom);
     const [refresh, setRefresh] = useState(false);
 
+    const postData = useMemo(() => Object.entries(todayPost).map(([_, data]) => data), [todayPost]);
+
     const getPost = useCallback(async () => {
         try {
             const res = await getPostToday();
@@ -38,20 +40,15 @@ const MainScreen = () => {
         }
     }, [setTodayPost]);
 
-    const onRefresh = async () => {
-        setRefresh(true);
-        await getPost();
-        setRefresh(false);
-    };
-
     useEffect(() => {
         getPost();
     }, [getPost]);
 
-    const postData = useMemo(
-        () => Object.entries(todayPost || {}).map(([_, data]) => data),
-        [todayPost]
-    );
+    const onRefresh = useCallback(async () => {
+        setRefresh(true);
+        await getPost();
+        setRefresh(false);
+    }, [getPost]);
 
     const toAppMenu = () => {
         navigate('SettingStack', {
@@ -69,7 +66,7 @@ const MainScreen = () => {
                     onPress={() =>
                         navigate('PostStack', {
                             screen: 'PostDetailScreen',
-                            params: { postData: item },
+                            params: { postId: item.id },
                         })
                     }
                 />

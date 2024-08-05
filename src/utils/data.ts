@@ -11,11 +11,11 @@ export const getRandomArrayValue = (array: any[]) => {
 export const arrayToObjectUsingRefKey = (refKey: string, data: any[]) => {
     if (data.length === 0) {
         console.log('data length 0');
-        return;
+        return {};
     }
     if (data[0][refKey] === refKey) {
         console.log('there is no such a key' + refKey);
-        return;
+        return {};
     }
 
     return data.reduce((acc, cur) => {

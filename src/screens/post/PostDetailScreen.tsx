@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
@@ -17,6 +17,7 @@ import {
     PostDetailScreenNavigationProps,
     PostDetailScreenRouteProps,
 } from 'types/navigations/postStack';
+import { PostDataType } from 'types/models/compose';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
@@ -24,12 +25,9 @@ import useOverlay from 'hooks/useOverlay';
 import useLoading from 'hooks/useLoading';
 import useToast from 'hooks/useToast';
 
-import { deletePost } from 'services/posts';
+import { deletePost, getPostById } from 'services/posts';
 
 import { commonStyles } from 'styles';
-
-import { useRecoilValue } from 'recoil';
-import { postByIdSelector } from 'states/posts';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();
@@ -39,12 +37,26 @@ const PostDetailScreen = () => {
     const { navigate, goBack } = useNavigation<PostDetailScreenNavigationProps>();
     const { params } = useRoute<PostDetailScreenRouteProps>();
 
-    const { postData } = params;
-    const { title, content, photos, id, date } = postData;
+    const [postData, setPostData] = useState<PostDataType | null>(null);
 
-    const post = useRecoilValue(postByIdSelector(id));
+    const { postId } = params; // post id
 
-    const IS_THERE_IMAGE = photos.length > 0;
+    const getPostData = useCallback(async () => {
+        try {
+            setLoading(true);
+
+            const res = await getPostById(postId);
+            setPostData(res);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [postId, setLoading]);
+
+    useEffect(() => {
+        getPostData();
+    }, [getPostData]);
 
     // overlays
     const { openOverlay: openMenu, closeOverlay: closeMenu } = useOverlay(() => (
@@ -85,7 +97,7 @@ const PostDetailScreen = () => {
     const handlePressEdit = () => {
         navigate('ComposeStack', {
             screen: 'ComposeScreen',
-            params: { initialData: postData },
+            params: { initialData: postData! },
         });
         closeMenu();
     };
@@ -95,7 +107,7 @@ const PostDetailScreen = () => {
             setLoading(true);
             closePostDeleteModal();
 
-            await deletePost(id);
+            await deletePost(postId);
 
             closeMenu();
             goBack();
@@ -107,26 +119,30 @@ const PostDetailScreen = () => {
         }
     };
 
+    if (postData === null) return <></>;
+
+    const IS_THERE_IMAGE = postData.photos.length > 0;
+
     return (
         <SafeAreaView>
             <InnerNavigationBar
-                screenTitle={title}
+                screenTitle={postData.title}
                 goBack={goBack}
                 rightComponent={<VectorIcon name="dots-vertical" size={25} onPress={openMenu} />}
             />
             <ScrollView style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-                <ComposeSummaryView date={new Date(date)} />
+                <ComposeSummaryView date={new Date(postData.date)} />
                 <HorizontalDivider style={{ marginVertical: 15 }} />
                 <View style={{ gap: 10 }}>
                     {IS_THERE_IMAGE && (
                         <View>
                             <CustomText style={commonStyles.subject}>{`사진`}</CustomText>
-                            <ImageCarousel images={photos} style={{ borderRadius: 5 }} />
+                            <ImageCarousel images={postData.photos} style={{ borderRadius: 5 }} />
                         </View>
                     )}
                     <View>
                         <CustomText style={commonStyles.subject}>{`감사일기`}</CustomText>
-                        <TextArea content={content} />
+                        <TextArea content={postData.content} />
                     </View>
                     <View />
                 </View>
