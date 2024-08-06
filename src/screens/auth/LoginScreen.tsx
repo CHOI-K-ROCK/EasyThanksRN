@@ -34,10 +34,6 @@ const LoginScreen = () => {
     const buttonData = useMemo(
         () => [
             {
-                provider: 'naver',
-                onPress: () => handleLogin('naver'),
-            },
-            {
                 provider: 'kakao',
                 onPress: () => handleLogin('kakao'),
             },

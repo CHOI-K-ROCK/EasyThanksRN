@@ -1,5 +1,6 @@
 import AsyncStroage from '@react-native-async-storage/async-storage';
 import { AppThemeType } from '../hooks/useCustomTheme';
+import { APP_ENV_SUPABASE_AUTH_TOKEN_STORAGE_KEY } from '@env';
 
 const { setItem, getItem, getAllKeys, multiRemove } = AsyncStroage;
 
@@ -36,6 +37,10 @@ export const getAppTheme = () => {
 };
 export const saveAppTheme = (appTheme: AppThemeType) => {
     return set(asAppTheme, appTheme);
+};
+
+export const getSupabaseAuthToken = () => {
+    return get(APP_ENV_SUPABASE_AUTH_TOKEN_STORAGE_KEY);
 };
 
 // ================
