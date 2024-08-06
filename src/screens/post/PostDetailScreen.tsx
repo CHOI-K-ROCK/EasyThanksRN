@@ -25,9 +25,10 @@ import useOverlay from 'hooks/useOverlay';
 import useLoading from 'hooks/useLoading';
 import useToast from 'hooks/useToast';
 
-import { deletePost, getPostById } from 'services/posts';
+import { deletePost, getPostById, subscribePost } from 'services/posts';
 
 import { commonStyles } from 'styles';
+import { supabase } from 'services/supabase';
 
 const PostDetailScreen = () => {
     const { colors } = useCustomTheme();
@@ -56,7 +57,13 @@ const PostDetailScreen = () => {
 
     useEffect(() => {
         getPostData();
-    }, [getPostData]);
+
+        const sub = subscribePost(postId, getPostData);
+
+        return () => {
+            supabase.removeChannel(sub);
+        };
+    }, [getPostData, postId]);
 
     // overlays
     const { openOverlay: openMenu, closeOverlay: closeMenu } = useOverlay(() => (
@@ -150,12 +157,5 @@ const PostDetailScreen = () => {
         </SafeAreaView>
     );
 };
-
-const styles = StyleSheet.create({
-    navigationBarText: {
-        fontSize: 15,
-        fontWeight: 600,
-    },
-});
 
 export default PostDetailScreen;

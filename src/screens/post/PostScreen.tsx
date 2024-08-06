@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { FlatList, StyleSheet, View } from 'react-native';
 import SafeAreaView from 'components/common/SafeAreaView';
@@ -22,12 +22,14 @@ import useCustomTheme from 'hooks/useCustomTheme';
 import { getDateStrings } from 'utils/date';
 import { arrayToObjectUsingRefKey } from 'utils/data';
 
-import { getPostByMonth } from 'services/posts';
+import { getPostByMonth, subscribeMonthlyPost } from 'services/posts';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { monthlyPostAtom } from 'states/posts';
 
 import { commonStyles } from 'styles';
+import { supabase } from 'services/supabase';
+import { userDataAtom } from 'states/user';
 
 const PostScreen = () => {
     const { colors } = useCustomTheme();
@@ -39,12 +41,14 @@ const PostScreen = () => {
     const [lookUpDate, setLookUpDate] = useState<Date>(new Date());
     const [monthlyPost, setMonthlyPost] = useRecoilState(monthlyPostAtom);
 
+    const userData = useRecoilValue(userDataAtom);
+
     const postData = useMemo(
         () => Object.entries(monthlyPost).map(([_, data]) => data),
         [monthlyPost]
     );
 
-    const getPost = useCallback(
+    const getPosts = useCallback(
         async (date: Date) => {
             try {
                 const res = await getPostByMonth(date);
@@ -56,7 +60,22 @@ const PostScreen = () => {
         [setMonthlyPost]
     );
 
-    useCallback(() => { }, []);
+    useEffect(() => {
+        getPosts(new Date());
+
+        const sub = subscribeMonthlyPost(userData.id, payload => {
+            const newPostDate = new Date(payload.new.date);
+
+            if (lookUpDate.getMonth() === newPostDate.getMonth()) {
+                // 현재 조회중인 월의 게시글이 변경 될때 만 게시글 갱신
+                getPosts(lookUpDate);
+            }
+        });
+
+        return () => {
+            supabase.removeChannel(sub);
+        };
+    }, [getPosts, lookUpDate, userData]);
 
     const {
         openOverlay: openYearMonthSelectorBottomSheet,

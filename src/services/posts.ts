@@ -28,7 +28,8 @@ export const getPostToday = () =>
             const { data, error, status } = await supabase
                 .from('posts')
                 .select('*')
-                .gte('created_at', new Date().toISOString().slice(0, 10));
+                .gte('created_at', new Date().toISOString().slice(0, 10))
+                .order('created_at', { ascending: false });
 
             if (error) {
                 throw new Error(`${error.message}, ${status}`);
@@ -56,7 +57,8 @@ export const getPostByMonth = (date: Date) =>
                 .from('posts')
                 .select('*')
                 .gte('created_at', beginDate.toISOString().slice(0, 10))
-                .lte('created_at', endDate.toISOString().slice(0, 10));
+                .lte('created_at', endDate.toISOString().slice(0, 10))
+                .order('date', { ascending: false });
 
             if (error) {
                 throw new Error(`${error.message}, ${status}`);
@@ -101,3 +103,59 @@ export const deletePost = (postId: string) =>
             reject(error);
         }
     });
+
+// subs
+
+export const subscribePost = (postId: string, cb: (payload: any) => void) => {
+    return supabase
+        .channel('post_channel')
+        .on(
+            'postgres_changes',
+            {
+                schema: 'public',
+                event: '*',
+                table: 'posts',
+                filter: `id=eq.${postId}`,
+            },
+            payload => {
+                cb(payload);
+            }
+        )
+        .subscribe();
+};
+
+export const subscribeDailyPost = (userId: string, cb: (payload: any) => void) => {
+    return supabase
+        .channel('daily_posts_channel')
+        .on(
+            'postgres_changes',
+            {
+                schema: 'public',
+                event: '*',
+                table: 'posts',
+                filter: `author_id=eq.${userId}`,
+            },
+            payload => {
+                cb(payload);
+            }
+        )
+        .subscribe();
+};
+
+export const subscribeMonthlyPost = (userId: string, cb: (payload: any) => void) => {
+    return supabase
+        .channel('monthly_posts_channel')
+        .on(
+            'postgres_changes',
+            {
+                schema: 'public',
+                event: '*',
+                table: 'posts',
+                filter: `author_id=eq.${userId}`,
+            },
+            payload => {
+                cb(payload);
+            }
+        )
+        .subscribe();
+};

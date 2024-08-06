@@ -13,25 +13,28 @@ import { PostDataType } from 'types/models/compose';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
-import { getPostToday } from 'services/posts';
+import { getPostToday, subscribeDailyPost } from 'services/posts';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { todayPostAtom } from 'states/posts';
 
 import { commonStyles } from 'styles';
 import { arrayToObjectUsingRefKey } from 'utils/data';
+import { userDataAtom } from 'states/user';
+import { supabase } from 'services/supabase';
 
 const MainScreen = () => {
     const { colors } = useCustomTheme();
 
     const { navigate } = useNavigation<RootStackNavigationProps>();
 
+    const userData = useRecoilValue(userDataAtom);
     const [todayPost, setTodayPost] = useRecoilState(todayPostAtom);
     const [refresh, setRefresh] = useState(false);
 
     const postData = useMemo(() => Object.entries(todayPost).map(([_, data]) => data), [todayPost]);
 
-    const getPost = useCallback(async () => {
+    const getPosts = useCallback(async () => {
         try {
             const res = await getPostToday();
             setTodayPost(arrayToObjectUsingRefKey('id', res));
@@ -41,14 +44,28 @@ const MainScreen = () => {
     }, [setTodayPost]);
 
     useEffect(() => {
-        getPost();
-    }, [getPost]);
+        getPosts();
+
+        const sub = subscribeDailyPost(userData.id, payload => {
+            const newPostDate = new Date(payload.new.created_at);
+            console.log(payload);
+
+            if (new Date().getDate() === newPostDate.getDate()) {
+                // 오늘 업데이트 된 글일 경우만
+                getPosts();
+            }
+        });
+
+        return () => {
+            supabase.removeChannel(sub);
+        };
+    }, [getPosts, userData]);
 
     const onRefresh = useCallback(async () => {
         setRefresh(true);
-        await getPost();
+        await getPosts();
         setRefresh(false);
-    }, [getPost]);
+    }, [getPosts]);
 
     const toAppMenu = () => {
         navigate('SettingStack', {
