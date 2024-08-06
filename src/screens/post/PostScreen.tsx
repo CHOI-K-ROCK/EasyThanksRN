@@ -62,7 +62,9 @@ const PostScreen = () => {
 
     useEffect(() => {
         getPosts(new Date());
+    }, [getPosts]);
 
+    useEffect(() => {
         const sub = subscribeMonthlyPost(userData.id, payload => {
             const newPostDate = new Date(payload.new.date);
 

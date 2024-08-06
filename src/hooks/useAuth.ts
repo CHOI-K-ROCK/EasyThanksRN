@@ -2,18 +2,12 @@ import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { userDataAtom } from '../states/user';
 import { isSignedAtom } from '../states/system';
 
-// kakao
-import { logout as kakaoLogout } from '@react-native-seoul/kakao-login';
-//naver
-// import NaverLogin from '@react-native-seoul/naver-login';
-//google
-// import auth from '@react-native-firebase/auth';
-
 import { SsoProviderType, UserDataType } from '../@types/models/user';
-import { handleGoogleLogin, handleKakaoLogin } from '../logics/auth';
+import { handleGoogleLogin, handleKakaoLogin, handleSignOut } from '../logics/auth';
 import { supabase } from 'services/supabase';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { optOutUser } from 'services/users';
+import { useCallback } from 'react';
+import { monthlyPostAtom, todayPostAtom } from 'states/posts';
 
 /**
  *
@@ -26,7 +20,18 @@ import { optOutUser } from 'services/users';
 const useAuth = () => {
     const [userData, setUserData] = useRecoilState(userDataAtom);
     const setSigned = useSetRecoilState(isSignedAtom);
+
     const resetUserData = useResetRecoilState(userDataAtom);
+    const resetTodayPost = useResetRecoilState(todayPostAtom);
+    const resetMonthlyPost = useResetRecoilState(monthlyPostAtom);
+
+    const clearData = useCallback(() => {
+        resetUserData();
+        resetTodayPost();
+        resetMonthlyPost();
+
+        setSigned(false);
+    }, [resetMonthlyPost, resetTodayPost, resetUserData, setSigned]);
 
     const ssoLogin = async (provider: SsoProviderType) => {
         try {
@@ -54,23 +59,9 @@ const useAuth = () => {
         if (userData.id === '') return;
 
         try {
-            switch (userData.sso_provider) {
-                case 'kakao': {
-                    console.log('excute kakao logout');
-                    await supabase.auth.signOut();
-                    await kakaoLogout();
-                    break;
-                }
-                case 'google': {
-                    console.log('excute google logout');
-                    await supabase.auth.signOut();
-                    await GoogleSignin.signOut();
-                    break;
-                }
-            }
+            await handleSignOut(userData.sso_provider);
 
-            resetUserData();
-            setSigned(false);
+            clearData();
         } catch (error) {
             console.log('logout error : ', error);
         }
@@ -82,8 +73,8 @@ const useAuth = () => {
         try {
             await supabase.auth.signOut();
             await optOutUser(userData.id);
-            resetUserData();
-            setSigned(false);
+
+            clearData();
         } catch (error) {
             console.log('logout error : ', error);
         }

@@ -56,8 +56,8 @@ export const getPostByMonth = (date: Date) =>
             const { data, error, status } = await supabase
                 .from('posts')
                 .select('*')
-                .gte('created_at', beginDate.toISOString().slice(0, 10))
-                .lte('created_at', endDate.toISOString().slice(0, 10))
+                .gte('date', beginDate.toISOString().slice(0, 10))
+                .lte('date', endDate.toISOString().slice(0, 10))
                 .order('date', { ascending: false });
 
             if (error) {

@@ -1,9 +1,9 @@
-import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
+import { login as kakaoLogin, logout as kakaoLogout } from '@react-native-seoul/kakao-login';
 //google
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 // import auth from '@react-native-firebase/auth';
 
-import { UserDataType } from '../@types/models/user';
+import { SsoProviderType, UserDataType } from '../@types/models/user';
 
 import { APP_ENV_GOOGLE_WEB_CLIENT_ID, APP_ENV_GOOGLE_IOS_CLIENT_ID } from '@env';
 
@@ -13,7 +13,7 @@ import { getSupabaseAuthToken } from 'utils/storage';
 import { AuthResponse, Session } from '@supabase/supabase-js';
 
 // oauth
-
+// sign in
 export const handleKakaoLogin = () =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
@@ -67,6 +67,30 @@ export const handleGoogleLogin = () =>
             const userData = await getUserById(res.data.user.id);
 
             resolve(userData);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+// sign out
+export const handleSignOut = (sso_provider: SsoProviderType) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            switch (sso_provider) {
+                case 'kakao': {
+                    console.log('excute kakao logout');
+                    await kakaoLogout();
+                    break;
+                }
+                case 'google': {
+                    console.log('excute google logout');
+                    await GoogleSignin.signOut();
+                    break;
+                }
+            }
+            await supabase.auth.signOut();
+
+            resolve(undefined);
         } catch (error) {
             reject(error);
         }
