@@ -13,13 +13,10 @@ import OptOutCautionView from './OptOutCautionView';
 import SelectImageSourceBottomSheet from 'components/overlay/bottomSheet/SelectImageSourceBottomSheet';
 import CommonModal from 'components/overlay/modal/CommonModal';
 
-import {
-    UserProfileEditScreenNavigationProps,
-    UserProfileEditScreenRouteProps,
-} from 'types/navigations/settingStack';
+import { UserProfileEditScreenNavigationProps } from 'types/navigations/settingStack';
 import { Asset } from 'react-native-image-picker';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import useInput from 'hooks/useInput';
 import useOverlay from 'hooks/useOverlay';
 import useToast from 'hooks/useToast';
@@ -29,32 +26,22 @@ import useKeyboard from 'hooks/useKeyboard';
 
 import { HORIZONTAL_GAP } from 'constants/style';
 import { commonStyles } from 'styles';
-import { optOutUser, updateUserData } from 'services/users';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { updateUserData } from 'services/users';
+import { useRecoilState } from 'recoil';
 import { userDataAtom } from 'states/user';
 import { UserDataType } from 'types/models/user';
-import { isSignedAtom } from 'states/system';
-
-//! route.params 삭제 필요
-//! type, params, navigate check
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
-    const { params } = useRoute<UserProfileEditScreenRouteProps>();
 
-    const { logout } = useAuth();
+    const { optOut } = useAuth();
     const { openToast } = useToast();
     const { dismiss: keyboardDismiss } = useKeyboard();
     const { setLoading } = useLoading();
 
     const [userData, setUserData] = useRecoilState(userDataAtom);
-    const setSigned = useSetRecoilState(isSignedAtom);
 
-    const {
-        id: userId = '',
-        username: initialUsername,
-        profile_img: initialProfileImg,
-    } = userData || {};
+    const { id: userId, username: initialUsername, profile_img: initialProfileImg } = userData;
 
     const {
         value: username,
@@ -166,10 +153,7 @@ const UserProfileEditScreen = () => {
     const onConfirmOptOut = useCallback(async () => {
         try {
             setLoading(true);
-            await optOutUser(userId);
-
-            setUserData(null);
-            setSigned(false);
+            await optOut();
 
             closeOptOutModal();
         } catch (error: any) {
@@ -177,7 +161,7 @@ const UserProfileEditScreen = () => {
         } finally {
             setLoading(false);
         }
-    }, [closeOptOutModal, setLoading, setSigned, setUserData, userId]);
+    }, [closeOptOutModal, optOut, setLoading]);
 
     if (userData === null) return <></>;
 

@@ -13,7 +13,6 @@ import HorizontalDivider from 'components/common/HorizontalDivider';
 import CommonModal from 'components/overlay/modal/CommonModal';
 
 import { SettingScreenNavigationProps } from 'types/navigations/settingStack';
-import { UserDataType, UserEditDataType } from 'types/models/user';
 
 import { useNavigation } from '@react-navigation/native';
 import useCustomTheme from 'hooks/useCustomTheme';
@@ -42,7 +41,7 @@ const SettingScreen = () => {
     const { logout } = useAuth();
     const { setLoading } = useLoading();
 
-    const userData = useRecoilValue(userDataAtom) as UserDataType | null;
+    const userData = useRecoilValue(userDataAtom);
 
     const { openToast } = useToast();
     const { openOverlay, closeOverlay } = useOverlay(() => (
@@ -58,7 +57,7 @@ const SettingScreen = () => {
     ));
 
     const onPressEditUserProfile = () => {
-        navigate('UserProfileEditScreen', { userData: userData! });
+        navigate('UserProfileEditScreen');
     };
 
     const onPressOpenSource = () => {

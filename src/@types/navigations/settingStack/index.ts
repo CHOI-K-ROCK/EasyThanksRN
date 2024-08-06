@@ -5,7 +5,7 @@ import { UserDataType } from '../../models/user';
 // setting
 export type SettingStackParamList = {
     SettingScreen: undefined;
-    UserProfileEditScreen: { userData: UserDataType };
+    UserProfileEditScreen: undefined;
     ReminderScreen: undefined;
     NotificationSettingScreen: undefined;
     AppThemeSettingScreen: undefined;

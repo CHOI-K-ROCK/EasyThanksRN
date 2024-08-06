@@ -1,4 +1,17 @@
 import { atom } from 'recoil';
-import { UserDataType } from '../@types/models/user';
+import { SsoProviderType, UserDataType } from '../@types/models/user';
 
-export const userDataAtom = atom<UserDataType | null>({ key: 'userDataAtom', default: null });
+const defaultUserData = {
+    id: '',
+    email: '',
+
+    username: '',
+    profile_img: '',
+
+    sso_provider: 'kakao' as SsoProviderType,
+
+    created_at: '',
+    updated_at: '',
+};
+
+export const userDataAtom = atom<UserDataType>({ key: 'userDataAtom', default: defaultUserData });
