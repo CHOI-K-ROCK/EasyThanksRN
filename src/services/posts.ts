@@ -71,9 +71,11 @@ export const getPostByMonth = (date: Date) =>
     });
 
 // create / update
-export const updatePost = (postData: Partial<PostDataType>) =>
+export const createOrUpdatePost = (postData: Partial<PostDataType>) =>
     new Promise(async (resolve, reject) => {
         try {
+            // 사진이 있는 경우 업로드 진행
+
             const { data, error, status } = await supabase.from('posts').upsert({
                 ...postData,
                 updated_at: new Date().toISOString(),

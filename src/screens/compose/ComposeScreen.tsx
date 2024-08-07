@@ -35,7 +35,7 @@ import { isSameDate } from 'utils/date';
 
 import { commonStyles } from 'styles';
 import { HORIZONTAL_GAP } from 'constants/style';
-import { updatePost } from 'services/posts';
+import { createOrUpdatePost } from 'services/posts';
 
 const ComposeScreen = () => {
     const { goBack } = useNavigation<ComposeScreenNavigationProps>();
@@ -233,7 +233,7 @@ const ComposeScreen = () => {
 
         try {
             setLoading(true);
-            await updatePost(IS_CREATE_POST ? postData : { ...postData, ...changed });
+            await createOrUpdatePost(IS_CREATE_POST ? postData : { ...postData, ...changed });
             setLoading(false);
             goBack();
         } catch (error) {
