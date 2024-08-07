@@ -30,6 +30,8 @@ import { updateUserData } from 'services/users';
 import { useRecoilState } from 'recoil';
 import { userDataAtom } from 'states/user';
 import { UserDataType } from 'types/models/user';
+import { APP_ENV_SUPABASE_URL } from '@env';
+import { supabase } from 'services/supabase';
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
@@ -129,13 +131,14 @@ const UserProfileEditScreen = () => {
                 changed.profile_img = profileImg;
             }
 
-            await updateUserData(userId, { ...changed });
-            setUserData(prev => ({ ...prev!, ...changed }));
+            const updatedUserData = await updateUserData(userId, { ...changed });
+            setUserData(updatedUserData);
+            console.log(updatedUserData);
 
-            closeEditProfileModal();
+            // closeEditProfileModal();
 
             openToast({ text: '프로필 변경이 완료되었습니다!', type: 'complete' });
-            goBack();
+            // goBack();
         } catch (error) {
             openToast({ text: '오류가 발생했습니다.', type: 'error' });
         } finally {
@@ -162,8 +165,6 @@ const UserProfileEditScreen = () => {
             setLoading(false);
         }
     }, [closeOptOutModal, optOut, setLoading]);
-
-    if (userData === null) return <></>;
 
     return (
         <KeyboardDismissSafeAreaView keyboardAvoiding={false}>

@@ -1,5 +1,6 @@
 import { UserDataType } from 'types/models/user';
 import { supabase } from './supabase';
+import { uploadImage } from './files';
 
 export const getUserById = async (id: string) =>
     new Promise<UserDataType>(async (resolve, reject) => {
@@ -24,17 +25,29 @@ export const getUserById = async (id: string) =>
 export const updateUserData = async (uid: string, userData: Partial<UserDataType>) =>
     new Promise<UserDataType>(async (resolve, reject) => {
         try {
+            let newUserData = { ...userData };
+
+            if (userData.profile_img) {
+                const res = await uploadImage(`profiles`, uid, userData.profile_img);
+                console.log(res);
+                const { data } = supabase.storage.from('uploads').getPublicUrl(res.fullPath);
+                console.log(data.publicUrl);
+                newUserData.profile_img = data.publicUrl;
+            }
+
             const { data, error, status } = await supabase
                 .from('users')
-                .update(userData)
-                .eq('id', uid);
+                .update(newUserData)
+                .eq('id', uid)
+                .select()
+                .single();
 
             if (error) {
                 console.log(error);
                 throw new Error(`${error.message}, ${status}`);
             }
 
-            resolve(data!);
+            resolve(data);
         } catch (error) {
             reject(error);
         }

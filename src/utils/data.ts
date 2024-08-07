@@ -26,3 +26,18 @@ export const arrayToObjectUsingRefKey = (refKey: string, data: any[]) => {
         return acc;
     }, {});
 };
+
+export const base64ToArrayBuffer = (base64: string) => {
+    // Base64 디코딩
+    const binaryString = atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+
+    // Uint8Array로 변환
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    // ArrayBuffer로 변환
+    return bytes.buffer;
+};
