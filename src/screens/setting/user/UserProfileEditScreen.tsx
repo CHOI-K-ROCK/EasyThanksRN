@@ -32,6 +32,7 @@ import { userDataAtom } from 'states/user';
 import { UserDataType } from 'types/models/user';
 import { APP_ENV_SUPABASE_URL } from '@env';
 import { supabase } from 'services/supabase';
+import { updateUser } from 'logics/user';
 
 const UserProfileEditScreen = () => {
     const { goBack } = useNavigation<UserProfileEditScreenNavigationProps>();
@@ -131,14 +132,16 @@ const UserProfileEditScreen = () => {
                 changed.profile_img = profileImg;
             }
 
-            const updatedUserData = await updateUserData(userId, { ...changed });
-            setUserData(updatedUserData);
-            console.log(updatedUserData);
+            const updatedUserData = (await updateUser(userId, userData, {
+                ...changed,
+            })) as UserDataType;
 
-            // closeEditProfileModal();
+            setUserData(updatedUserData);
+
+            closeEditProfileModal();
 
             openToast({ text: '프로필 변경이 완료되었습니다!', type: 'complete' });
-            // goBack();
+            goBack();
         } catch (error) {
             openToast({ text: '오류가 발생했습니다.', type: 'error' });
         } finally {

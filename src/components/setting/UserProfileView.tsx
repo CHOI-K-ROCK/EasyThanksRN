@@ -26,7 +26,6 @@ const UserProfileView = (props: Props) => {
                     <CustomText style={styles.nickname}>{username}</CustomText>
                     <CustomText style={styles.sir}>님</CustomText>
                 </View>
-                {/* 이후 비즈니스 앱 혹은 권한 생기면 추가 */}
                 {email && <CustomText style={styles.email}>{email}</CustomText>}
             </View>
             <FullWidthButton
